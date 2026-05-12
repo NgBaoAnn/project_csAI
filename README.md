@@ -27,6 +27,7 @@ manim -ql scenes/scene_01_intro.py IntroScene -p
 | [docs/02_video_script.md](docs/02_video_script.md) | Kịch bản chi tiết từng scene: narration + animation (3B1B style) |
 | [docs/03_technical_guide.md](docs/03_technical_guide.md) | Cài đặt Manim, style guide, code patterns, troubleshooting |
 | [docs/04_research_report.md](docs/04_research_report.md) | **Deep research:** IRM/DRO/Stable Learning formulations, benchmarks, bibliography |
+| [docs/06_tv2_full_narration_storyboard_accuracy.md](docs/06_tv2_full_narration_storyboard_accuracy.md) | TV2 final package: full narration 10 scenes, storyboard all scenes, transcript-based accuracy review |
 
 ## Phân Công Nhanh
 

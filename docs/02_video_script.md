@@ -73,12 +73,18 @@
 
 ---
 
-## Scene 4 — Data Heterogeneity: Thông Tin Bị Ẩn `TV2` | ~2.5 phút
+## Scene 4 — Data Heterogeneity: Thông Tin Bị Ẩn `TV2` | ~2.7 phút
 
 **Mystery:** *"Tại sao 'trộn tất cả dữ liệu vào nhau' lại là sai lầm?"*
 
 **Narration:**
-> "Data heterogeneity — đa dạng dữ liệu — thường bị xem là noise. Nhưng thực ra, nó là **thông tin bị ẩn**. Nếu ta nhận ra rằng dữ liệu đến từ các environments khác nhau — và khai thác sự khác biệt đó — ta có thể học được thứ mà ERM không bao giờ học được."
+> "Sau khi nói về distribution shift, câu hỏi tiếp theo là: shift đến từ đâu? Một câu trả lời rất thường gặp là dữ liệu của ta không đến từ một nguồn duy nhất. Nó là hỗn hợp của nhiều bệnh viện, nhiều nhóm người dùng, nhiều vùng địa lý, nhiều thiết bị đo, hoặc nhiều quy trình gán nhãn khác nhau."
+
+> "Khi ta gộp tất cả lại thành một tập training data màu xám, ta thường train model như thể đây là một khối đồng nhất. Nhưng bên trong khối đó có thể có nhiều environments. Và quan trọng hơn: các environments này có thể khác nhau không chỉ ở phân phối đầu vào `X`, mà còn ở quan hệ `Y|X`."
+
+> "Ví dụ trong y tế, cùng một triệu chứng có thể mang ý nghĩa khác nhau ở nhóm tuổi khác nhau. Trong nông nghiệp, cùng một điều kiện khí hậu có thể ảnh hưởng khác nhau tùy loại cây trồng. Nếu ta ép tất cả vào một model trung bình quá sớm, những cơ chế khác nhau này bị che mất."
+
+> "Vì vậy, data heterogeneity không nên được xem ngay là noise. Nó có thể là **thông tin bị ẩn**: thông tin về nhóm nào khó, môi trường nào khác, và shift nào có thể xảy ra khi model được triển khai."
 
 **Animation:**
 1. **Bước 1:** Pool lớn điểm màu xám *"Raw Data — Unlabeled"*
@@ -86,18 +92,34 @@
    - Label: *"Hospital A"*, *"Hospital B"*, *"Hospital C"*
 3. **Bước 3:** Bounding ellipse mỗi cluster xuất hiện
 4. **Bước 4:** Arrow chỉ ra sự khác biệt giữa clusters: *"Equipment different"*, *"Patient demographics different"*, *"Protocol different"*
-5. **Key insight box:** *"Mỗi cluster = một environment. Sự khác biệt giữa environments = THÔNG TIN."*
+5. **Bước 5:** Split-screen nhỏ: cùng một vùng `X`, nhưng hai nhóm có hai đường `Y|X` khác nhau
+   - Label: *"Same X, different Y|X"*
+6. **Bước 6:** Một mini-equation xuất hiện:
+```
+Pooled data = mixture of environments
+```
+7. **Key insight box:** *"Heterogeneity is not just noise — it is hidden information."*
 
-**Transition:** *"Nhưng khi model không nhận ra sự khác biệt này, nó mắc vào một cái bẫy tinh vi..."*
+**Definition kết:** *"Data heterogeneity là việc dữ liệu được sinh ra từ nhiều nguồn, nhóm, môi trường hoặc cơ chế khác nhau. Trong OOD generalization, sự khác biệt đó là manh mối, không phải thứ nên xóa đi quá sớm."*
+
+**Transition:** *"Nhưng nếu model không nhìn thấy các môi trường khác nhau này, nó sẽ tìm signal dễ nhất trong dữ liệu gộp. Và signal dễ nhất không phải lúc nào cũng là signal đúng."*
 
 ---
 
-## Scene 5 — Spurious Correlations: Cái Bẫy Của Model `TV2` | ~2.5 phút
+## Scene 5 — Spurious Correlations: Cái Bẫy Của Model `TV2` | ~2.7 phút
 
 **Mystery:** *"Model đạt 98% accuracy — nhưng nó đã học gì thực sự?"*
 
 **Narration:**
-> "Đây là thí nghiệm tư duy. Bạn train một classifier phân biệt bò và lạc đà. Model của bạn đạt 98% accuracy. Bạn rất tự hào. Nhưng hãy nhìn lại data một lần nữa..."
+> "Đây là thí nghiệm tư duy. Bạn train một classifier phân biệt bò và lạc đà. Trong training data, phần lớn ảnh bò nằm trên cỏ xanh, còn phần lớn ảnh lạc đà nằm trên sa mạc. Model đạt 98% accuracy. Nhìn từ average accuracy, mọi thứ có vẻ rất ổn."
+
+> "Nhưng bây giờ ta hỏi câu quan trọng hơn: model đang nhìn hình dạng con vật, hay đang nhìn background?"
+
+> "Nếu cỏ xanh xuất hiện cùng nhãn bò trong hầu hết training cases, thì `grass -> cow` là một shortcut rất rẻ để giảm loss. ERM không tự biết đây là shortcut. Nó chỉ thấy rằng shortcut này dự đoán đúng trên nhiều sample."
+
+> "Vấn đề xuất hiện khi environment đổi. Một con bò trên bãi biển, hoặc một con lạc đà trên cỏ, phá vỡ shortcut đó. Đây là lúc high training accuracy biến thành OOD failure."
+
+> "Điểm quan trọng từ tutorial là: heterogeneity giúp ta phát hiện shortcut. Nếu background thay đổi giữa environments nhưng shape vẫn dự đoán label ổn định, thì sự khác biệt giữa environments cho ta manh mối để tách spurious feature khỏi causal feature."
 
 **Animation — "Waterbirds" style walkthrough:**
 
@@ -119,7 +141,15 @@
 ```
 Red flash, wrong prediction.
 
-**Bước 4:** Causal graph xuất hiện:
+**Bước 4:** Hiện 3 môi trường nhỏ cạnh nhau:
+```
+E1: cow + grass, camel + desert
+E2: cow + snow,  camel + beach
+E3: cow + road,  camel + grass
+```
+- Background đổi qua môi trường; shape vẫn giữ ý nghĩa dự đoán.
+
+**Bước 5:** Causal graph xuất hiện:
 ```
     Background (Z)
         ↗       ↘
@@ -129,18 +159,24 @@ Red flash, wrong prediction.
 - `Background → Label`: **SPURIOUS** (đường đứt, màu đỏ)
 - `Shape → Label`: **CAUSAL** (đường liền, màu xanh lá)
 
-**Định nghĩa xuất hiện sau visual:** *"Spurious correlation: pattern dự đoán đúng trong training environments nhưng không có quan hệ nhân quả ổn định với label."*
+**Định nghĩa xuất hiện sau visual:** *"Spurious correlation: pattern dự đoán đúng trong training environments nhưng không ổn định qua environments và không có quan hệ nhân quả bền vững với label."*
 
-**Transition:** *"Vậy tại sao ERM — thuật toán standard — lại bị lừa bởi spurious correlations?"*
+**Transition:** *"Nếu shortcut đó giảm loss, thuật toán chuẩn có lý do gì để bỏ qua nó? Để trả lời, ta phải nhìn vào objective của ERM."*
 
 ---
 
-## Scene 6 — ERM: Tại Sao Baseline Không Đủ `TV2` | ~2.5 phút
+## Scene 6 — ERM: Tại Sao Baseline Không Đủ `TV2` | ~2.6 phút
 
 **Mystery:** *"ERM hoạt động hoàn hảo trong lý thuyết — tại sao lại fail trong thực tế?"*
 
 **Narration:**
-> "ERM — Empirical Risk Minimization — là nền tảng của hầu hết ML. Ý tưởng: minimize loss trung bình trên training data. Đơn giản, hiệu quả, và... có một điểm mù nguy hiểm."
+> "ERM — Empirical Risk Minimization — là nền tảng của rất nhiều thuật toán học máy. Ý tưởng rất hợp lý: chọn model làm cho loss trung bình trên training data nhỏ nhất."
+
+> "Nhưng chính chữ 'trung bình' tạo ra điểm mù. Nếu majority group chiếm phần lớn dữ liệu, model có thể làm rất tốt trên nhóm đó, đạt average accuracy rất đẹp, nhưng vẫn thất bại nặng trên một nhóm nhỏ."
+
+> "Trong ví dụ bò và lạc đà, nếu 85% data ủng hộ shortcut `grass -> cow`, thì shortcut này giúp giảm loss nhanh. ERM không phân biệt causal correlation với spurious correlation. Nó dùng bất kỳ signal nào giúp objective giảm."
+
+> "Vì vậy, vấn đề không phải ERM bị lỗi. ERM đang làm đúng điều ta yêu cầu: tối ưu trung bình trên training distribution. Nhưng khi dữ liệu heterogeneous, trung bình đó có thể che giấu đúng phần quan trọng nhất: worst group, rare subpopulation, và những failure sẽ xuất hiện khi deployment."
 
 **Animation:**
 
@@ -156,7 +192,13 @@ Mỗi phần có label: `minimize` | `average over n samples` | `loss function`
 **Bước 2:** Gradient descent visualization — loss landscape 2D contour, ball rolling to minimum
 - Label: *"ERM tìm minimum này... nhưng minimum của cái gì?"*
 
-**Bước 3:** Bar chart 3 groups (animate in từng bar):
+**Bước 3:** Loss được tách thành 3 group trước khi cộng trung bình:
+```
+R_total = 0.85 R_majority + 0.10 R_minority_A + 0.05 R_minority_B
+```
+- Highlight `0.85`: majority group kéo objective mạnh nhất.
+
+**Bước 4:** Bar chart 3 groups (animate in từng bar):
 | Group | % Data | Accuracy |
 |-------|--------|---------|
 | Majority (cỏ + bò) | 85% | 99% |
@@ -165,13 +207,14 @@ Mỗi phần có label: `minimize` | `average over n samples` | `loss function`
 - **ERM average: 95%** → label: *"Looks great! But..."*
 - Highlight Group C — flash đỏ: *"Worst group: 43%"*
 
-**Bước 4:** Key insight (2 dòng xuất hiện tuần tự):
+**Bước 5:** Key insight (3 dòng xuất hiện tuần tự):
 > *"ERM hấp thụ TẤT CẢ correlations — causal lẫn spurious."*  
-> *"ERM optimize AVERAGE — bỏ qua minority groups."*
+> *"ERM optimize AVERAGE — dễ bỏ qua minority groups."*
+> *"Average accuracy không đủ; cần worst-group/OOD/slice analysis."*
 
-**Định nghĩa kết:** *"Vấn đề không phải ERM sai — mà là ERM không được thiết kế để phân biệt correlation và causation."*
+**Định nghĩa kết:** *"ERM tối ưu performance trung bình trên training distribution. Khi dữ liệu heterogeneous, trung bình đó có thể che giấu shortcut và failure trên các nhóm quan trọng."*
 
-**Transition:** *"Vậy ta cần thuật toán được thiết kế để phân biệt điều đó. Đây là IRM."*
+**Transition:** *"Muốn vượt qua điểm mù này, ta có hai hướng tự nhiên: học những signal ổn định qua environments, hoặc tối ưu cho nhóm/trường hợp xấu nhất. Đầu tiên là IRM."*
 
 ---
 
