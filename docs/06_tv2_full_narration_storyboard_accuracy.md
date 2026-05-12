@@ -125,11 +125,11 @@ Các đoạn dưới đây là narration nháp đầy đủ. Khi thu âm, có th
 
 > "Nếu ta gộp tất cả thành một đám điểm màu xám rồi train như thể chúng đến từ cùng một distribution, ta đã làm mất thông tin về nguồn gốc của từng điểm."
 
-> "Quan trọng hơn, heterogeneity không chỉ là các cụm `X` khác nhau. Có những trường hợp hai nhóm có cùng vùng feature, nhưng quan hệ `Y|X` khác nhau. Trong y tế, cùng một triệu chứng có thể có ý nghĩa khác giữa người trẻ và người lớn tuổi. Trong nông nghiệp, cùng một climate feature có thể ảnh hưởng khác nhau tùy loại cây trồng."
+> "Quan trọng hơn, heterogeneity không chỉ là các cụm `X` khác nhau. Có những trường hợp hai nhóm có cùng vùng feature, nhưng quan hệ `Y|X` khác nhau. Trong y tế, cùng một triệu chứng có thể có ý nghĩa khác giữa người trẻ và người lớn tuổi. Trong nông nghiệp, cùng một đặc điểm khí hậu có thể ảnh hưởng khác nhau tùy loại cây trồng."
 
 > "Part 2 của tutorial gọi đây là câu hỏi trước khi training: data có chứa heterogeneous subpopulations với different `Y|X` hay không? Nếu có, ép một invariant predictor chung cho tất cả có thể làm mất thông tin quan trọng."
 
-> "Vì vậy, heterogeneity không phải thứ nên xóa đi quá sớm. Nó là thông tin bị ẩn: thông tin về nhóm nào khó, cơ chế nào khác, và shift nào có thể làm model thất bại."
+> "Vì vậy, heterogeneity không phải thứ nên xóa đi quá sớm. Nó là thông tin bị ẩn: thông tin về nhóm nào khó, cơ chế nào khác, và thay đổi nào có thể làm model thất bại."
 
 **Definition:**
 
