@@ -42,6 +42,16 @@ def create_section_title(title_text, subtitle_text="", number=""):
     return VGroup(*elements).arrange(DOWN, buff=0.4)
 
 
+def narration_text(text, font_size=SIZE_BODY, color=TEXT_PRIMARY):
+    """Tạo text để hiển thị nội dung đang được đọc/nhấn mạnh."""
+    return Text(
+        text,
+        font_size=font_size,
+        color=color,
+        font=FONT_PRIMARY
+    )
+
+
 def create_insight_box(text, color=THEME_AMBER, font_size=SIZE_BODY):
     """Tạo box highlight cho key insights."""
     content = Text(

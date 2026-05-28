@@ -38,7 +38,7 @@ Heterogeneity-aware ML
         ↑
 ┌───────────────────────────────┐
 │ 1. INVARIANCE  │ 2. CAUSALITY │ 3. HETEROGENEITY │
-│  (IRM, DRO)   │(Stable Learn)│  (Taxonomy, Env)  │
+│  (IRM, DRO)   │(Stable Learn) │  (Taxonomy, Env)  │
 └───────────────────────────────┘
         ↑
   Ba hướng khác nhau — một đích đến:
