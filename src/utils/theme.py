@@ -1,39 +1,52 @@
 """
-Theme Constants — 3Blue1Brown Style
-Dùng chung cho tất cả scenes trong dự án.
-Import: from utils.theme import *
+Theme Constants — 3Blue1Brown-inspired style.
+
+The upstream 3b1b/videos repo uses 3b1b's own manim variant. This project uses
+Manim Community, so these constants capture the visual language rather than
+copying that framework: black background, serif text, saturated accents, and
+thin geometric marks.
 """
+
+import os
+from pathlib import Path
+
+
+HOMEBREW_TEXLIVE = Path("/opt/homebrew/opt/texlive/share")
+if HOMEBREW_TEXLIVE.exists():
+    os.environ.setdefault("TEXMFROOT", str(HOMEBREW_TEXLIVE))
+    os.environ.setdefault("TEXMFCNF", str(HOMEBREW_TEXLIVE / "texmf-dist" / "web2c"))
 
 # ============================================================
 # COLORS
 # ============================================================
 
 # Background
-BG_DARK = "#1a1a2e"
-BG_DARKER = "#16162a"
+BG_DARK = "#000000"
+BG_DARKER = "#050505"
+BG_PANEL = "#0b0b0f"
 
-# Primary
-THEME_BLUE = "#3b82f6"
-THEME_BLUE_LIGHT = "#60a5fa"
+# Primary 3B1B-like accents
+THEME_BLUE = "#58C4DD"
+THEME_BLUE_LIGHT = "#7FDBFF"
 
 # Secondary
-THEME_AMBER = "#f59e0b"
-THEME_AMBER_LIGHT = "#fbbf24"
+THEME_AMBER = "#FFFF00"
+THEME_AMBER_LIGHT = "#FFF46B"
 
 # Accent
-THEME_EMERALD = "#10b981"
-THEME_RED = "#ef4444"
-THEME_PURPLE = "#8b5cf6"
-THEME_PINK = "#ec4899"
-THEME_ORANGE = "#f97316"
+THEME_EMERALD = "#83C167"
+THEME_RED = "#FC6255"
+THEME_PURPLE = "#9A72AC"
+THEME_PINK = "#FF8080"
+THEME_ORANGE = "#FF862F"
 
 # Text
-TEXT_PRIMARY = "#e2e8f0"
-TEXT_SECONDARY = "#94a3b8"
-TEXT_MUTED = "#64748b"
+TEXT_PRIMARY = "#F5F5F5"
+TEXT_SECONDARY = "#C9C9C9"
+TEXT_MUTED = "#888888"
 
 # Utility
-GRID_COLOR = "#2a2a4a"
+GRID_COLOR = "#222222"
 
 # Environment colors (dùng cho data visualization)
 ENV_COLORS = [THEME_BLUE, THEME_AMBER, THEME_ORANGE]
@@ -43,8 +56,8 @@ ENV_NAMES = ["Environment 1", "Environment 2", "Environment 3"]
 # FONTS
 # ============================================================
 
-FONT_PRIMARY = "Inter"
-FONT_CODE = "JetBrains Mono"
+FONT_PRIMARY = "STIX Two Text"
+FONT_CODE = "Menlo"
 
 # ============================================================
 # FONT SIZES

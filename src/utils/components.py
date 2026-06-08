@@ -9,7 +9,7 @@ from utils.theme import *
 
 
 def create_section_title(title_text, subtitle_text="", number=""):
-    """Tạo title card cho section mới."""
+    """Tạo title card theo tinh thần 3B1B: serif, ít khung, nhiều khoảng thở."""
     elements = []
 
     if number:
@@ -26,7 +26,8 @@ def create_section_title(title_text, subtitle_text="", number=""):
         title_text,
         font_size=SIZE_TITLE,
         color=TEXT_PRIMARY,
-        font=FONT_PRIMARY
+        font=FONT_PRIMARY,
+        weight=MEDIUM,
     )
     elements.append(title)
 
@@ -35,7 +36,7 @@ def create_section_title(title_text, subtitle_text="", number=""):
             subtitle_text,
             font_size=SIZE_BODY,
             color=TEXT_SECONDARY,
-            font=FONT_PRIMARY
+            font=FONT_PRIMARY,
         )
         elements.append(subtitle)
 
@@ -43,7 +44,7 @@ def create_section_title(title_text, subtitle_text="", number=""):
 
 
 def create_insight_box(text, color=THEME_AMBER, font_size=SIZE_BODY):
-    """Tạo box highlight cho key insights."""
+    """Tạo box highlight mảnh, giống một mathematical callout."""
     content = Text(
         text,
         font_size=font_size,
@@ -54,10 +55,30 @@ def create_insight_box(text, color=THEME_AMBER, font_size=SIZE_BODY):
         content,
         color=color,
         buff=0.3,
-        corner_radius=0.1,
-        stroke_width=2
+        corner_radius=0.04,
+        stroke_width=1.6
     )
     return VGroup(box, content)
+
+
+def create_3b1b_glow(mobject, color=THEME_BLUE, n_layers=4, opacity=0.16):
+    """Tạo glow thủ công bằng vài bản sao mờ phía sau object."""
+    layers = VGroup()
+    for index in range(n_layers, 0, -1):
+        layer = mobject.copy()
+        layer.set_color(color)
+        layer.set_opacity(opacity / index)
+        layer.scale(1 + 0.018 * index)
+        layers.add(layer)
+    return layers
+
+
+def create_chalk_underline(mobject, color=THEME_AMBER, buff=0.08):
+    """Đường underline ngắn, mảnh, dùng cho emphasis."""
+    line = Line(LEFT, RIGHT, color=color, stroke_width=3)
+    line.set_width(mobject.get_width() * 1.04)
+    line.next_to(mobject, DOWN, buff=buff)
+    return line
 
 
 def create_label(text, color=TEXT_SECONDARY, font_size=SIZE_CAPTION):
