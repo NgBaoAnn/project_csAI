@@ -8,6 +8,9 @@ from utils.theme import *
 from utils.components import *
 
 
+TARGET_DURATION_SECONDS = 80
+
+
 class YXShiftScene(Scene):
     def make_panel(self, title, shift, boundary_angle, color):
         frame = RoundedRectangle(width=5.0, height=3.2, corner_radius=0.08, stroke_color=color)
@@ -30,9 +33,9 @@ class YXShiftScene(Scene):
         target = self.make_panel("Target mechanism", RIGHT * 2.85 + DOWN * 0.1, -0.45, THEME_AMBER)
 
         formula = MathTex(
-            r"P_{source}(Y|X)",
+            r"P_{\mathrm{source}}(Y|X)",
             r"\neq",
-            r"P_{target}(Y|X)",
+            r"P_{\mathrm{target}}(Y|X)",
             font_size=SIZE_FORMULA,
             color=TEXT_PRIMARY,
         ).to_edge(UP, buff=0.55)
@@ -53,10 +56,20 @@ class YXShiftScene(Scene):
         ).to_edge(DOWN, buff=0.65)
 
         self.play(Write(formula), FadeIn(mechanism_note, shift=DOWN * 0.1), run_time=TIME_NORMAL)
+        self.wait(14.0)
         self.play(FadeIn(source, shift=RIGHT * 0.15), run_time=TIME_NORMAL)
+        self.wait(14.0)
         self.play(FadeIn(target, shift=LEFT * 0.15), run_time=TIME_NORMAL)
-        self.play(source[3].animate.set_color(THEME_BLUE), target[3].animate.set_color(THEME_RED), run_time=TIME_NORMAL)
+        self.wait(18.0)
+        self.play(
+            source[3].animate.set_color(THEME_BLUE),
+            Rotate(target[3], angle=-0.22, about_point=target[3].get_center()),
+            target[3].animate.set_color(THEME_RED),
+            run_time=TIME_NORMAL,
+        )
+        self.play(Circumscribe(target, color=THEME_RED, buff=0.08), run_time=1.5)
+        self.wait(18.5)
         self.play(FadeIn(insight, shift=UP * 0.2), run_time=TIME_NORMAL)
-        self.wait(TIME_LONG_PAUSE)
+        self.wait(5.0)
 
         fade_out_all(self)

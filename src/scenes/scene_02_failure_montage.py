@@ -8,6 +8,9 @@ from utils.theme import *
 from utils.components import *
 
 
+TARGET_DURATION_SECONDS = 70
+
+
 class FailureMontageScene(Scene):
     def make_card(self, title, icon, color):
         frame = RoundedRectangle(
@@ -15,8 +18,8 @@ class FailureMontageScene(Scene):
             height=2.0,
             corner_radius=0.08,
             stroke_color=color,
-            fill_color=BG_DARKER,
-            fill_opacity=0.85,
+            fill_color=BG_DARK,
+            fill_opacity=0.0,
         )
         heading = Text(title, font_size=SIZE_SMALL, color=TEXT_PRIMARY, font=FONT_PRIMARY)
         heading.next_to(frame.get_top(), DOWN, buff=0.22)
@@ -71,9 +74,23 @@ class FailureMontageScene(Scene):
         ).to_edge(DOWN, buff=0.7)
 
         self.play(LaggedStart(*[FadeIn(card, scale=0.92) for card in cards], lag_ratio=0.18), run_time=TIME_SLOW)
+        self.play(
+            LaggedStart(
+                *[Flash(card[2], color=card[0].get_stroke_color(), flash_radius=0.55) for card in cards],
+                lag_ratio=0.22,
+            ),
+            run_time=2.0,
+        )
+        self.play(
+            LaggedStart(*[Indicate(card[0], color=card[0].get_stroke_color()) for card in cards], lag_ratio=0.18),
+            run_time=2.0,
+        )
+        self.wait(12.0)
         self.play(cards.animate.scale(0.78).to_edge(UP, buff=0.75), run_time=TIME_NORMAL)
+        self.wait(12.0)
         self.play(Write(question), run_time=TIME_NORMAL)
+        self.wait(18.0)
         self.play(FadeIn(answer, shift=UP * 0.2), run_time=TIME_NORMAL)
-        self.wait(TIME_LONG_PAUSE)
+        self.wait(15.0)
 
         fade_out_all(self)

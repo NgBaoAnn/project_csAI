@@ -8,6 +8,9 @@ from utils.theme import *
 from utils.components import *
 
 
+TARGET_DURATION_SECONDS = 75
+
+
 class PooledIllusionScene(Scene):
     def cluster(self, center, color):
         offsets = [(-0.4, -0.1), (-0.22, 0.23), (0.05, -0.22), (0.25, 0.15), (0.42, -0.05), (-0.08, 0.42)]
@@ -31,6 +34,8 @@ class PooledIllusionScene(Scene):
 
         lens = Circle(radius=1.25, color=THEME_AMBER, stroke_width=4).shift(RIGHT * 0.2 + DOWN * 0.05)
         handle = Line(lens.get_corner(DR), lens.get_corner(DR) + DOWN * 0.85 + RIGHT * 0.85, color=THEME_AMBER, stroke_width=5)
+        lens_group = VGroup(lens, handle)
+        scan_path = Line(LEFT * 2.2 + DOWN * 0.05, RIGHT * 1.2 + DOWN * 0.05)
 
         cluster_a = self.cluster((-2.25, -0.15), THEME_BLUE)
         cluster_b = self.cluster((0.0, 0.45), THEME_EMERALD)
@@ -49,16 +54,21 @@ class PooledIllusionScene(Scene):
         ).to_edge(DOWN, buff=0.65)
 
         self.play(Write(pooled_title), FadeIn(pooled_note), run_time=TIME_NORMAL)
+        self.wait(11.0)
         self.play(LaggedStart(*[FadeIn(dot, scale=0.4) for dot in pooled_points], lag_ratio=0.025), run_time=TIME_NORMAL)
+        self.wait(14.0)
         self.play(Create(lens), Create(handle), run_time=TIME_NORMAL)
+        self.play(MoveAlongPath(lens_group, scan_path), run_time=3.0)
+        self.wait(9.0)
         self.play(
-            FadeOut(pooled_points),
+            Transform(pooled_points, colored_clusters.copy()),
             FadeOut(pooled_note),
             FadeIn(colored_clusters, scale=0.95),
             FadeIn(labels, shift=UP * 0.1),
             run_time=TIME_SLOW,
         )
+        self.wait(18.0)
         self.play(FadeIn(insight, shift=UP * 0.2), run_time=TIME_NORMAL)
-        self.wait(TIME_LONG_PAUSE)
+        self.wait(10.0)
 
         fade_out_all(self)

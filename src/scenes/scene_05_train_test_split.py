@@ -8,6 +8,9 @@ from utils.theme import *
 from utils.components import *
 
 
+TARGET_DURATION_SECONDS = 75
+
+
 class TrainTestSplitScene(Scene):
     def cloud(self, center, color):
         offsets = [
@@ -38,33 +41,64 @@ class TrainTestSplitScene(Scene):
         train_label = Text("train", font_size=SIZE_CAPTION, color=THEME_BLUE, font=FONT_PRIMARY).next_to(train_cloud, UP)
         test_label = Text("test", font_size=SIZE_CAPTION, color=THEME_EMERALD, font=FONT_PRIMARY).next_to(test_cloud, DOWN)
 
-        iid_formula = MathTex(r"P_{train}", r"\approx", r"P_{test}", font_size=SIZE_FORMULA, color=TEXT_PRIMARY).to_edge(UP, buff=0.55)
-        shift_formula = MathTex(r"P_{train}", r"\neq", r"P_{target}", font_size=SIZE_FORMULA, color=TEXT_PRIMARY).to_edge(UP, buff=0.55)
+        iid_formula = MathTex(
+            r"P_{\mathrm{train}}",
+            r"\approx",
+            r"P_{\mathrm{test}}",
+            font_size=SIZE_FORMULA,
+            color=TEXT_PRIMARY,
+        ).to_edge(UP, buff=0.55)
+        iid_formula[0].set_color(THEME_BLUE)
+        iid_formula[2].set_color(THEME_EMERALD)
+        shift_formula = MathTex(
+            r"P_{\mathrm{train}}",
+            r"\neq",
+            r"P_{\mathrm{target}}",
+            font_size=SIZE_FORMULA,
+            color=TEXT_PRIMARY,
+        ).to_edge(UP, buff=0.55)
+        shift_formula[0].set_color(THEME_BLUE)
         shift_formula[2].set_color(THEME_AMBER)
 
-        accuracy = DecimalNumber(96.4, num_decimal_places=1, font_size=SIZE_SECTION, color=THEME_EMERALD)
-        percent = Text("%", font_size=SIZE_SECTION, color=THEME_EMERALD, font=FONT_PRIMARY)
-        acc_group = VGroup(Text("accuracy", font_size=SIZE_CAPTION, color=TEXT_SECONDARY, font=FONT_PRIMARY), VGroup(accuracy, percent).arrange(RIGHT, buff=0.08)).arrange(DOWN, buff=0.1).to_edge(RIGHT, buff=0.8)
+        accuracy = Text("96.4%", font_size=SIZE_SECTION, color=THEME_EMERALD, font=FONT_PRIMARY, weight=BOLD)
+        acc_group = VGroup(Text("accuracy", font_size=SIZE_CAPTION, color=TEXT_SECONDARY, font=FONT_PRIMARY), accuracy).arrange(DOWN, buff=0.1).to_edge(RIGHT, buff=0.8)
+        shifted_accuracy = Text(
+            "69.2%",
+            font_size=SIZE_SECTION,
+            color=THEME_RED,
+            font=FONT_PRIMARY,
+            weight=BOLD,
+        ).move_to(accuracy)
 
         insight = create_insight_box(
             "Distribution shift begins when train and target diverge",
             color=THEME_AMBER,
             font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.65)
+        test_path = Line(test_cloud.get_center(), test_cloud.get_center() + RIGHT * 2.35 + DOWN * 0.35)
+        test_label_path = Line(test_label.get_center(), test_label.get_center() + RIGHT * 2.35 + DOWN * 0.35)
 
         self.play(Create(axes), Write(iid_formula), run_time=TIME_NORMAL)
+        self.wait(9.0)
         self.play(FadeIn(train_cloud), FadeIn(test_cloud), FadeIn(train_label), FadeIn(test_label), run_time=TIME_NORMAL)
+        self.wait(13.0)
         self.play(FadeIn(acc_group, shift=LEFT * 0.2), run_time=TIME_NORMAL)
-        self.wait(TIME_PAUSE)
+        self.wait(13.0)
         self.play(
-            test_cloud.animate.shift(RIGHT * 2.35 + DOWN * 0.35).set_color(THEME_AMBER),
-            test_label.animate.shift(RIGHT * 2.35 + DOWN * 0.35).set_color(THEME_AMBER),
+            MoveAlongPath(test_cloud, test_path),
+            MoveAlongPath(test_label, test_label_path),
             Transform(iid_formula, shift_formula),
-            accuracy.animate.set_value(69.2).set_color(THEME_RED),
-            percent.animate.set_color(THEME_RED),
+            Transform(accuracy, shifted_accuracy),
             run_time=TIME_SLOW,
         )
+        self.play(
+            test_cloud.animate.set_color(THEME_AMBER),
+            test_label.animate.set_color(THEME_AMBER),
+            Flash(accuracy, color=THEME_RED, flash_radius=0.55),
+            run_time=1.0,
+        )
+        self.wait(17.0)
         self.play(FadeIn(insight, shift=UP * 0.2), run_time=TIME_NORMAL)
-        self.wait(TIME_LONG_PAUSE)
+        self.wait(12.0)
 
         fade_out_all(self)

@@ -8,6 +8,9 @@ from utils.theme import *
 from utils.components import *
 
 
+TARGET_DURATION_SECONDS = 75
+
+
 class XShiftScene(Scene):
     def construct(self):
         setup_dark_scene(self)
@@ -24,8 +27,8 @@ class XShiftScene(Scene):
 
         p_curve = axes.plot(lambda x: 0.95 * (2.718 ** (-(x + 1.2) ** 2 / 1.1)), color=THEME_BLUE, stroke_width=4)
         q_curve = axes.plot(lambda x: 0.95 * (2.718 ** (-(x - 1.15) ** 2 / 1.1)), color=THEME_AMBER, stroke_width=4)
-        p_label = Text("P(X)", font_size=SIZE_CAPTION, color=THEME_BLUE, font=FONT_CODE).next_to(p_curve, UP, buff=0.15)
-        q_label = Text("Q(X)", font_size=SIZE_CAPTION, color=THEME_AMBER, font=FONT_CODE).next_to(q_curve, UP, buff=0.15)
+        p_label = MathTex(r"P(X)", font_size=SIZE_CAPTION, color=THEME_BLUE).next_to(p_curve, UP, buff=0.15)
+        q_label = MathTex(r"Q(X)", font_size=SIZE_CAPTION, color=THEME_AMBER).next_to(q_curve, UP, buff=0.15)
 
         boundary = Line(UP * 1.8, DOWN * 1.8, color=THEME_EMERALD, stroke_width=4).shift(RIGHT * 0.25)
         boundary_label = Text(
@@ -46,10 +49,15 @@ class XShiftScene(Scene):
         ).to_edge(DOWN, buff=0.8)
 
         self.play(Create(axes), Write(formula), run_time=TIME_NORMAL)
-        self.play(Create(p_curve), FadeIn(p_label), run_time=TIME_NORMAL)
-        self.play(Create(q_curve), FadeIn(q_label), run_time=TIME_NORMAL)
+        self.wait(10.0)
+        self.play(TransformFromCopy(formula[0], p_label), Create(p_curve), run_time=TIME_NORMAL)
+        self.wait(12.0)
+        self.play(TransformFromCopy(formula[2], q_label), Create(q_curve), run_time=TIME_NORMAL)
+        self.wait(16.0)
         self.play(Create(boundary), FadeIn(boundary_label, shift=LEFT * 0.1), run_time=TIME_NORMAL)
+        self.play(Indicate(boundary, color=THEME_EMERALD), Circumscribe(boundary_label, color=THEME_EMERALD), run_time=1.5)
+        self.wait(13.5)
         self.play(FadeIn(insight, shift=UP * 0.2), run_time=TIME_NORMAL)
-        self.wait(TIME_LONG_PAUSE)
+        self.wait(13.0)
 
         fade_out_all(self)

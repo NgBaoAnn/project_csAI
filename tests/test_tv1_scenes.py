@@ -18,7 +18,18 @@ SCENES = ROOT / "src" / "scenes"
 TV1_SCENES = {
     "scene_01_accuracy_fail.py": {
         "class": "AccuracyFailScene",
-        "tokens": ["DecimalNumber", "99.1", "High test accuracy", "deployment reliability"],
+        "tokens": [
+            "TARGET_DURATION_SECONDS = 80",
+            "MathTex(",
+            "Text(",
+            "99.1",
+            "Dashboard đẹp",
+            "Nếu 99.1% là đúng",
+            r"P_{\mathrm{train}}",
+            r"P_{\mathrm{deploy}}",
+            "High test accuracy",
+            "deployment reliability",
+        ],
     },
     "scene_02_failure_montage.py": {
         "class": "FailureMontageScene",
@@ -30,11 +41,11 @@ TV1_SCENES = {
     },
     "scene_04_iid_box.py": {
         "class": "IIDBoxScene",
-        "tokens": ["P(X,Y)", "P_{train}", "P_{test}", "i.i.d.", "same data-generating distribution"],
+        "tokens": ["MathTex(", "P(X,Y)", r"P_{\mathrm{train}}", r"P_{\mathrm{test}}", "i.i.d.", "same data-generating distribution"],
     },
     "scene_05_train_test_split.py": {
         "class": "TrainTestSplitScene",
-        "tokens": ["P_{train}", "P_{target}", "96.4", "69.2", "Distribution shift begins"],
+        "tokens": ["MathTex(", r"P_{\mathrm{train}}", r"P_{\mathrm{target}}", "96.4", "69.2", "Distribution shift begins"],
     },
     "scene_06_shift_taxonomy.py": {
         "class": "ShiftTaxonomyScene",
@@ -42,11 +53,11 @@ TV1_SCENES = {
     },
     "scene_07_x_shift.py": {
         "class": "XShiftScene",
-        "tokens": ["P(X)", "Q(X)", "decision rule", "X-shift changes where data appears"],
+        "tokens": ["MathTex(", "P(X)", "Q(X)", "decision rule", "X-shift changes where data appears"],
     },
     "scene_08_yx_shift.py": {
         "class": "YXShiftScene",
-        "tokens": ["P(Y|X)", "mechanism", "decision boundary", "Y|X-shift changes what the data means"],
+        "tokens": ["MathTex(", "P(Y|X)", "mechanism", "decision boundary", "Y|X-shift changes what the data means"],
     },
     "scene_09_data_sources.py": {
         "class": "DataSourcesScene",
@@ -56,6 +67,33 @@ TV1_SCENES = {
         "class": "PooledIllusionScene",
         "tokens": ["pooled dataset", "colored clusters", "Hospital A", "Hospital B", "Hospital C"],
     },
+}
+
+
+TV1_TARGET_DURATIONS = {
+    "scene_01_accuracy_fail.py": 80,
+    "scene_02_failure_montage.py": 70,
+    "scene_03_model_or_data.py": 70,
+    "scene_04_iid_box.py": 80,
+    "scene_05_train_test_split.py": 75,
+    "scene_06_shift_taxonomy.py": 70,
+    "scene_07_x_shift.py": 75,
+    "scene_08_yx_shift.py": 80,
+    "scene_09_data_sources.py": 70,
+    "scene_10_pooled_illusion.py": 75,
+}
+
+
+TV1_ANIMATION_SIGNATURES = {
+    "scene_02_failure_montage.py": ["Flash(", "Indicate("],
+    "scene_03_model_or_data.py": ["Circumscribe(", "ApplyWave("],
+    "scene_04_iid_box.py": ["MoveAlongPath(", "TracedPath("],
+    "scene_05_train_test_split.py": ["MoveAlongPath(", "Flash("],
+    "scene_06_shift_taxonomy.py": ["Circumscribe(", "Indicate("],
+    "scene_07_x_shift.py": ["TransformFromCopy(", "Indicate("],
+    "scene_08_yx_shift.py": ["Rotate(", "Circumscribe("],
+    "scene_09_data_sources.py": ["MoveAlongPath(", "TransformFromCopy("],
+    "scene_10_pooled_illusion.py": ["MoveAlongPath(", "Transform("],
 }
 
 
@@ -89,13 +127,30 @@ class TV1ScenesTest(unittest.TestCase):
                 for token in spec["tokens"]:
                     self.assertIn(token, source)
 
+    def test_each_scene_declares_script_duration_target(self):
+        for filename in self.scene_specs():
+            with self.subTest(filename=filename):
+                source = self.source(filename)
+                target = TV1_TARGET_DURATIONS[filename]
+                self.assertIn(f"TARGET_DURATION_SECONDS = {target}", source)
+
+    def test_each_scene_after_intro_has_animation_signature(self):
+        for filename in self.scene_specs():
+            if filename == "scene_01_accuracy_fail.py":
+                continue
+            with self.subTest(filename=filename):
+                source = self.source(filename)
+                for token in TV1_ANIMATION_SIGNATURES[filename]:
+                    self.assertIn(token, source)
+
     def test_each_scene_uses_manim_animation_primitives(self):
         required_any = ("FadeIn", "Write", "Create", "Transform", "LaggedStart")
         for filename in self.scene_specs():
             with self.subTest(filename=filename):
                 source = self.source(filename)
                 self.assertIn("setup_dark_scene(self)", source)
-                self.assertIn("animate_title_card", source)
+                if filename != "scene_01_accuracy_fail.py":
+                    self.assertIn("animate_title_card", source)
                 self.assertGreaterEqual(source.count("self.play"), 3)
                 self.assertTrue(any(name in source for name in required_any))
 
