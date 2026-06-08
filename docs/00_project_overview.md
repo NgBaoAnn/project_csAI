@@ -29,20 +29,18 @@ Nhưng dữ liệu thực tế luôn **heterogeneous**: đến từ nhiều ngu�
 - Kết quả thiếu công bằng với **nhóm thiểu số** (worst-group accuracy thấp)
 - Kết luận khoa học sai (**false scientific discoveries**)
 
-### Ba Hướng Tiếp Cận (Narrative Arc Của Video)
+### Narrative Arc Của Video Mới
 
-Tutorial của Peng Cui & Liu đề xuất nhìn nhận vấn đề theo **Stable Learning trilogy**:
+Video dài ~50 phút đi theo hai phần của tutorial CoLLAs 2024:
 
 ```
-Heterogeneity-aware ML
-        ↑
-┌───────────────────────────────┐
-│ 1. INVARIANCE  │ 2. CAUSALITY │ 3. HETEROGENEITY │
-│  (IRM, DRO)   │(Stable Learn)│  (Taxonomy, Env)  │
-└───────────────────────────────┘
-        ↑
-  Ba hướng khác nhau — một đích đến:
-  AI đáng tin cậy trên dữ liệu thực tế
+Part 1: Vì sao các method phổ biến chưa đủ?
+  AI failures -> i.i.d. breaks -> data heterogeneity
+      -> DRO -> IRM -> pretrained models -> limitations
+
+Part 2: Heterogeneity-aware ML là một workflow 40 scene ngắn
+  collection -> training -> evaluation -> deployment
+      -> subpopulations -> learned environments -> stability -> shift attribution
 ```
 
 ---
@@ -62,7 +60,7 @@ Heterogeneity-aware ML
       ↓ ERM KHÔNG ĐỦ VÌ
 [5] ERM chỉ optimize average, bỏ qua heterogeneity
 
-—————— GIẢI PHÁP (3 hướng) ——————
+—————— REVIEW CÁC HƯỚNG PHỔ BIẾN ——————
 
 [6] IRM: Invariant Risk Minimization
     → Tìm features BẤT BIẾN qua environments (Invariance)
@@ -73,9 +71,11 @@ Heterogeneity-aware ML
 [8] Stable Learning
     → Loại bỏ confounders, chỉ giữ CAUSAL features (Causality)
 
-—————— KẾT ——————
+—————— HETEROGENEITY-AWARE PIPELINE ——————
 
-[9] So sánh, benchmarks, future directions
+[9] DRO, IRM, CLIP: hữu ích nhưng phụ thuộc giả định
+[10] Predictive heterogeneity, learned environments, stability, deployment attribution
+[11] Future directions: uncertainty, active data collection, system-level workflow
 ```
 
 ### Bảng Khái Niệm Kỹ Thuật
@@ -115,11 +115,11 @@ project_csAI/
 ├── docs/
 │   ├── 00_project_overview.md    ← file này
 │   ├── 01_production_plan.md     ← timeline, phân công, git workflow
-│   ├── 02_video_script.md        ← kịch bản từng scene (narration + animation)
+│   ├── 02_video_script.md        ← kịch bản 40 scene, ~67 phút (narration + cue Manim)
 │   └── 03_technical_guide.md    ← Manim setup, style guide, code patterns
 │
 ├── src/
-│   ├── scenes/                   ← 9 scene files
+│   ├── scenes/                   ← 40 scene files
 │   ├── utils/
 │   │   ├── theme.py              ← color palette, font sizes, timing constants
 │   │   ├── components.py         ← reusable Manim components
