@@ -21,8 +21,10 @@
 
 ## Phân Công 4 Thành Viên
 
-### 🔵 TV1 — Tech Lead
-**Scenes:** 1 (Intro), 2 (i.i.d.), 3 (OOD Problem)  
+> **Cập nhật theo kịch bản mới:** video mục tiêu dài khoảng **65-68 phút**, chia thành **40 scene ngắn**. Scene thường dài 85-100 giây; scene có công thức hoặc ví dụ quan trọng dài 100-110 giây; scene kết luận dài hơn một chút.
+
+### TV1 — Tech Lead
+**Scenes:** 1-10 (Hook, i.i.d., shift taxonomy, heterogeneity foundations)  
 **Vai trò phụ:**
 - Setup repo, `manim.cfg`, `requirements.txt`, Git branching
 - Viết & maintain `utils/theme.py` và `utils/components.py`
@@ -34,8 +36,8 @@
 
 ---
 
-### 🟢 TV2 — Content Lead
-**Scenes:** 4 (Data Heterogeneity), 5 (Spurious Correlations), 6 (ERM)  
+### TV2 — Content Lead
+**Scenes:** 11-20 (hidden subpopulations, pipeline view, ERM, spurious, DRO foundations)  
 **Vai trò phụ:**
 - Viết narration script hoàn chỉnh cho **toàn bộ** video
 - Vẽ storyboard sơ bộ cho tất cả scenes
@@ -48,8 +50,8 @@
 
 ---
 
-### 🟠 TV3 — Animation Lead
-**Scenes:** 7 (IRM), 8 (DRO)  
+### TV3 — Animation Lead
+**Scenes:** 21-30 (IRM, CLIP, inductive approach, mutual information, predictive heterogeneity)  
 **Vai trò phụ:**
 - Viết `utils/math_helpers.py` (data clouds, causal graphs, decision boundaries)
 - Polish animation quality cho **toàn bộ** video sau khi TV1/TV2 xong
@@ -62,8 +64,8 @@
 
 ---
 
-### 🔴 TV4 — Production Lead
-**Scenes:** 9 (Stable Learning & Causal), 10 (Conclusion)  
+### TV4 — Production Lead
+**Scenes:** 31-40 (case studies, HRM, geometry-aware DRO, evaluation, deployment, conclusion)  
 **Vai trò phụ:**
 - Thu âm voiceover (hoặc organize nhóm thu)
 - Ghép video: sync audio, thêm nhạc nền, subtitles
@@ -80,13 +82,22 @@
 
 | | Scenes (thời lượng) | Vai trò phụ | Tổng load |
 |---|---|---|---|
-| TV1 | 3 scenes (~6 phút) | Setup + utils + code review | ●●●○ |
-| TV2 | 3 scenes (~8 phút) | Toàn bộ script + storyboard | ●●●● |
-| TV3 | 2 scenes (~6.5 phút) | Utils + polish toàn bộ animations | ●●●○ |
-| TV4 | 2 scenes (~4.5 phút) | Voiceover + toàn bộ video editing | ●●●○ |
+| TV1 | 10 scenes (~15:10) | Setup + utils + code review | ●●●● |
+| TV2 | 10 scenes (~16:50) | Toàn bộ script + storyboard + content QA | ●●●● |
+| TV3 | 10 scenes (~16:50) | Math helpers + polish toàn bộ animations | ●●●● |
+| TV4 | 10 scenes (~18:35) | Voiceover + toàn bộ video editing | ●●●● |
 
-> TV2 có nhiều scenes nhất nhưng cũng là người viết script — hai việc này song song được.  
-> TV3 và TV4 có ít scenes nhưng vai trò phụ nặng và kéo dài đến cuối dự án.
+> Load được cân bằng theo cụm 10 scene/người. TV1 giữ foundations, TV2 giữ ERM/DRO foundations, TV3 giữ IRM/inductive/predictive heterogeneity, TV4 giữ case studies/evaluation/conclusion.
+
+## Scene Map Theo Kịch Bản Mới
+
+| Scene | Nội dung | TV | Thời lượng |
+|---|---|---|---|
+| 1-10 | Hook, i.i.d., shift taxonomy, heterogeneity foundations | TV1 | ~15:10 |
+| 11-20 | Subpopulations, ERM, spurious, DRO foundations | TV2 | ~16:50 |
+| 21-30 | IRM, CLIP, inductive approach, predictive heterogeneity | TV3 | ~16:50 |
+| 31-40 | Case studies, HRM, geometry, evaluation, conclusion | TV4 | ~18:35 |
+| **Tổng** |  |  | **~67:25** |
 
 ---
 
@@ -94,10 +105,10 @@
 
 ```
 main
-├── feature/tv1/setup-utils       # TV1: utils + scene 1-3
-├── feature/tv2/content-scenes    # TV2: scene 4-6
-├── feature/tv3/method-scenes     # TV3: scene 7-8 + animation polish
-└── feature/tv4/conclusion        # TV4: scene 9-10
+├── feature/tv1/foundations       # TV1: scene 1-10 + utils
+├── feature/tv2/erm-dro           # TV2: scene 11-20
+├── feature/tv3/irm-predictive    # TV3: scene 21-30 + animation polish
+└── feature/tv4/pipeline-final    # TV4: scene 31-40 + production
 ```
 
 **Quy trình:**
