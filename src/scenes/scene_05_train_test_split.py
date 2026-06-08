@@ -25,7 +25,7 @@ class TrainTestSplitScene(Scene):
 
     def construct(self):
         setup_dark_scene(self)
-        animate_title_card(self, "Train/Test Divergence", "Khi target cloud rời khỏi train cloud")
+        animate_title_card(self, "Train/Test tách nhau", "Khi target cloud rời khỏi train cloud")
 
         axes = Axes(
             x_range=[-4, 4, 1],
@@ -71,7 +71,7 @@ class TrainTestSplitScene(Scene):
         ).move_to(accuracy)
 
         insight = create_insight_box(
-            "Distribution shift begins when train and target diverge",
+            "Distribution shift bắt đầu khi train và target tách nhau.",
             color=THEME_AMBER,
             font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.65)
