@@ -52,16 +52,16 @@ manim --version     # Expected: Manim Community v0.18.x hoặc cao hơn
 cd src/
 
 # Dev (nhanh, 480p 15fps) — LUÔN dùng khi code
-manim -pql scenes/scene_01_intro.py IntroScene
+manim -pql scenes/scene_01_accuracy_fail.py AccuracyFailScene
 
 # Review với nhóm (720p 30fps)
-manim -pqm scenes/scene_01_intro.py IntroScene
+manim -pqm scenes/scene_01_accuracy_fail.py AccuracyFailScene
 
 # Final render (1080p 60fps) — CHỈ khi xong hoàn toàn
-manim -pqh scenes/scene_01_intro.py IntroScene
+manim -pqh scenes/scene_01_accuracy_fail.py AccuracyFailScene
 
 # Render một đoạn cụ thể (cắt thời gian)
-manim -pql --from_animation 5 --upto_animation 10 scenes/scene_07_irm.py IRMScene
+manim -pql --from_animation 5 --upto_animation 10 scenes/scene_22_irm_objective.py IRMObjectiveScene
 ```
 
 | Flag | Resolution | FPS | Dùng khi |
@@ -327,7 +327,7 @@ manim checkhealth
 python3 -c "from manim import *; MathTex(r'\min_\theta').render()"
 
 # 3. Render chỉ phần đầu (5 animations đầu tiên)
-manim -pql --from_animation 0 --upto_animation 5 scenes/scene_07_irm.py IRMScene
+manim -pql --from_animation 0 --upto_animation 5 scenes/scene_22_irm_objective.py IRMObjectiveScene
 ```
 
 ---
