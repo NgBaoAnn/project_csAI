@@ -3,8 +3,8 @@
 > **Chủ đề:** Data Heterogeneity Analysis for Distribution Shifts  
 > **Nguồn chính:** `collas_2024_tutorial_part_1_tong_ket_chi_tiet_vi.md` và `collas_2024_tutorial_part_2_tong_ket_chi_tiet_vi.md`  
 > **Mục tiêu:** video giáo dục bằng Manim, dễ theo dõi, nhiều micro-scene ngắn  
-> **Thời lượng mục tiêu:** khoảng **65-68 phút**  
-> **Nhịp scene:** scene thường 85-100 giây; scene có công thức hoặc ví dụ quan trọng 100-110 giây; scene kết luận dài hơn một chút.  
+> **Thời lượng mục tiêu:** khoảng **50 phút**  
+> **Nhịp scene:** scene thường 65-75 giây; scene có công thức hoặc ví dụ quan trọng 80-85 giây; scene kết luận khoảng 100 giây.  
 
 ---
 
@@ -21,7 +21,7 @@ Lợi ích:
 - Người xem không phải giữ quá nhiều khái niệm trong một cảnh.
 - Mỗi công thức có scene riêng để xây trực giác trước khi viết ký hiệu.
 - Nhóm dễ chia việc hơn: mỗi file Manim chỉ cần polish một visual.
-- Tổng thời lượng có buffer an toàn trên 60 phút, kể cả khi voiceover đọc nhanh hoặc cắt bớt pause.
+- Tổng thời lượng gọn hơn, khoảng 50 phút, nhưng vẫn đủ 40 micro-scene để người xem không bị nhồi quá nhiều ý trong một cảnh.
 
 ---
 
@@ -29,47 +29,47 @@ Lợi ích:
 
 | Scene | File gợi ý | Micro-topic | Thời lượng |
 |---|---|---|---|
-| 01 | `scene_01_accuracy_fail.py` | Accuracy cao nhưng fail ngoài đời | 1:25 |
-| 02 | `scene_02_failure_montage.py` | Robot, camera bóng đá, y tế, tự lái | 1:30 |
-| 03 | `scene_03_model_or_data.py` | Model problem hay data problem? | 1:25 |
-| 04 | `scene_04_iid_box.py` | i.i.d. bằng chiếc hộp phân phối | 1:45 |
-| 05 | `scene_05_train_test_split.py` | Train/test clouds tách nhau | 1:30 |
-| 06 | `scene_06_shift_taxonomy.py` | Distribution shift taxonomy | 1:25 |
-| 07 | `scene_07_x_shift.py` | `X-shift`: input distribution đổi | 1:30 |
-| 08 | `scene_08_yx_shift.py` | `Y|X-shift`: mechanism đổi | 1:45 |
-| 09 | `scene_09_data_sources.py` | Data đến từ nhiều sources | 1:25 |
-| 10 | `scene_10_pooled_illusion.py` | Pooled dataset illusion | 1:30 |
-| 11 | `scene_11_hidden_subpopulations.py` | Subpopulations có `Y|X` khác nhau | 1:45 |
-| 12 | `scene_12_pipeline_view.py` | Pipeline: collection -> deployment | 1:30 |
-| 13 | `scene_13_erm_formula.py` | ERM formula | 1:45 |
-| 14 | `scene_14_average_risk.py` | Average risk che giấu worst groups | 1:40 |
-| 15 | `scene_15_spurious_cow_camel.py` | Spurious correlation bò/lạc đà | 1:50 |
-| 16 | `scene_16_dro_intuition.py` | DRO: worst-case mindset | 1:30 |
-| 17 | `scene_17_uncertainty_set.py` | Uncertainty set và `rho` | 1:40 |
-| 18 | `scene_18_f_divergence.py` | f-divergence: reweight support | 1:45 |
-| 19 | `scene_19_wasserstein.py` | Wasserstein: optimal transport | 1:45 |
-| 20 | `scene_20_dro_limits.py` | Over-pessimism và mismatch | 1:40 |
-| 21 | `scene_21_invariant_features.py` | Invariant feature intuition | 1:30 |
-| 22 | `scene_22_irm_objective.py` | IRM objective và same classifier `w` | 1:50 |
-| 23 | `scene_23_irm_limits.py` | IRM cần environments đủ tốt | 1:40 |
-| 24 | `scene_24_clip_contrastive.py` | CLIP contrastive learning | 1:45 |
-| 25 | `scene_25_more_data_not_right_data.py` | More data != right data | 1:30 |
-| 26 | `scene_26_deductive_inductive.py` | Deductive vs inductive | 1:30 |
-| 27 | `scene_27_income_ca_pr.py` | Income prediction CA -> PR | 1:45 |
-| 28 | `scene_28_ambiguity_variables.py` | Ambiguity set theo biến shift | 1:40 |
-| 29 | `scene_29_mutual_information.py` | Mutual information trực giác | 1:50 |
-| 30 | `scene_30_predictive_heterogeneity.py` | Predictive heterogeneity split | 1:50 |
-| 31 | `scene_31_crop_yield.py` | Crop yield và crop type ẩn | 1:45 |
-| 32 | `scene_32_covid_mortality.py` | COVID mortality: nhiều cơ chế rủi ro | 1:50 |
-| 33 | `scene_33_no_env_labels.py` | Pooled data không có env labels | 1:25 |
-| 34 | `scene_34_hrm_loop.py` | Heterogeneous Risk Minimization loop | 1:50 |
-| 35 | `scene_35_colored_mnist.py` | ColoredMNIST: color vs shape | 1:45 |
-| 36 | `scene_36_hard_noisy_samples.py` | Hard samples vs noisy samples | 1:40 |
-| 37 | `scene_37_geometric_wasserstein.py` | Data geometry + Geometric Wasserstein | 1:50 |
-| 38 | `scene_38_error_slices.py` | Error slices, worst groups | 1:40 |
-| 39 | `scene_39_stability_feature.py` | Stability + feature sensitivity | 1:50 |
-| 40 | `scene_40_deployment_conclusion.py` | Shift attribution + conclusion | 3:00 |
-| **Tổng** |  |  | **~67:25** |
+| 01 | `scene_01_accuracy_fail.py` | Accuracy cao nhưng fail ngoài đời | 1:20 |
+| 02 | `scene_02_failure_montage.py` | Robot, camera bóng đá, y tế, tự lái | 1:10 |
+| 03 | `scene_03_model_or_data.py` | Model problem hay data problem? | 1:10 |
+| 04 | `scene_04_iid_box.py` | i.i.d. bằng chiếc hộp phân phối | 1:20 |
+| 05 | `scene_05_train_test_split.py` | Train/test clouds tách nhau | 1:15 |
+| 06 | `scene_06_shift_taxonomy.py` | Distribution shift taxonomy | 1:10 |
+| 07 | `scene_07_x_shift.py` | `X-shift`: input distribution đổi | 1:15 |
+| 08 | `scene_08_yx_shift.py` | `Y\|X-shift`: mechanism đổi | 1:20 |
+| 09 | `scene_09_data_sources.py` | Data đến từ nhiều sources | 1:10 |
+| 10 | `scene_10_pooled_illusion.py` | Pooled dataset illusion | 1:15 |
+| 11 | `scene_11_hidden_subpopulations.py` | Subpopulations có `Y\|X` khác nhau | 1:20 |
+| 12 | `scene_12_pipeline_view.py` | Pipeline: collection -> deployment | 1:10 |
+| 13 | `scene_13_erm_formula.py` | ERM formula | 1:20 |
+| 14 | `scene_14_average_risk.py` | Average risk che giấu worst groups | 1:10 |
+| 15 | `scene_15_spurious_cow_camel.py` | Spurious correlation bò/lạc đà | 1:20 |
+| 16 | `scene_16_dro_intuition.py` | DRO: worst-case mindset | 1:10 |
+| 17 | `scene_17_uncertainty_set.py` | Uncertainty set và `rho` | 1:15 |
+| 18 | `scene_18_f_divergence.py` | f-divergence: reweight support | 1:15 |
+| 19 | `scene_19_wasserstein.py` | Wasserstein: optimal transport | 1:20 |
+| 20 | `scene_20_dro_limits.py` | Over-pessimism và mismatch | 1:10 |
+| 21 | `scene_21_invariant_features.py` | Invariant feature intuition | 1:10 |
+| 22 | `scene_22_irm_objective.py` | IRM objective và same classifier `w` | 1:20 |
+| 23 | `scene_23_irm_limits.py` | IRM cần environments đủ tốt | 1:10 |
+| 24 | `scene_24_clip_contrastive.py` | CLIP contrastive learning | 1:15 |
+| 25 | `scene_25_more_data_not_right_data.py` | More data != right data | 1:10 |
+| 26 | `scene_26_deductive_inductive.py` | Deductive vs inductive | 1:10 |
+| 27 | `scene_27_income_ca_pr.py` | Income prediction CA -> PR | 1:20 |
+| 28 | `scene_28_ambiguity_variables.py` | Ambiguity set theo biến shift | 1:10 |
+| 29 | `scene_29_mutual_information.py` | Mutual information trực giác | 1:25 |
+| 30 | `scene_30_predictive_heterogeneity.py` | Predictive heterogeneity split | 1:20 |
+| 31 | `scene_31_crop_yield.py` | Crop yield và crop type ẩn | 1:15 |
+| 32 | `scene_32_covid_mortality.py` | COVID mortality: nhiều cơ chế rủi ro | 1:15 |
+| 33 | `scene_33_no_env_labels.py` | Pooled data không có env labels | 1:05 |
+| 34 | `scene_34_hrm_loop.py` | Heterogeneous Risk Minimization loop | 1:15 |
+| 35 | `scene_35_colored_mnist.py` | ColoredMNIST: color vs shape | 1:15 |
+| 36 | `scene_36_hard_noisy_samples.py` | Hard samples vs noisy samples | 1:10 |
+| 37 | `scene_37_geometric_wasserstein.py` | Data geometry + Geometric Wasserstein | 1:15 |
+| 38 | `scene_38_error_slices.py` | Error slices, worst groups | 1:10 |
+| 39 | `scene_39_stability_feature.py` | Stability + feature sensitivity | 1:15 |
+| 40 | `scene_40_deployment_conclusion.py` | Shift attribution + conclusion | 1:40 |
+| **Tổng** |  |  | **~50:00** |
 
 ---
 

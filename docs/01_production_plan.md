@@ -21,7 +21,7 @@
 
 ## Phân Công 4 Thành Viên
 
-> **Cập nhật theo kịch bản mới:** video mục tiêu dài khoảng **65-68 phút**, chia thành **40 scene ngắn**. Scene thường dài 85-100 giây; scene có công thức hoặc ví dụ quan trọng dài 100-110 giây; scene kết luận dài hơn một chút.
+> **Cập nhật theo kịch bản mới:** video mục tiêu dài khoảng **50 phút**, vẫn chia thành **40 scene ngắn**. Scene thường dài 65-75 giây; scene có công thức hoặc ví dụ quan trọng dài 80-85 giây; scene kết luận khoảng 100 giây.
 
 ### TV1 — Tech Lead
 **Scenes:** 1-10 (Hook, i.i.d., shift taxonomy, heterogeneity foundations)  
@@ -82,10 +82,10 @@
 
 | | Scenes (thời lượng) | Vai trò phụ | Tổng load |
 |---|---|---|---|
-| TV1 | 10 scenes (~15:10) | Setup + utils + code review | ●●●● |
-| TV2 | 10 scenes (~16:50) | Toàn bộ script + storyboard + content QA | ●●●● |
-| TV3 | 10 scenes (~16:50) | Math helpers + polish toàn bộ animations | ●●●● |
-| TV4 | 10 scenes (~18:35) | Voiceover + toàn bộ video editing | ●●●● |
+| TV1 | 10 scenes (~12:25) | Setup + utils + code review | ●●●● |
+| TV2 | 10 scenes (~12:30) | Toàn bộ script + storyboard + content QA | ●●●● |
+| TV3 | 10 scenes (~12:30) | Math helpers + polish toàn bộ animations | ●●●● |
+| TV4 | 10 scenes (~12:35) | Voiceover + toàn bộ video editing | ●●●● |
 
 > Load được cân bằng theo cụm 10 scene/người. TV1 giữ foundations, TV2 giữ ERM/DRO foundations, TV3 giữ IRM/inductive/predictive heterogeneity, TV4 giữ case studies/evaluation/conclusion.
 
@@ -93,11 +93,11 @@
 
 | Scene | Nội dung | TV | Thời lượng |
 |---|---|---|---|
-| 1-10 | Hook, i.i.d., shift taxonomy, heterogeneity foundations | TV1 | ~15:10 |
-| 11-20 | Subpopulations, ERM, spurious, DRO foundations | TV2 | ~16:50 |
-| 21-30 | IRM, CLIP, inductive approach, predictive heterogeneity | TV3 | ~16:50 |
-| 31-40 | Case studies, HRM, geometry, evaluation, conclusion | TV4 | ~18:35 |
-| **Tổng** |  |  | **~67:25** |
+| 1-10 | Hook, i.i.d., shift taxonomy, heterogeneity foundations | TV1 | ~12:25 |
+| 11-20 | Subpopulations, ERM, spurious, DRO foundations | TV2 | ~12:30 |
+| 21-30 | IRM, CLIP, inductive approach, predictive heterogeneity | TV3 | ~12:30 |
+| 31-40 | Case studies, HRM, geometry, evaluation, conclusion | TV4 | ~12:35 |
+| **Tổng** |  |  | **~50:00** |
 
 ---
 
