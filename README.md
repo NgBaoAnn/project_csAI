@@ -15,7 +15,7 @@ pip install -r requirements.txt
 
 # Render scene mẫu
 cd src
-manim -ql scenes/scene_01_intro.py IntroScene -p
+manim -ql scenes/scene_01_accuracy_fail.py AccuracyFailScene -p
 ```
 
 ## Tài Liệu
@@ -24,15 +24,17 @@ manim -ql scenes/scene_01_intro.py IntroScene -p
 |------|---------|
 | [docs/00_project_overview.md](docs/00_project_overview.md) | Tổng quan: chủ đề, khái niệm cốt lõi, datasets, reading list |
 | [docs/01_production_plan.md](docs/01_production_plan.md) | Timeline, phân công 4 thành viên, Git workflow |
-| [docs/02_video_script.md](docs/02_video_script.md) | Kịch bản chi tiết từng scene: narration + animation (3B1B style) |
+| [docs/02_video_script.md](docs/02_video_script.md) | Kịch bản chi tiết 40 scene, ~67 phút: narration, cue Manim, transition |
 | [docs/03_technical_guide.md](docs/03_technical_guide.md) | Cài đặt Manim, style guide, code patterns, troubleshooting |
 | [docs/04_research_report.md](docs/04_research_report.md) | **Deep research:** IRM/DRO/Stable Learning formulations, benchmarks, bibliography |
 
-## Phân Công Nhanh
+## Phân Công Nhanh Theo Kịch Bản Mới
 
 | TV | Scenes | Vai trò phụ |
 |----|--------|------------|
-| TV1 | 1, 2, 3 | Tech setup, utils, code review |
-| TV2 | 4, 5, 6 | Script, storyboard, content accuracy |
-| TV3 | 7, 8 | math_helpers.py, animation polish toàn bộ |
-| TV4 | 9, 10 | Voiceover, video editing, final export |
+| TV1 | 1-10 | Tech setup, utils, code review |
+| TV2 | 11-20 | Script, storyboard, content accuracy |
+| TV3 | 21-30 | math_helpers.py, animation polish toàn bộ |
+| TV4 | 31-40 | Voiceover, video editing, final export |
+
+> Video mới dùng 40 scene ngắn. Scene thường dài 85-100 giây; scene có công thức hoặc ví dụ quan trọng dài 100-110 giây; kết luận dài hơn một chút. Tổng thời lượng mục tiêu khoảng 65-68 phút.
