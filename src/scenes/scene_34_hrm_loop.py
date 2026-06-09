@@ -1,4 +1,8 @@
-"""Scene 34: Heterogeneous Risk Minimization loop."""
+"""
+Scene 34: HRM Loop
+Author: TV4 (Animation Lead)
+Duration: ~75 seconds
+"""
 
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
@@ -11,7 +15,143 @@ from utils.components import *
 class HRMLoopScene(Scene):
     def construct(self):
         setup_dark_scene(self)
-        animate_title_card(self, "HRM Loop", "Learn environments, then learn invariance")
-        placeholder = Text("[34] Heterogeneity identification <-> invariant prediction", font_size=SIZE_BODY, color=TEXT_MUTED)
-        self.play(Write(placeholder))
-        self.wait(2)
+        
+        # 1. Creative Intro: Custom infinity circles morphing into title box
+        left_circle = Circle(radius=1.0, color=THEME_AMBER, stroke_width=4).shift(LEFT * 0.9)
+        right_circle = Circle(radius=1.0, color=THEME_BLUE, stroke_width=4).shift(RIGHT * 0.9)
+        infinity = VGroup(left_circle, right_circle)
+        
+        self.play(FadeIn(infinity), run_time=TIME_NORMAL)
+        self.play(Rotate(infinity, angle=PI, about_point=ORIGIN), run_time=TIME_NORMAL)
+        
+        title_box = RoundedRectangle(width=5.5, height=2.0, corner_radius=0.15, stroke_color=THEME_PURPLE, stroke_width=2.5, fill_color=BG_PANEL, fill_opacity=0.6)
+        
+        self.play(
+            ReplacementTransform(infinity, title_box),
+            run_time=TIME_NORMAL
+        )
+        
+        title_text = Text("HRM Loop", font_size=SIZE_TITLE, font=FONT_PRIMARY, weight=BOLD)
+        title_text.set_color_by_gradient(THEME_AMBER, THEME_BLUE)
+        title_glow = create_3b1b_glow(title_text, color=THEME_BLUE, n_layers=4, opacity=0.15)
+        title_group = VGroup(title_glow, title_text).move_to(title_box.get_center())
+        
+        subtitle_text = Text("Đồng tiến hóa môi trường và mô hình dự đoán", font_size=SIZE_BODY - 4, color=TEXT_SECONDARY, font=FONT_PRIMARY)
+        subtitle_text.next_to(title_box, DOWN, buff=0.3)
+        
+        self.play(
+            FadeIn(title_group),
+            Write(subtitle_text),
+            run_time=TIME_NORMAL
+        )
+        self.wait(4.0)
+        self.play(
+            FadeOut(title_box),
+            FadeOut(title_group),
+            FadeOut(subtitle_text),
+            run_time=TIME_FAST
+        )
+        
+        # Subtitle 1
+        sub1 = create_bottom_caption("HRM giải quyết vấn đề bằng chu trình co-evolution gồm hai module.")
+        self.play(FadeIn(sub1))
+        self.wait(6.0)
+        
+        # Draw Left Block: Heterogeneity Identification (Shifted UP to prevent overlaps)
+        id_box = RoundedRectangle(width=3.6, height=1.6, corner_radius=0.08, stroke_color=THEME_AMBER, stroke_width=2.5, fill_color=BG_PANEL, fill_opacity=0.6).shift(LEFT * 3.5 + UP * 1.1)
+        id_title = Text("Heterogeneity\nIdentification", font_size=SIZE_SMALL - 4, color=THEME_AMBER, font=FONT_PRIMARY, weight=BOLD).move_to(id_box.get_center())
+        id_block = VGroup(id_box, id_title)
+        
+        # Draw Right Block: Invariant Prediction (Shifted UP)
+        pred_box = RoundedRectangle(width=3.6, height=1.6, corner_radius=0.08, stroke_color=THEME_BLUE, stroke_width=2.5, fill_color=BG_PANEL, fill_opacity=0.6).shift(RIGHT * 3.5 + UP * 1.1)
+        pred_title = Text("Invariant\nPrediction", font_size=SIZE_SMALL - 4, color=THEME_BLUE, font=FONT_PRIMARY, weight=BOLD).move_to(pred_box.get_center())
+        pred_block = VGroup(pred_box, pred_title)
+        
+        self.play(
+            FadeIn(id_block, shift=RIGHT * 0.25),
+            FadeIn(pred_block, shift=LEFT * 0.25),
+            run_time=TIME_NORMAL
+        )
+        self.wait(5.0)
+        
+        # Subtitle 2
+        sub2 = create_bottom_caption("Identification phân nhóm dữ liệu thành các môi trường nhân tạo.")
+        self.play(Transform(sub1, sub2))
+        self.wait(6.5)
+        
+        # Curved loop arrows (shift automatically as they are relative to boxes)
+        arrow_top = CurvedArrow(id_box.get_top() + RIGHT * 0.2, pred_box.get_top() + LEFT * 0.2, angle=-TAU/5, color=THEME_PURPLE, stroke_width=3)
+        arrow_bottom = CurvedArrow(pred_box.get_bottom() + LEFT * 0.2, id_box.get_bottom() + RIGHT * 0.2, angle=-TAU/5, color=THEME_PURPLE, stroke_width=3)
+        
+        self.play(Create(arrow_top), run_time=TIME_NORMAL)
+        self.wait(2.5)
+        
+        # Subtitle 3
+        sub3 = create_bottom_caption("Invariant prediction học predictor ổn định từ các môi trường vừa tìm thấy.")
+        self.play(Transform(sub1, sub3))
+        self.wait(6.5)
+        
+        self.play(Create(arrow_bottom), run_time=TIME_NORMAL)
+        self.wait(2.5)
+        
+        # In the center lower area: accuracy text (Shifted UP to DOWN * 1.0)
+        center_lower = DOWN * 1.0
+        acc_label = Text("Worst-Group Accuracy:", font_size=SIZE_SMALL - 4, color=TEXT_SECONDARY, font=FONT_PRIMARY).move_to(center_lower + LEFT * 2.0)
+        acc_val = Text("55%", font_size=SIZE_BODY, color=THEME_RED, font=FONT_PRIMARY, weight=BOLD).next_to(acc_label, RIGHT, buff=0.25)
+        acc_val_glow = create_3b1b_glow(acc_val, color=THEME_RED, n_layers=3, opacity=0.15)
+        
+        self.play(
+            FadeIn(acc_label, shift=UP * 0.2),
+            FadeIn(acc_val_glow, shift=UP * 0.2),
+            FadeIn(acc_val, shift=UP * 0.2),
+            run_time=TIME_NORMAL
+        )
+        self.wait(5.0)
+        
+        # Loop animation (flash arrows and increase accuracy value)
+        acc_val_mid = Text("72%", font_size=SIZE_BODY, color=THEME_AMBER, font=FONT_PRIMARY, weight=BOLD).move_to(acc_val.get_center())
+        acc_val_final = Text("89%", font_size=SIZE_BODY, color=THEME_EMERALD, font=FONT_PRIMARY, weight=BOLD).move_to(acc_val.get_center())
+        acc_val_glow_final = create_3b1b_glow(acc_val_final, color=THEME_EMERALD, n_layers=3, opacity=0.15)
+        
+        self.play(
+            ShowPassingFlash(arrow_top.copy().set_color(THEME_AMBER_LIGHT), time_width=0.4),
+            Transform(acc_val, acc_val_mid),
+            run_time=1.2
+        )
+        self.wait(3.5)
+        
+        self.play(
+            ShowPassingFlash(arrow_bottom.copy().set_color(THEME_BLUE_LIGHT), time_width=0.4),
+            Transform(acc_val, acc_val_final),
+            Transform(acc_val_glow, acc_val_glow_final),
+            run_time=1.2
+        )
+        self.wait(7.0)
+        
+        # Takeaway (Shifted slightly down with buff=0.55 to avoid overlap with accuracy text)
+        insight = create_insight_box(
+            "Phát hiện environment và invariant learning có thể đồng tiến hóa.",
+            color=THEME_EMERALD,
+            font_size=SIZE_CAPTION
+        ).to_edge(DOWN, buff=0.55)
+        
+        self.play(
+            FadeOut(sub1),
+            FadeIn(insight, shift=UP * 0.2),
+            run_time=TIME_NORMAL
+        )
+        self.wait(12.0)
+        
+        # Outro (Fades out individual components cleanly)
+        self.play(
+            FadeOut(id_block),
+            FadeOut(pred_block),
+            FadeOut(arrow_top),
+            FadeOut(arrow_bottom),
+            FadeOut(acc_label),
+            FadeOut(acc_val),
+            FadeOut(acc_val_glow),
+            FadeOut(insight),
+            run_time=TIME_NORMAL
+        )
+        self.wait(3.5)
