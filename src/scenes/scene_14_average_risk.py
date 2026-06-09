@@ -32,6 +32,8 @@ class AverageRiskScene(Scene):
         count_num = Integer(0, font_size=144, color=THEME_EMERALD)
         pct_sign = Text("%", font_size=90, color=THEME_EMERALD, font=FONT_PRIMARY, weight=BOLD
                         ).next_to(count_num, RIGHT, buff=0.12).shift(DOWN * 0.15)
+        # Add a dynamic updater to keep % next to the growing count_num
+        pct_sign.add_updater(lambda m: m.next_to(count_num, RIGHT, buff=0.12).shift(DOWN * 0.15))
         counter_group = VGroup(count_num, pct_sign).shift(UP * 0.25)
         glow = create_3b1b_glow(counter_group, color=THEME_EMERALD, n_layers=5, opacity=0.20)
         avg_caption = Text("Accuracy trung bình: model có vẻ rất tốt",
@@ -68,6 +70,7 @@ class AverageRiskScene(Scene):
                            color=TEXT_SECONDARY, font=FONT_PRIMARY).to_edge(UP, buff=1.0)
 
         # Counter nhỏ lại, bars xuất hiện
+        pct_sign.clear_updaters()
         self.play(
             counter_group.animate.scale(0.45).to_edge(UP, buff=0.55).set_color(TEXT_MUTED),
             FadeOut(glow), FadeOut(avg_caption),
