@@ -32,6 +32,8 @@ class AverageRiskScene(Scene):
         count_num = Integer(0, font_size=144, color=THEME_EMERALD)
         pct_sign = Text("%", font_size=90, color=THEME_EMERALD, font=FONT_PRIMARY, weight=BOLD
                         ).next_to(count_num, RIGHT, buff=0.12).shift(DOWN * 0.15)
+        # Add a dynamic updater to keep % next to the growing count_num
+        pct_sign.add_updater(lambda m: m.next_to(count_num, RIGHT, buff=0.12).shift(DOWN * 0.15))
         counter_group = VGroup(count_num, pct_sign).shift(UP * 0.25)
         glow = create_3b1b_glow(counter_group, color=THEME_EMERALD, n_layers=5, opacity=0.20)
         avg_caption = Text("Accuracy trung bình: model có vẻ rất tốt",
@@ -68,6 +70,7 @@ class AverageRiskScene(Scene):
                            color=TEXT_SECONDARY, font=FONT_PRIMARY).to_edge(UP, buff=1.0)
 
         # Counter nhỏ lại, bars xuất hiện
+        pct_sign.clear_updaters()
         self.play(
             counter_group.animate.scale(0.45).to_edge(UP, buff=0.55).set_color(TEXT_MUTED),
             FadeOut(glow), FadeOut(avg_caption),
@@ -77,6 +80,7 @@ class AverageRiskScene(Scene):
         self.play(
             LaggedStart(*[GrowFromEdge(b, DOWN) for b in bars], lag_ratio=0.25),
             run_time=1.8,
+            rate_func=smooth,
         )
         self.play(
             LaggedStart(*[FadeIn(l, shift=UP * 0.1) for l in labels], lag_ratio=0.2),
@@ -101,15 +105,20 @@ class AverageRiskScene(Scene):
             Indicate(avg_lbl, color=TEXT_PRIMARY, scale_factor=1.12),
             run_time=0.8,
         )
-        self.wait(4.7)
+        self.wait(2.5)
+        self.play(
+            ShowPassingFlash(bars[2].copy().set_stroke(THEME_RED_LIGHT, width=6), time_width=0.45),
+            run_time=0.7,
+        )
+        self.wait(1.5)
 
         # ── STAGE 3: Highlight nhóm tệ nhất ──────────────────────────────
         worst_bar = bars[2]
         worst_glow = create_3b1b_glow(worst_bar, color=THEME_RED, n_layers=4, opacity=0.30)
-        worst_brace = Brace(worst_bar, DOWN, color=THEME_RED, buff=0.05)
+        worst_brace = Brace(worst_bar, RIGHT, color=THEME_RED, buff=0.15)
         worst_txt = Text("Nhóm yếu nhất: 43%", font_size=SIZE_CAPTION,
                          color=THEME_RED, font=FONT_PRIMARY, weight=BOLD
-                         ).next_to(worst_brace, DOWN, buff=0.1)
+                         ).next_to(worst_brace, RIGHT, buff=0.15)
 
         self.play(
             worst_bar.animate.set_fill(THEME_RED, opacity=1.0).set_stroke(THEME_RED, width=3),
@@ -134,6 +143,8 @@ class AverageRiskScene(Scene):
             "Hiệu năng trung bình có thể che giấu lỗi cục bộ.",
             color=THEME_RED, font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.72)
-        self.play(Transform(context, insight), run_time=0.9)
-        self.wait(18.0)
+        self.play(FadeOut(context), FadeIn(insight, shift=UP * 0.2), run_time=0.9)
+        self.wait(8.0)
+        self.play(Circumscribe(insight, color=THEME_RED, time_width=0.5), run_time=0.8)
+        self.wait(9.2)
         fade_out_all(self)

@@ -91,9 +91,11 @@ class UncertaintySetScene(Scene):
 
         # Animate ρ tăng / giảm / về normal
         self.play(rho_tracker.animate.set_value(2.0), run_time=1.8, rate_func=smooth)
-        self.wait(3.5)
+        self.wait(2.7)
+        self.play(ShowPassingFlash(ball.copy().set_stroke(THEME_AMBER_LIGHT, width=6), time_width=0.45), run_time=0.8)
         self.play(rho_tracker.animate.set_value(0.55), run_time=1.8, rate_func=smooth)
-        self.wait(3.5)
+        self.wait(2.7)
+        self.play(ShowPassingFlash(ball.copy().set_stroke(THEME_RED_LIGHT, width=6), time_width=0.45), run_time=0.8)
         self.play(rho_tracker.animate.set_value(1.2), run_time=1.2, rate_func=smooth)
         self.wait(3.0)
 
@@ -133,8 +135,8 @@ class UncertaintySetScene(Scene):
             tip_length=0.16,
         )
 
-        self.play(rho_tracker.animate.set_value(0.4), Write(warn_small), run_time=1.5)
-        self.play(FadeIn(q_real_hint, scale=0.35), Write(q_real_hint_label), GrowArrow(outside_arrow), run_time=0.8)
+        self.play(rho_tracker.animate.set_value(0.4), Write(warn_small), run_time=1.5, rate_func=smooth)
+        self.play(FadeIn(q_real_hint, scale=0.35), Write(q_real_hint_label), GrowArrow(outside_arrow), run_time=0.8, rate_func=smooth)
         self.wait(4.2)
         self.play(
             rho_tracker.animate.set_value(2.45),
@@ -143,6 +145,7 @@ class UncertaintySetScene(Scene):
             FadeOut(q_real_hint_label),
             FadeOut(outside_arrow),
             run_time=1.5,
+            rate_func=smooth,
         )
         self.wait(5.0)
         self.play(rho_tracker.animate.set_value(1.2), FadeOut(warn_small), run_time=1.0)
@@ -154,5 +157,7 @@ class UncertaintySetScene(Scene):
             color=THEME_AMBER, font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.72)
         self.play(FadeIn(insight, shift=UP * 0.2), run_time=1.0)
-        self.wait(10.0)
+        self.wait(3.1)
+        self.play(Circumscribe(insight, color=THEME_AMBER, time_width=0.5), run_time=0.8)
+        self.wait(4.6)
         fade_out_all(self)

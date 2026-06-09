@@ -40,6 +40,10 @@ class ShiftTaxonomyScene(Scene):
             Arrow(root.get_bottom(), branch.get_top(), color=TEXT_MUTED, buff=0.15, stroke_width=2)
             for branch in branches
         ])
+        branch_sweeps = VGroup(*[
+            Line(branch.get_left() + DOWN * 0.62, branch.get_right() + DOWN * 0.62, color=branch[0].get_stroke_color(), stroke_width=3)
+            for branch in branches
+        ])
 
         caption = create_insight_box(
             "Cần robust với shift nào?",
@@ -47,11 +51,15 @@ class ShiftTaxonomyScene(Scene):
             font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.75)
 
-        self.play(FadeIn(root, shift=DOWN * 0.2), run_time=TIME_NORMAL)
+        self.play(FadeIn(root, shift=DOWN * 0.2), run_time=TIME_NORMAL, rate_func=smooth)
         self.wait(12.0)
-        self.play(LaggedStart(*[GrowArrow(arrow) for arrow in arrows], lag_ratio=0.15), run_time=TIME_NORMAL)
+        self.play(LaggedStart(*[GrowArrow(arrow) for arrow in arrows], lag_ratio=0.15), run_time=TIME_NORMAL, rate_func=smooth)
         self.wait(10.0)
-        self.play(LaggedStart(*[FadeIn(branch, shift=UP * 0.2) for branch in branches], lag_ratio=0.18), run_time=TIME_SLOW)
+        self.play(LaggedStart(*[FadeIn(branch, shift=UP * 0.2) for branch in branches], lag_ratio=0.18), run_time=TIME_SLOW, rate_func=smooth)
+        self.play(
+            LaggedStart(*[ShowPassingFlash(sweep, time_width=0.55) for sweep in branch_sweeps], lag_ratio=0.18),
+            run_time=1.4,
+        )
         self.play(
             LaggedStart(
                 Circumscribe(x_shift, color=THEME_BLUE, buff=0.08),
@@ -63,7 +71,7 @@ class ShiftTaxonomyScene(Scene):
         )
         self.play(Indicate(root, color=THEME_PURPLE), run_time=1.0)
         self.wait(18.0)
-        self.play(FadeIn(caption, shift=UP * 0.2), run_time=TIME_NORMAL)
-        self.wait(17.0)
+        self.play(FadeIn(caption, shift=UP * 0.2), run_time=TIME_NORMAL, rate_func=smooth)
+        self.wait(15.6)
 
         fade_out_all(self)

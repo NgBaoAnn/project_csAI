@@ -48,6 +48,12 @@ class YXShiftScene(Scene):
             color=THEME_AMBER,
             font=FONT_PRIMARY,
         ).next_to(formula, DOWN, buff=0.25)
+        mechanism_sweep = Line(
+            mechanism_note.get_left() + DOWN * 0.18,
+            mechanism_note.get_right() + DOWN * 0.18,
+            color=THEME_AMBER,
+            stroke_width=2.5,
+        )
 
         insight = create_insight_box(
             "Y|X-shift đổi ý nghĩa của dữ liệu.",
@@ -55,13 +61,14 @@ class YXShiftScene(Scene):
             font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.65)
 
-        self.play(Write(formula), FadeIn(mechanism_note, shift=DOWN * 0.1), run_time=TIME_NORMAL)
+        self.play(Write(formula), FadeIn(mechanism_note, shift=DOWN * 0.1), run_time=TIME_NORMAL, rate_func=smooth)
         self.wait(14.0)
-        self.play(FadeIn(source, shift=RIGHT * 0.15), run_time=TIME_NORMAL)
+        self.play(FadeIn(source, shift=RIGHT * 0.15), run_time=TIME_NORMAL, rate_func=smooth)
         self.wait(14.0)
-        self.play(FadeIn(target, shift=LEFT * 0.15), run_time=TIME_NORMAL)
+        self.play(TransformFromCopy(source[2], target[2]), FadeIn(target[0], shift=LEFT * 0.15), FadeIn(target[1], shift=LEFT * 0.15), FadeIn(target[3], shift=LEFT * 0.15), FadeIn(target[4], shift=LEFT * 0.15), run_time=TIME_NORMAL, rate_func=smooth)
         self.wait(18.0)
         self.play(
+            ShowPassingFlash(mechanism_sweep, time_width=0.55),
             source[3].animate.set_color(THEME_BLUE),
             Rotate(target[3], angle=-0.22, about_point=target[3].get_center()),
             target[3].animate.set_color(THEME_RED),

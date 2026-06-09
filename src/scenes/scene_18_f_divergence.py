@@ -63,7 +63,7 @@ class FDivergenceScene(Scene):
         pp_old   = Text("70%", font_size=SIZE_SMALL, color=THEME_BLUE,   font=FONT_PRIMARY, weight=BOLD).next_to(bp_old,   UP, buff=0.12)
         pp_young = Text("30%", font_size=SIZE_SMALL, color=THEME_EMERALD,font=FONT_PRIMARY, weight=BOLD).next_to(bp_young, UP, buff=0.12)
         train_title = Text("P_train", font_size=SIZE_CAPTION, color=TEXT_SECONDARY, font=FONT_PRIMARY
-                           ).next_to(VGroup(bp_old, bp_young), UP, buff=0.35)
+                           ).move_to(LEFT * 2.825 + UP * 2.2)
 
         # Q_target bars
         bq_old   = _bar(40, THEME_BLUE  ).shift(RIGHT * 1.5 ).align_to(DOWN * 1.5, DOWN)
@@ -73,7 +73,7 @@ class FDivergenceScene(Scene):
         pq_old   = Text("40%", font_size=SIZE_SMALL, color=THEME_BLUE,   font=FONT_PRIMARY, weight=BOLD).next_to(bq_old,   UP, buff=0.12)
         pq_young = Text("60%", font_size=SIZE_SMALL, color=THEME_EMERALD,font=FONT_PRIMARY, weight=BOLD).next_to(bq_young, UP, buff=0.12)
         target_title = Text("Q_target", font_size=SIZE_CAPTION, color=THEME_AMBER, font=FONT_PRIMARY
-                            ).next_to(VGroup(bq_old, bq_young), UP, buff=0.35)
+                            ).move_to(RIGHT * 2.125 + UP * 2.2)
 
         self.play(
             Write(train_title),
@@ -103,17 +103,22 @@ class FDivergenceScene(Scene):
             ),
             FadeIn(lq_old), FadeIn(lq_young), FadeIn(pq_old), FadeIn(pq_young),
             run_time=1.5,
+            rate_func=smooth,
         )
         self.wait(8.0)
 
-        # Density ratio labels
-        r_old   = MathTex(r"\frac{dQ}{dP} \approx 0.57", font_size=22, color=THEME_BLUE
-                          ).next_to(bq_old,   RIGHT, buff=0.14).shift(UP * 0.3)
-        r_young = MathTex(r"\frac{dQ}{dP} = 2.0",        font_size=22, color=THEME_EMERALD
-                          ).next_to(bq_young, RIGHT, buff=0.14).shift(UP * 0.3)
-        self.play(FadeIn(r_old, shift=LEFT * 0.15), FadeIn(r_young, shift=LEFT * 0.15), run_time=1.0)
+        r_old   = MathTex(r"\frac{dQ}{dP} \approx 0.57", font_size=20, color=THEME_BLUE
+                          ).next_to(pq_old, UP, buff=0.15)
+        r_young = MathTex(r"\frac{dQ}{dP} = 2.0",        font_size=20, color=THEME_EMERALD
+                          ).next_to(pq_young, UP, buff=0.15)
+        self.play(FadeIn(r_old, shift=LEFT * 0.15), FadeIn(r_young, shift=LEFT * 0.15), run_time=1.0, rate_func=smooth)
         self.play(Indicate(r_young, color=THEME_EMERALD, scale_factor=1.18), run_time=0.9)
-        self.wait(7.0)
+        self.wait(3.2)
+        self.play(
+            ShowPassingFlash(bq_young.copy().set_stroke(THEME_EMERALD, width=6), time_width=0.45),
+            run_time=0.8,
+        )
+        self.wait(3.0)
 
         # ── STAGE 3: Key property ─────────────────────────────────────────
         key_prop = Text(
@@ -128,6 +133,8 @@ class FDivergenceScene(Scene):
             "f-divergence mô phỏng shift bằng cách reweight dữ liệu đã có.",
             color=THEME_AMBER, font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.72)
-        self.play(Transform(key_prop, insight), run_time=0.9)
-        self.wait(21.0)
+        self.play(FadeOut(key_prop), FadeIn(insight, shift=UP * 0.2), run_time=0.9)
+        self.wait(8.8)
+        self.play(Circumscribe(insight, color=THEME_AMBER, time_width=0.5), run_time=0.8)
+        self.wait(10.4)
         fade_out_all(self)

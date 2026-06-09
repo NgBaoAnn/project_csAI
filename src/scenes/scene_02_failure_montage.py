@@ -60,20 +60,33 @@ class FailureMontageScene(Scene):
             self.make_card("Shortcut y tế", hospital, THEME_EMERALD),
             self.make_card("Phanh nhầm", car, THEME_PURPLE),
         ).arrange_in_grid(rows=2, cols=2, buff=0.45)
+        entry_shifts = [UP * 0.2, RIGHT * 0.2, LEFT * 0.2, DOWN * 0.2]
+        issue_marks = VGroup(*[
+            Text("!", font_size=SIZE_CAPTION, color=card[0].get_stroke_color(), font=FONT_PRIMARY, weight=BOLD)
+            .move_to(card[0].get_corner(UR) + LEFT * 0.22 + DOWN * 0.22)
+            for card in cards
+        ])
 
         question = Text(
             "Điều gì đã đổi?",
             font_size=SIZE_SECTION,
             color=THEME_AMBER,
             font=FONT_PRIMARY,
-        )
+        ).move_to(DOWN * 1.25)
         answer = create_insight_box(
             "Dữ liệu deployment không còn giống dữ liệu train",
             color=THEME_AMBER,
             font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.7)
 
-        self.play(LaggedStart(*[FadeIn(card, scale=0.92) for card in cards], lag_ratio=0.18), run_time=TIME_SLOW)
+        self.play(
+            LaggedStart(
+                *[FadeIn(card, shift=entry_shifts[index], scale=0.94) for index, card in enumerate(cards)],
+                lag_ratio=0.16,
+            ),
+            run_time=TIME_SLOW,
+            rate_func=smooth,
+        )
         self.play(
             LaggedStart(
                 *[Flash(card[2], color=card[0].get_stroke_color(), flash_radius=0.55) for card in cards],
@@ -82,15 +95,40 @@ class FailureMontageScene(Scene):
             run_time=2.0,
         )
         self.play(
-            LaggedStart(*[Indicate(card[0], color=card[0].get_stroke_color()) for card in cards], lag_ratio=0.18),
+            LaggedStart(
+                *[FadeIn(mark, scale=1.4) for mark in issue_marks],
+                lag_ratio=0.16,
+            ),
+            run_time=0.8,
+            rate_func=rush_from,
+        )
+        self.play(
+            LaggedStart(
+                *[
+                    AnimationGroup(
+                        Indicate(card[0], color=card[0].get_stroke_color(), scale_factor=1.02),
+                        mark.animate.scale(1.18),
+                    )
+                    for card, mark in zip(cards, issue_marks)
+                ],
+                lag_ratio=0.18,
+            ),
             run_time=2.0,
         )
         self.wait(12.0)
-        self.play(cards.animate.scale(0.78).to_edge(UP, buff=0.75), run_time=TIME_NORMAL)
+        compact_group = VGroup(cards, issue_marks)
+        self.play(compact_group.animate.scale(0.78).to_edge(UP, buff=0.75), run_time=TIME_NORMAL, rate_func=smooth)
         self.wait(12.0)
         self.play(Write(question), run_time=TIME_NORMAL)
-        self.wait(18.0)
-        self.play(FadeIn(answer, shift=UP * 0.2), run_time=TIME_NORMAL)
-        self.wait(15.0)
+        self.play(
+            LaggedStart(
+                *[ShowPassingFlash(card[0].copy().set_stroke(card[0].get_stroke_color(), width=5), time_width=0.5) for card in cards],
+                lag_ratio=0.12,
+            ),
+            run_time=1.6,
+        )
+        self.wait(16.0)
+        self.play(FadeIn(answer, shift=UP * 0.2), FadeOut(issue_marks), run_time=TIME_NORMAL)
+        self.wait(14.6)
 
         fade_out_all(self)
