@@ -21,9 +21,9 @@ if HOMEBREW_TEXLIVE.exists():
 # ============================================================
 
 # Background
-BG_DARK = "#000000"
-BG_DARKER = "#050505"
-BG_PANEL = "#0b0b0f"
+BG_DARK = "#0A0E17"       # Premium dark navy blue
+BG_DARKER = "#05070A"     # Deep navy blue
+BG_PANEL = "#111827"      # Slate navy
 
 # Primary 3B1B-like accents
 THEME_BLUE = "#58C4DD"
