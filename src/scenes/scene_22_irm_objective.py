@@ -10,6 +10,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 
 class IRMObjectiveScene(Scene):
@@ -66,7 +67,9 @@ class IRMObjectiveScene(Scene):
             FadeIn(subtitle_text, shift=UP * 0.1),
             run_time=1.8
         )
-        self.wait(1.5)
+        
+        # Audio seg 0 (Intro)
+        play_voiceover_and_wait(self, 22, 0)
         
         # Clean up
         self.play(
@@ -82,7 +85,10 @@ class IRMObjectiveScene(Scene):
         # Subtitle 1
         sub1 = create_bottom_caption("IRM học representation Phi(X) để cùng một classifier w dùng được ở mọi environment.")
         self.play(FadeIn(sub1))
-        self.wait(7.0)
+        
+        # Audio seg 1 & 2
+        play_voiceover_and_wait(self, 22, 1)
+        play_voiceover_and_wait(self, 22, 2)
         
         # 2. Draw Spaces
         # Left space: Raw Space X
@@ -111,7 +117,6 @@ class IRMObjectiveScene(Scene):
         self.play(FadeIn(axes_left), Write(raw_title))
         self.play(FadeIn(e1_points), Create(e1_boundary))
         self.play(FadeIn(e2_points), Create(e2_boundary))
-        self.wait(1.5)
         
         # Mismatch highlight: flash boundaries red to show discrepancy (+4.0s total)
         self.play(
@@ -119,13 +124,14 @@ class IRMObjectiveScene(Scene):
             e2_boundary.animate.set_color(THEME_RED),
             run_time=TIME_NORMAL
         )
-        self.wait(1.0)
         self.play(
             e1_boundary.animate.set_color(THEME_BLUE),
             e2_boundary.animate.set_color(THEME_AMBER),
             run_time=TIME_NORMAL
         )
-        self.wait(4.0)
+        
+        # Audio seg 3: Trong raw space X...
+        play_voiceover_and_wait(self, 22, 3)
         
         # Mapping Arrow
         mapping_arrow = Arrow(LEFT * 0.65, RIGHT * 0.65, color=THEME_PURPLE, stroke_width=4).shift(UP * 0.55)
@@ -162,12 +168,13 @@ class IRMObjectiveScene(Scene):
             run_time=3.0
         )
         self.play(Create(shared_boundary), Write(boundary_label))
-        self.wait(6.0)
+        
+        # Audio seg 4: Qua ánh xạ Phi...
+        play_voiceover_and_wait(self, 22, 4)
         
         # Subtitle 2
         sub2 = create_bottom_caption("Nếu w phải dùng được ở mọi nơi, representation không nên giữ feature chỉ hữu ích cục bộ.")
         self.play(Transform(sub1, sub2))
-        self.wait(5.0)
         
         # Clear some items to display formula
         self.play(
@@ -205,11 +212,15 @@ class IRMObjectiveScene(Scene):
         
         self.play(Write(term_erm[0]))
         self.play(FadeIn(term_erm[1], shift=UP * 0.1))
-        self.wait(7.5)
+        
+        # Audio seg 5: Hàm mục tiêu IRM gồm hai phần...
+        play_voiceover_and_wait(self, 22, 5)
         
         self.play(Write(term_inv[0]))
         self.play(FadeIn(term_inv[1], shift=UP * 0.1))
-        self.wait(8.5)
+        
+        # Audio seg 6: Phần hai hình phạt...
+        play_voiceover_and_wait(self, 22, 6)
         
         # Takeaway
         insight = create_insight_box(
@@ -219,11 +230,13 @@ class IRMObjectiveScene(Scene):
         ).to_edge(DOWN, buff=0.75)
         
         self.play(FadeOut(sub1), FadeIn(insight, shift=UP * 0.2), run_time=TIME_NORMAL)
-        self.wait(9.5)
+        
+        # Audio seg 7: IRM yêu cầu một classifier...
+        play_voiceover_and_wait(self, 22, 7)
         
         # Outro
         self.play(
             FadeOut(formula_group), FadeOut(insight),
             run_time=TIME_NORMAL
         )
-        self.wait(4.0)
+        self.wait(0.5)

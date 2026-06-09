@@ -1,0 +1,1 @@
+﻿Khi bật biến Age, ambiguity set thay đổi thành ellipse nằm ngang. Điều này có nghĩa: ta kỳ vọng shift chủ yếu xảy ra theo hướng Age, và ràng buộc robustness vào hướng đó.

@@ -10,6 +10,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 import numpy as np
 
 
@@ -26,7 +27,9 @@ class InvariantFeaturesScene(Scene):
         
         self.play(Create(frame), FadeIn(glow), run_time=1.0)
         self.play(Write(title_text), FadeIn(subtitle_text, shift=UP * 0.1), run_time=1.2)
-        self.wait(1.5)
+        
+        # Audio seg 0 (Intro)
+        play_voiceover_and_wait(self, 21, 0)
         self.play(FadeOut(intro_group), FadeOut(frame), FadeOut(glow), run_time=TIME_FAST)
         self.wait(1.0)
         
@@ -38,7 +41,9 @@ class InvariantFeaturesScene(Scene):
         # Subtitle 1
         sub1 = create_bottom_caption("Invariant learning bắt đầu từ ý tưởng: stable features nên hữu ích qua nhiều environments.")
         self.play(FadeIn(sub1))
-        self.wait(4.0)
+        
+        # Audio seg 1: Invariant learning...
+        play_voiceover_and_wait(self, 21, 1)
         
         # Create 3 Environment Panels
         envs = VGroup()
@@ -93,23 +98,29 @@ class InvariantFeaturesScene(Scene):
         fit_to_frame(all_envs, max_width=12.3, max_height=4.7)
         all_envs.move_to(UP * 0.38)
         
-        # Fade in environments slowly
+        # Show Env 1
         self.play(FadeIn(env1[0]), FadeIn(env1[2]), run_time=TIME_NORMAL)
         self.play(FadeIn(env1[1]), FadeIn(env1[3]), run_time=TIME_NORMAL)
-        self.wait(3.5)
+        # Audio seg 2: Env 1
+        play_voiceover_and_wait(self, 21, 2)
         
+        # Show Env 2
         self.play(FadeIn(env2[0]), FadeIn(env2[2]), run_time=TIME_NORMAL)
         self.play(FadeIn(env2[1]), FadeIn(env2[3]), run_time=TIME_NORMAL)
-        self.wait(3.5)
+        # Audio seg 3: Env 2
+        play_voiceover_and_wait(self, 21, 3)
         
+        # Show Env 3
         self.play(FadeIn(env3[0]), FadeIn(env3[2]), run_time=TIME_NORMAL)
         self.play(FadeIn(env3[1]), FadeIn(env3[3]), run_time=TIME_NORMAL)
-        self.wait(5.0)
+        # Audio seg 4: Env 3
+        play_voiceover_and_wait(self, 21, 4)
         
         # Subtitle 2
         sub2 = create_bottom_caption("Background có thể đổi theo môi trường: cỏ, cát, bờ biển, ánh sáng.")
         self.play(Transform(sub1, sub2))
-        self.wait(4.5)
+        # Audio seg 5: Background thay đổi...
+        play_voiceover_and_wait(self, 21, 5)
         
         # Indicate changing backgrounds (Spurious Features)
         cross1 = Cross(env1[1], stroke_color=THEME_RED, stroke_width=4).scale(0.8)
@@ -117,18 +128,19 @@ class InvariantFeaturesScene(Scene):
         cross3 = Cross(env3[1], stroke_color=THEME_RED, stroke_width=4).scale(0.8)
         
         spurious_label = Text("Spurious (Unstable) Features", font_size=SIZE_SMALL, color=THEME_RED, font=FONT_PRIMARY).next_to(all_envs, DOWN, buff=0.25)
-        
         self.play(
             Create(cross1), Create(cross2), Create(cross3),
             FadeIn(spurious_label, shift=UP * 0.1),
             run_time=TIME_NORMAL
         )
-        self.wait(7.0)
+        # Audio seg 6: Các dấu X đỏ...
+        play_voiceover_and_wait(self, 21, 6)
         
         # Subtitle 3
         sub3 = create_bottom_caption("Nhưng feature ổn định vẫn sống sót qua những thay đổi đó.")
         self.play(Transform(sub1, sub3))
-        self.wait(4.5)
+        # Audio seg 7: Nhưng hình dáng vật thể...
+        play_voiceover_and_wait(self, 21, 7)
         
         # Glow the shapes (Invariant Features)
         glow1 = create_3b1b_glow(env1[3][0], color=THEME_EMERALD, n_layers=4)
@@ -159,7 +171,6 @@ class InvariantFeaturesScene(Scene):
             env3[3].animate.scale(1/1.1),
             run_time=1.0
         )
-        self.wait(7.5)
         
         # Takeaway
         insight = create_insight_box(
@@ -174,7 +185,9 @@ class InvariantFeaturesScene(Scene):
             FadeIn(insight, shift=UP * 0.2),
             run_time=TIME_NORMAL
         )
-        self.wait(9.5)
+        # Audio seg 8: Stable feature tồn tại...
+        play_voiceover_and_wait(self, 21, 8)
+        self.wait(1.5)
         
         # Outro
         self.play(
@@ -183,4 +196,4 @@ class InvariantFeaturesScene(Scene):
             FadeOut(cross1), FadeOut(cross2), FadeOut(cross3),
             run_time=TIME_NORMAL
         )
-        self.wait(2.5)
+        self.wait(0.5)
