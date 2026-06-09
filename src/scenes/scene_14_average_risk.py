@@ -109,10 +109,10 @@ class AverageRiskScene(Scene):
         # ── STAGE 3: Highlight nhóm tệ nhất ──────────────────────────────
         worst_bar = bars[2]
         worst_glow = create_3b1b_glow(worst_bar, color=THEME_RED, n_layers=4, opacity=0.30)
-        worst_brace = Brace(worst_bar, DOWN, color=THEME_RED, buff=0.05)
+        worst_brace = Brace(worst_bar, RIGHT, color=THEME_RED, buff=0.15)
         worst_txt = Text("Nhóm yếu nhất: 43%", font_size=SIZE_CAPTION,
                          color=THEME_RED, font=FONT_PRIMARY, weight=BOLD
-                         ).next_to(worst_brace, DOWN, buff=0.1)
+                         ).next_to(worst_brace, RIGHT, buff=0.15)
 
         self.play(
             worst_bar.animate.set_fill(THEME_RED, opacity=1.0).set_stroke(THEME_RED, width=3),
