@@ -27,8 +27,8 @@ class XShiftScene(Scene):
 
         p_curve = axes.plot(lambda x: 0.95 * (2.718 ** (-(x + 1.2) ** 2 / 1.1)), color=THEME_BLUE, stroke_width=4)
         q_curve = axes.plot(lambda x: 0.95 * (2.718 ** (-(x - 1.15) ** 2 / 1.1)), color=THEME_AMBER, stroke_width=4)
-        p_label = MathTex(r"P(X)", font_size=SIZE_CAPTION, color=THEME_BLUE).next_to(p_curve, UP, buff=0.15)
-        q_label = MathTex(r"Q(X)", font_size=SIZE_CAPTION, color=THEME_AMBER).next_to(q_curve, UP, buff=0.15)
+        p_label = MathTex(r"P(X)", font_size=SIZE_CAPTION, color=THEME_BLUE).next_to(axes.c2p(-1.2, 0.95), UP, buff=0.15)
+        q_label = MathTex(r"Q(X)", font_size=SIZE_CAPTION, color=THEME_AMBER).next_to(axes.c2p(1.15, 0.95), UP, buff=0.15)
 
         boundary = Line(UP * 1.8, DOWN * 1.8, color=THEME_EMERALD, stroke_width=4).shift(RIGHT * 0.25)
         boundary_label = Text(
@@ -36,7 +36,7 @@ class XShiftScene(Scene):
             font_size=SIZE_CAPTION,
             color=THEME_EMERALD,
             font=FONT_PRIMARY,
-        ).next_to(boundary, RIGHT, buff=0.25)
+        ).next_to(boundary.get_top(), RIGHT, buff=0.25)
 
         formula = MathTex(r"P(X)", r"\neq", r"Q(X)", font_size=SIZE_FORMULA, color=TEXT_PRIMARY).to_edge(UP, buff=0.5)
         formula[0].set_color(THEME_BLUE)
