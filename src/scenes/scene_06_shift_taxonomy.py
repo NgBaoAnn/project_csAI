@@ -31,9 +31,9 @@ class ShiftTaxonomyScene(Scene):
 
         root = create_insight_box("Distribution Shift", color=THEME_PURPLE, font_size=SIZE_BODY).to_edge(UP, buff=0.8)
 
-        x_shift = self.branch("X-shift", "P(X) changes", THEME_BLUE)
-        label_shift = self.branch("Label shift", "P(Y) changes", THEME_AMBER)
-        yx_shift = self.branch("Y|X-shift", "P(Y|X) changes", THEME_RED)
+        x_shift = self.branch("X-shift", "P(X) đổi", THEME_BLUE)
+        label_shift = self.branch("Label shift", "P(Y) đổi", THEME_AMBER)
+        yx_shift = self.branch("Y|X-shift", "P(Y|X) đổi", THEME_RED)
         branches = VGroup(x_shift, label_shift, yx_shift).arrange(RIGHT, buff=0.45).shift(DOWN * 0.35)
 
         arrows = VGroup(*[
@@ -42,7 +42,7 @@ class ShiftTaxonomyScene(Scene):
         ])
 
         caption = create_insight_box(
-            "Robust to what shift?",
+            "Cần robust với shift nào?",
             color=THEME_AMBER,
             font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.75)

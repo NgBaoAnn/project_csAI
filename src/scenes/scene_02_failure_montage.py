@@ -28,7 +28,7 @@ class FailureMontageScene(Scene):
 
     def construct(self):
         setup_dark_scene(self)
-        animate_title_card(self, "Failure Montage", "Những lỗi khác nhau, cùng một dấu hiệu")
+        animate_title_card(self, "Montage lỗi", "Những lỗi khác nhau, cùng một dấu hiệu")
 
         robot = VGroup(
             Circle(radius=0.26, color=THEME_BLUE, fill_opacity=0.35),
@@ -55,20 +55,20 @@ class FailureMontageScene(Scene):
         )
 
         cards = VGroup(
-            self.make_card("Vacuum stuck", robot, THEME_BLUE),
-            self.make_card("Wrong tracking", camera, THEME_AMBER),
-            self.make_card("Medical shortcut", hospital, THEME_EMERALD),
-            self.make_card("False braking", car, THEME_PURPLE),
+            self.make_card("Robot mắc kẹt", robot, THEME_BLUE),
+            self.make_card("Tracking sai", camera, THEME_AMBER),
+            self.make_card("Shortcut y tế", hospital, THEME_EMERALD),
+            self.make_card("Phanh nhầm", car, THEME_PURPLE),
         ).arrange_in_grid(rows=2, cols=2, buff=0.45)
 
         question = Text(
-            "What changed?",
+            "Điều gì đã đổi?",
             font_size=SIZE_SECTION,
             color=THEME_AMBER,
             font=FONT_PRIMARY,
         )
         answer = create_insight_box(
-            "Deployment data no longer matches training data",
+            "Dữ liệu deployment không còn giống dữ liệu train",
             color=THEME_AMBER,
             font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.7)

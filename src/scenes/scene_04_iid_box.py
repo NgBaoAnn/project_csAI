@@ -14,7 +14,7 @@ TARGET_DURATION_SECONDS = 80
 class IIDBoxScene(Scene):
     def construct(self):
         setup_dark_scene(self)
-        animate_title_card(self, "i.i.d. Assumption", "Một chiếc hộp sinh train và test")
+        animate_title_card(self, "Giả định i.i.d.", "Một chiếc hộp sinh train và test")
 
         box = RoundedRectangle(
             width=2.6,
@@ -53,7 +53,7 @@ class IIDBoxScene(Scene):
         formula[0].set_color(THEME_BLUE)
         formula[2].set_color(THEME_EMERALD)
         iid_tag = create_insight_box(
-            "i.i.d. = same data-generating distribution",
+            "i.i.d. = cùng một phân phối sinh dữ liệu",
             color=THEME_PURPLE,
             font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.45)

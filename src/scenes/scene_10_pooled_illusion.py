@@ -21,7 +21,7 @@ class PooledIllusionScene(Scene):
 
     def construct(self):
         setup_dark_scene(self)
-        animate_title_card(self, "Pooled Dataset Illusion", "Một màu xám che giấu nhiều environments")
+        animate_title_card(self, "Ảo giác dataset gộp", "Một màu xám che giấu nhiều environments")
 
         gray_centers = [(-2.0, 0.35), (-1.35, -0.25), (-0.75, 0.25), (-0.15, -0.3), (0.45, 0.28), (1.05, -0.15), (1.65, 0.3)]
         pooled_points = VGroup(*[
@@ -29,7 +29,7 @@ class PooledIllusionScene(Scene):
             for x, y in gray_centers
             for _ in range(2)
         ])
-        pooled_title = Text("pooled dataset", font_size=SIZE_SECTION, color=TEXT_PRIMARY, font=FONT_PRIMARY).to_edge(UP, buff=0.7)
+        pooled_title = Text("dataset gộp", font_size=SIZE_SECTION, color=TEXT_PRIMARY, font=FONT_PRIMARY).to_edge(UP, buff=0.7)
         pooled_note = Text("mọi sample nhìn như cùng một khối", font_size=SIZE_CAPTION, color=TEXT_SECONDARY, font=FONT_PRIMARY).next_to(pooled_title, DOWN)
 
         lens = Circle(radius=1.25, color=THEME_AMBER, stroke_width=4).shift(RIGHT * 0.2 + DOWN * 0.05)
@@ -42,13 +42,13 @@ class PooledIllusionScene(Scene):
         cluster_c = self.cluster((2.2, -0.25), THEME_PURPLE)
         colored_clusters = VGroup(cluster_a, cluster_b, cluster_c)
         labels = VGroup(
-            Text("Hospital A", font_size=SIZE_CAPTION, color=THEME_BLUE, font=FONT_PRIMARY).next_to(cluster_a, DOWN),
-            Text("Hospital B", font_size=SIZE_CAPTION, color=THEME_EMERALD, font=FONT_PRIMARY).next_to(cluster_b, DOWN),
-            Text("Hospital C", font_size=SIZE_CAPTION, color=THEME_PURPLE, font=FONT_PRIMARY).next_to(cluster_c, DOWN),
+            Text("Bệnh viện A", font_size=SIZE_CAPTION, color=THEME_BLUE, font=FONT_PRIMARY).next_to(cluster_a, DOWN),
+            Text("Bệnh viện B", font_size=SIZE_CAPTION, color=THEME_EMERALD, font=FONT_PRIMARY).next_to(cluster_b, DOWN),
+            Text("Bệnh viện C", font_size=SIZE_CAPTION, color=THEME_PURPLE, font=FONT_PRIMARY).next_to(cluster_c, DOWN),
         )
 
         insight = create_insight_box(
-            "colored clusters reveal hidden environments",
+            "Các cụm màu làm lộ environment ẩn.",
             color=THEME_AMBER,
             font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.65)

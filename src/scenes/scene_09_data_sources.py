@@ -26,13 +26,13 @@ class DataSourcesScene(Scene):
 
     def construct(self):
         setup_dark_scene(self)
-        animate_title_card(self, "Multiple Sources", "Training data là một mixture")
+        animate_title_card(self, "Nhiều nguồn dữ liệu", "Training data là một mixture")
 
         sources = VGroup(
-            self.source_box("Source A", THEME_BLUE),
-            self.source_box("Source B", THEME_AMBER),
-            self.source_box("Source C", THEME_EMERALD),
-            self.source_box("Source D", THEME_PURPLE),
+            self.source_box("Nguồn A", THEME_BLUE),
+            self.source_box("Nguồn B", THEME_AMBER),
+            self.source_box("Nguồn C", THEME_EMERALD),
+            self.source_box("Nguồn D", THEME_PURPLE),
         ).arrange(DOWN, buff=0.28).to_edge(LEFT, buff=0.9)
 
         training = RoundedRectangle(
@@ -43,8 +43,8 @@ class DataSourcesScene(Scene):
             fill_color=BG_DARK,
             fill_opacity=0.0,
         ).shift(RIGHT * 2.2)
-        training_label = Text("Training data", font_size=SIZE_BODY, color=TEXT_PRIMARY, font=FONT_PRIMARY).move_to(training.get_top() + DOWN * 0.5)
-        mixture_label = Text("mixture", font_size=SIZE_CAPTION, color=THEME_AMBER, font=FONT_PRIMARY).move_to(training.get_bottom() + UP * 0.45)
+        training_label = Text("Dữ liệu train", font_size=SIZE_BODY, color=TEXT_PRIMARY, font=FONT_PRIMARY).move_to(training.get_top() + DOWN * 0.5)
+        mixture_label = Text("hỗn hợp", font_size=SIZE_CAPTION, color=THEME_AMBER, font=FONT_PRIMARY).move_to(training.get_bottom() + UP * 0.45)
 
         dots = VGroup()
         colors = [THEME_BLUE, THEME_AMBER, THEME_EMERALD, THEME_PURPLE]
@@ -70,7 +70,7 @@ class DataSourcesScene(Scene):
         ]
 
         insight = create_insight_box(
-            "A dataset is often a mixture of data-generating sources",
+            "Dataset thường là hỗn hợp nhiều nguồn sinh dữ liệu.",
             color=THEME_EMERALD,
             font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.7)

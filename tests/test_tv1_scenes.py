@@ -27,45 +27,45 @@ TV1_SCENES = {
             "Nếu 99.1% là đúng",
             r"P_{\mathrm{train}}",
             r"P_{\mathrm{deploy}}",
-            "High test accuracy",
-            "deployment reliability",
+            "Test accuracy cao",
+            "đáng tin ngoài đời",
         ],
     },
     "scene_02_failure_montage.py": {
         "class": "FailureMontageScene",
-        "tokens": ["robot", "camera", "hospital", "car", "What changed?"],
+        "tokens": ["robot", "camera", "hospital", "car", "Điều gì đã đổi?"],
     },
     "scene_03_model_or_data.py": {
         "class": "ModelOrDataScene",
-        "tokens": ["Model problem?", "Data problem?", "sources", "subpopulations", "mechanisms", "shifts"],
+        "tokens": ["Lỗi model?", "Lỗi dữ liệu?", "nguồn dữ liệu", "nhóm ẩn", "cơ chế", "shifts"],
     },
     "scene_04_iid_box.py": {
         "class": "IIDBoxScene",
-        "tokens": ["MathTex(", "P(X,Y)", r"P_{\mathrm{train}}", r"P_{\mathrm{test}}", "i.i.d.", "same data-generating distribution"],
+        "tokens": ["MathTex(", "P(X,Y)", r"P_{\mathrm{train}}", r"P_{\mathrm{test}}", "i.i.d.", "cùng một phân phối sinh dữ liệu"],
     },
     "scene_05_train_test_split.py": {
         "class": "TrainTestSplitScene",
-        "tokens": ["MathTex(", r"P_{\mathrm{train}}", r"P_{\mathrm{target}}", "96.4", "69.2", "Distribution shift begins"],
+        "tokens": ["MathTex(", r"P_{\mathrm{train}}", r"P_{\mathrm{target}}", "96.4", "69.2", "Distribution shift bắt đầu"],
     },
     "scene_06_shift_taxonomy.py": {
         "class": "ShiftTaxonomyScene",
-        "tokens": ["X-shift", "Label shift", "Y|X-shift", "Distribution Shift", "Robust to what shift?"],
+        "tokens": ["X-shift", "Label shift", "Y|X-shift", "Distribution Shift", "Cần robust với shift nào?"],
     },
     "scene_07_x_shift.py": {
         "class": "XShiftScene",
-        "tokens": ["MathTex(", "P(X)", "Q(X)", "decision rule", "X-shift changes where data appears"],
+        "tokens": ["MathTex(", "P(X)", "Q(X)", "rule dự đoán", "X-shift đổi nơi dữ liệu xuất hiện"],
     },
     "scene_08_yx_shift.py": {
         "class": "YXShiftScene",
-        "tokens": ["MathTex(", "P(Y|X)", "mechanism", "decision boundary", "Y|X-shift changes what the data means"],
+        "tokens": ["MathTex(", "P(Y|X)", "Cơ chế source", "ranh giới dự đoán", "Y|X-shift đổi ý nghĩa"],
     },
     "scene_09_data_sources.py": {
         "class": "DataSourcesScene",
-        "tokens": ["Source A", "Source B", "Source C", "Source D", "mixture"],
+        "tokens": ["Nguồn A", "Nguồn B", "Nguồn C", "Nguồn D", "hỗn hợp"],
     },
     "scene_10_pooled_illusion.py": {
         "class": "PooledIllusionScene",
-        "tokens": ["pooled dataset", "colored clusters", "Hospital A", "Hospital B", "Hospital C"],
+        "tokens": ["dataset gộp", "Các cụm màu", "Bệnh viện A", "Bệnh viện B", "Bệnh viện C"],
     },
 }
 

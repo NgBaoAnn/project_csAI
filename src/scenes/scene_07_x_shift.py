@@ -32,7 +32,7 @@ class XShiftScene(Scene):
 
         boundary = Line(UP * 1.8, DOWN * 1.8, color=THEME_EMERALD, stroke_width=4).shift(RIGHT * 0.25)
         boundary_label = Text(
-            "same decision rule",
+            "cùng rule dự đoán",
             font_size=SIZE_CAPTION,
             color=THEME_EMERALD,
             font=FONT_PRIMARY,
@@ -43,7 +43,7 @@ class XShiftScene(Scene):
         formula[2].set_color(THEME_AMBER)
 
         insight = create_insight_box(
-            "X-shift changes where data appears",
+            "X-shift đổi nơi dữ liệu xuất hiện.",
             color=THEME_BLUE,
             font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.8)

@@ -49,7 +49,7 @@ class AccuracyFailScene(Scene):
         lab_mark = VGroup(
             Line(LEFT * 1.0, RIGHT * 1.0, color=THEME_EMERALD, stroke_width=3),
             Text(
-                "LAB RESULT",
+                "KẾT QUẢ LAB",
                 font_size=SIZE_SMALL,
                 color=THEME_EMERALD,
                 font=FONT_PRIMARY,
@@ -206,7 +206,7 @@ class AccuracyFailScene(Scene):
         target_mark = VGroup(
             Line(LEFT * 1.35, RIGHT * 1.35, color=THEME_RED, stroke_width=3),
             Text(
-                "DEPLOYMENT RISK",
+                "RỦI RO DEPLOYMENT",
                 font_size=SIZE_SMALL,
                 color=THEME_RED,
                 font=FONT_PRIMARY,
@@ -215,7 +215,7 @@ class AccuracyFailScene(Scene):
         ).arrange(DOWN, buff=0.12).next_to(final_title, DOWN, buff=0.75)
 
         warning = create_insight_box(
-            "High test accuracy is not deployment reliability",
+            "Test accuracy cao chưa chắc đáng tin ngoài đời",
             color=THEME_RED,
             font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.82)

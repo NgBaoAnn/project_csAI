@@ -22,15 +22,15 @@ class YXShiftScene(Scene):
             dot_color = THEME_BLUE if i < 3 else THEME_RED
             points.add(Dot(frame.get_center() + RIGHT * x + UP * y, color=dot_color, radius=0.065))
         boundary = Line(LEFT * 1.9, RIGHT * 1.9, color=color, stroke_width=4).rotate(boundary_angle).move_to(frame.get_center())
-        boundary_label = Text("decision boundary", font_size=18, color=TEXT_SECONDARY, font=FONT_PRIMARY).next_to(boundary, DOWN, buff=0.15)
+        boundary_label = Text("ranh giới dự đoán", font_size=18, color=TEXT_SECONDARY, font=FONT_PRIMARY).next_to(boundary, DOWN, buff=0.15)
         return VGroup(frame, heading, points, boundary, boundary_label)
 
     def construct(self):
         setup_dark_scene(self)
         animate_title_card(self, "Y|X-shift", "Cơ chế dự đoán thay đổi")
 
-        source = self.make_panel("Source mechanism", LEFT * 2.85 + DOWN * 0.1, 0.35, THEME_BLUE)
-        target = self.make_panel("Target mechanism", RIGHT * 2.85 + DOWN * 0.1, -0.45, THEME_AMBER)
+        source = self.make_panel("Cơ chế source", LEFT * 2.85 + DOWN * 0.1, 0.35, THEME_BLUE)
+        target = self.make_panel("Cơ chế target", RIGHT * 2.85 + DOWN * 0.1, -0.45, THEME_AMBER)
 
         formula = MathTex(
             r"P_{\mathrm{source}}(Y|X)",
@@ -43,14 +43,14 @@ class YXShiftScene(Scene):
         formula[2].set_color(THEME_AMBER)
 
         mechanism_note = Text(
-            "Same-looking X, different mechanism P(Y|X)",
+            "X nhìn giống nhau, nhưng P(Y|X) khác",
             font_size=SIZE_CAPTION,
             color=THEME_AMBER,
             font=FONT_PRIMARY,
         ).next_to(formula, DOWN, buff=0.25)
 
         insight = create_insight_box(
-            "Y|X-shift changes what the data means",
+            "Y|X-shift đổi ý nghĩa của dữ liệu.",
             color=THEME_RED,
             font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.65)
