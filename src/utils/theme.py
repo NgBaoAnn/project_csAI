@@ -58,7 +58,7 @@ ENV_NAMES = ["Environment 1", "Environment 2", "Environment 3"]
 # FONTS
 # ============================================================
 
-FONT_PRIMARY = "STIX Two Text"
+FONT_PRIMARY = "Segoe UI"
 FONT_CODE = "Menlo"
 
 # ============================================================
