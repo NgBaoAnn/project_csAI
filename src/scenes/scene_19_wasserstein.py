@@ -23,18 +23,18 @@ class WassersteinScene(Scene):
                              font_size=SIZE_BODY, color=TEXT_PRIMARY, font=FONT_PRIMARY, weight=MEDIUM
                              ).to_edge(UP, buff=0.72)
 
-        fd_box = RoundedRectangle(width=3.0, height=1.3, corner_radius=0.1,
+        fd_box = RoundedRectangle(width=3.6, height=1.6, corner_radius=0.1,
                                   stroke_color=THEME_BLUE, fill_color=THEME_BLUE, fill_opacity=0.08,
                                   stroke_width=2.0).shift(LEFT * 3.2 + UP * 0.5)
         fd_text = Text('"Trọng số khác\nbao nhiêu?"',
-                       font_size=SIZE_CAPTION, color=THEME_BLUE, font=FONT_PRIMARY, line_spacing=1.1
+                       font_size=SIZE_SMALL, color=THEME_BLUE, font=FONT_PRIMARY, line_spacing=1.1
                        ).move_to(fd_box)
         vs_text = Text("so với", font_size=SIZE_BODY, color=TEXT_MUTED, font=FONT_PRIMARY).shift(UP * 0.5)
-        wass_box = RoundedRectangle(width=3.0, height=1.3, corner_radius=0.1,
+        wass_box = RoundedRectangle(width=3.6, height=1.6, corner_radius=0.1,
                                     stroke_color=THEME_AMBER, fill_color=THEME_AMBER, fill_opacity=0.08,
                                     stroke_width=2.0).shift(RIGHT * 3.2 + UP * 0.5)
-        wass_text = Text('"Khối lượng phải\ndi chuyển xa bao nhiêu?"',
-                         font_size=SIZE_CAPTION, color=THEME_AMBER, font=FONT_PRIMARY, line_spacing=1.1
+        wass_text = Text('"Khối lượng phải\ndi chuyển xa\nbao nhiêu?"',
+                         font_size=SIZE_SMALL, color=THEME_AMBER, font=FONT_PRIMARY, line_spacing=1.1
                          ).move_to(wass_box)
 
         self.play(Write(compare_title), run_time=0.8)
@@ -54,9 +54,9 @@ class WassersteinScene(Scene):
             x_range=[0, 7, 1], y_range=[-0.5, 3.5, 1],
             x_length=7.5, y_length=3.8, tips=False,
             axis_config={"color": GRID_COLOR, "stroke_width": 1.2},
-        ).shift(DOWN * 0.3)
+        ).shift(UP * 0.1)
         x_lbl = Text("không gian feature", font_size=SIZE_SMALL, color=TEXT_MUTED, font=FONT_PRIMARY
-                     ).next_to(axes, DOWN, buff=0.2)
+                     ).next_to(axes, DOWN, buff=0.15).align_to(axes, RIGHT).shift(LEFT * 0.2)
         self.play(Create(axes), FadeIn(x_lbl), run_time=0.9)
 
         np.random.seed(7)
@@ -98,7 +98,7 @@ class WassersteinScene(Scene):
 
         transport_lbl = Text("Chi phí vận chuyển khối lượng P → Q",
                              font_size=SIZE_CAPTION, color=THEME_PURPLE, font=FONT_PRIMARY
-                             ).to_edge(DOWN, buff=1.6)
+                             ).to_edge(DOWN, buff=1.2)
         self.play(Write(transport_lbl), run_time=0.7)
         self.play(
             LaggedStart(*[GrowArrow(a) for a in transport_arrows], lag_ratio=0.18),
@@ -158,7 +158,7 @@ class WassersteinScene(Scene):
         insight = create_insight_box(
             "Wasserstein nhìn geometry qua chi phí vận chuyển.",
             color=THEME_AMBER, font_size=SIZE_CAPTION,
-        ).to_edge(DOWN, buff=0.72)
+        ).to_edge(DOWN, buff=0.35)
         self.play(FadeOut(transport_lbl), FadeIn(insight, shift=UP * 0.2), run_time=1.0)
         self.wait(24.0)
         fade_out_all(self)
