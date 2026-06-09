@@ -49,7 +49,12 @@ class ERMFormulaScene(Scene):
         self.wait(7.0)
 
         # ── STAGE 3: Minh hoạ 6 mẫu — bars tăng dần ─────────────────────
-        self.play(FadeOut(avg_box), FadeOut(avg_caption), run_time=0.5)
+        self.play(
+            FadeOut(avg_box),
+            FadeOut(avg_caption),
+            formula.animate.scale(0.85).to_edge(UP, buff=0.6),
+            run_time=1.0,
+        )
         self.wait(3.0)
 
         losses = [0.82, 0.34, 1.10, 0.55, 0.70, 0.90]
