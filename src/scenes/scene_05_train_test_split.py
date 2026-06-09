@@ -77,19 +77,39 @@ class TrainTestSplitScene(Scene):
         ).to_edge(DOWN, buff=0.65)
         test_path = Line(test_cloud.get_center(), test_cloud.get_center() + RIGHT * 2.35 + DOWN * 0.35)
         test_label_path = Line(test_label.get_center(), test_label.get_center() + RIGHT * 2.35 + DOWN * 0.35)
+        shift_trail = DashedLine(
+            test_cloud.get_center(),
+            test_path.get_end(),
+            color=THEME_AMBER,
+            stroke_width=2,
+            dash_length=0.12,
+            stroke_opacity=0.55,
+        )
 
         self.play(Create(axes), Write(iid_formula), run_time=TIME_NORMAL)
         self.wait(9.0)
-        self.play(FadeIn(train_cloud), FadeIn(test_cloud), FadeIn(train_label), FadeIn(test_label), run_time=TIME_NORMAL)
+        self.play(
+            LaggedStart(
+                FadeIn(train_cloud, scale=0.95),
+                FadeIn(test_cloud, scale=0.95),
+                FadeIn(train_label, shift=DOWN * 0.1),
+                FadeIn(test_label, shift=UP * 0.1),
+                lag_ratio=0.18,
+            ),
+            run_time=TIME_NORMAL,
+            rate_func=smooth,
+        )
         self.wait(13.0)
         self.play(FadeIn(acc_group, shift=LEFT * 0.2), run_time=TIME_NORMAL)
         self.wait(13.0)
         self.play(
+            Create(shift_trail),
             MoveAlongPath(test_cloud, test_path),
             MoveAlongPath(test_label, test_label_path),
             Transform(iid_formula, shift_formula),
             Transform(accuracy, shifted_accuracy),
             run_time=TIME_SLOW,
+            rate_func=smooth,
         )
         self.play(
             test_cloud.animate.set_color(THEME_AMBER),
@@ -98,7 +118,7 @@ class TrainTestSplitScene(Scene):
             run_time=1.0,
         )
         self.wait(17.0)
-        self.play(FadeIn(insight, shift=UP * 0.2), run_time=TIME_NORMAL)
+        self.play(FadeIn(insight, shift=UP * 0.2), FadeOut(shift_trail), run_time=TIME_NORMAL)
         self.wait(12.0)
 
         fade_out_all(self)
