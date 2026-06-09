@@ -76,7 +76,15 @@ class SpuriousCowCamelScene(Scene):
             Write(bg_note), Create(bg_underline),
             run_time=1.4,
         )
-        self.wait(8.0)
+        self.play(
+            LaggedStart(
+                ShowPassingFlash(box_cow.copy().set_stroke(THEME_RED_LIGHT, width=6), time_width=0.45),
+                ShowPassingFlash(box_camel.copy().set_stroke(THEME_RED_LIGHT, width=6), time_width=0.45),
+                lag_ratio=0.2,
+            ),
+            run_time=1.0,
+        )
+        self.wait(7.0)
 
         # ── STAGE 3: Highlight shape (causal) ────────────────────────────
         self.play(
@@ -115,8 +123,10 @@ class SpuriousCowCamelScene(Scene):
             run_time=1.2,
         )
         # Background đổi màu sang vàng (bãi biển)
-        self.play(cow_bg.animate.set_fill(THEME_AMBER, opacity=0.35), run_time=0.8)
-        self.wait(5.5)
+        env_wipe = SurroundingRectangle(cow_bg, color=THEME_AMBER, buff=0.04, corner_radius=0.06, stroke_width=2.5)
+        self.play(cow_bg.animate.set_fill(THEME_AMBER, opacity=0.35), Create(env_wipe), run_time=0.8, rate_func=smooth)
+        self.play(FadeOut(env_wipe), run_time=0.4)
+        self.wait(5.1)
 
         # ── STAGE 5: Dự đoán sai ─────────────────────────────────────────
         wrong_pred = Text(
@@ -139,7 +149,9 @@ class SpuriousCowCamelScene(Scene):
         self.play(FadeIn(bg_signal, scale=0.4), run_time=0.3)
         self.play(MoveAlongPath(bg_signal, bg_path), run_time=0.9, rate_func=smooth)
         self.play(FadeOut(bg_signal), run_time=0.3)
-        self.wait(6.0)
+        self.wait(2.8)
+        self.play(ShowPassingFlash(bg_path.copy().set_stroke(THEME_RED_LIGHT, width=6), time_width=0.45), run_time=0.8)
+        self.wait(2.4)
 
         explain = Text(
             "Background đổi → model fail.\nShape chưa được học như tín hiệu ổn định.",
@@ -154,5 +166,7 @@ class SpuriousCowCamelScene(Scene):
             color=THEME_RED, font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.72)
         self.play(FadeOut(explain), FadeIn(insight, shift=UP * 0.2), run_time=1.0)
-        self.wait(20.0)
+        self.wait(9.0)
+        self.play(Circumscribe(insight, color=THEME_RED, time_width=0.5), run_time=0.8)
+        self.wait(9.1)
         fade_out_all(self)
