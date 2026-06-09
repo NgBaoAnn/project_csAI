@@ -65,6 +65,10 @@ class HiddenSubpopulationsScene(Scene):
         self.play(Create(avg_line), Write(avg_label), run_time=1.2)
         self.play(avg_line.animate.set_stroke(color=THEME_RED, opacity=0.65),
                   Write(bad_note), run_time=1.0)
+        self.play(
+            ShowPassingFlash(avg_line.copy().set_stroke(THEME_RED_LIGHT, width=7), time_width=0.45),
+            run_time=0.7,
+        )
         residual_points = [
             (xa[2], ya[2]), (xa[8], ya[8]), (xa[14], ya[14]),
             (xb[3], yb[3]), (xb[9], yb[9]), (xb[15], yb[15]),
@@ -84,7 +88,7 @@ class HiddenSubpopulationsScene(Scene):
             run_time=1.1,
         )
         self.play(Flash(residuals, color=THEME_RED_LIGHT, flash_radius=0.18, line_length=0.08), run_time=0.5)
-        self.wait(7.4)
+        self.wait(6.7)
 
         # ── STAGE 3: Color reveal ─────────────────────────────────────────
         col_a = VGroup(*[Dot(axes.c2p(xa[i], ya[i]), radius=0.075, color=THEME_BLUE)
@@ -134,14 +138,23 @@ class HiddenSubpopulationsScene(Scene):
                            color=THEME_BLUE, stroke_width=4.0)
         line_b = axes.plot(lambda x: -0.9 * x + 0.5, x_range=[-0.2, 2.5],
                            color=THEME_AMBER, stroke_width=4.0)
-        self.play(Create(line_a), Create(line_b), run_time=1.2)
+        self.play(Create(line_a), Create(line_b), run_time=1.2, rate_func=smooth)
         # Signature effect: ShowPassingFlash trên hai đường
         self.play(
             ShowPassingFlash(line_a.copy().set_stroke(THEME_BLUE_LIGHT, width=9), time_width=0.45),
             ShowPassingFlash(line_b.copy().set_stroke(THEME_AMBER_LIGHT, width=9), time_width=0.45),
             run_time=1.0,
         )
-        self.wait(9.0)
+        self.wait(4.0)
+        self.play(
+            LaggedStart(
+                ShowPassingFlash(line_a.copy().set_stroke(THEME_BLUE_LIGHT, width=8), time_width=0.4),
+                ShowPassingFlash(line_b.copy().set_stroke(THEME_AMBER_LIGHT, width=8), time_width=0.4),
+                lag_ratio=0.25,
+            ),
+            run_time=1.3,
+        )
+        self.wait(3.7)
 
         # ── STAGE 5: Insight ─────────────────────────────────────────────
         insight = create_insight_box(
@@ -149,5 +162,7 @@ class HiddenSubpopulationsScene(Scene):
             color=THEME_AMBER, font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.72)
         self.play(FadeOut(mechanism_formula), FadeIn(insight, shift=UP * 0.2), run_time=1.0)
-        self.wait(25.0)
+        self.wait(12.0)
+        self.play(Circumscribe(insight, color=THEME_AMBER, time_width=0.5), run_time=0.9)
+        self.wait(12.1)
         fade_out_all(self)
