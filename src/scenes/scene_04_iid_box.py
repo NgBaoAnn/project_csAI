@@ -64,22 +64,29 @@ class IIDBoxScene(Scene):
         train_trace = TracedPath(train_sample.get_center, stroke_color=THEME_BLUE, stroke_width=2, dissipating_time=0.8)
         test_trace = TracedPath(test_sample.get_center, stroke_color=THEME_EMERALD, stroke_width=2, dissipating_time=0.8)
 
-        self.play(FadeIn(box), Write(box_label), run_time=TIME_NORMAL)
+        self.play(FadeIn(box, scale=0.96), Write(box_label), run_time=TIME_NORMAL, rate_func=smooth)
         self.wait(13.0)
-        self.play(GrowArrow(train_arrow), GrowArrow(test_arrow), run_time=TIME_NORMAL)
+        self.play(FadeIn(train_bucket), FadeIn(test_bucket), Write(train_label), Write(test_label), run_time=0.9)
+        self.play(GrowArrow(train_arrow), GrowArrow(test_arrow), run_time=TIME_NORMAL, rate_func=smooth)
         self.add(train_sample, test_sample, train_trace, test_trace)
         self.play(
             MoveAlongPath(train_sample, train_path),
             MoveAlongPath(test_sample, test_path),
             run_time=2.0,
+            rate_func=smooth,
         )
         self.remove(train_sample, test_sample, train_trace, test_trace)
         self.wait(10.0)
-        self.play(FadeIn(train_bucket), FadeIn(test_bucket), Write(train_label), Write(test_label), run_time=TIME_NORMAL)
-        self.wait(14.0)
-        self.play(LaggedStart(*[FadeIn(dot, scale=0.5) for dot in VGroup(train_dots, test_dots)], lag_ratio=0.04), run_time=TIME_NORMAL)
+        self.play(
+            LaggedStart(
+                *[TransformFromCopy(box_label, dot) for dot in VGroup(*train_dots, *test_dots)],
+                lag_ratio=0.025,
+            ),
+            run_time=1.3,
+        )
+        self.wait(13.7)
         self.wait(18.0)
-        self.play(Write(formula), FadeIn(iid_tag, shift=UP * 0.2), run_time=TIME_SLOW)
+        self.play(Write(formula), FadeIn(iid_tag, shift=UP * 0.2), run_time=TIME_SLOW, rate_func=smooth)
         self.wait(13.0)
 
         fade_out_all(self)
