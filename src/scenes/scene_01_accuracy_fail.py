@@ -189,9 +189,11 @@ class AccuracyFailScene(Scene):
         )
         self.wait(8.0)
 
-        crack_1 = Line(UP * 0.65 + LEFT * 0.25, DOWN * 0.72 + RIGHT * 0.06, color=THEME_RED, stroke_width=6)
-        crack_2 = Line(UP * 0.1 + RIGHT * 0.06, UP * 0.72 + RIGHT * 0.82, color=THEME_RED, stroke_width=5)
-        crack_3 = Line(DOWN * 0.05 + RIGHT * 0.07, DOWN * 0.7 + RIGHT * 0.9, color=THEME_RED, stroke_width=5)
+        # A clean, natural zigzag crack that splits the number vertically
+        crack_1 = Line(UP * 0.75 + LEFT * 0.1, UP * 0.2 + RIGHT * 0.05, color=THEME_RED, stroke_width=4.5)
+        crack_2 = Line(UP * 0.2 + RIGHT * 0.05, DOWN * 0.25 + LEFT * 0.15, color=THEME_RED, stroke_width=4.5)
+        crack_3 = Line(DOWN * 0.25 + LEFT * 0.15, DOWN * 0.75 + RIGHT * 0.1, color=THEME_RED, stroke_width=4.5)
+        crack_4 = Line(UP * 0.1 + RIGHT * 0.02, UP * 0.45 + RIGHT * 0.35, color=THEME_RED, stroke_width=3.5)
         final_title = Text(
             "99.1%",
             font_size=128,
@@ -201,7 +203,7 @@ class AccuracyFailScene(Scene):
         ).move_to(UP * 0.28)
         final_glow = create_3b1b_glow(final_title, color=THEME_EMERALD, n_layers=5, opacity=0.22)
         final_underline = create_chalk_underline(final_title, color=THEME_AMBER, buff=0.04)
-        cracks = VGroup(crack_1, crack_2, crack_3).move_to(final_title)
+        cracks = VGroup(crack_1, crack_2, crack_3, crack_4).move_to(final_title)
 
         target_mark = VGroup(
             Line(LEFT * 1.35, RIGHT * 1.35, color=THEME_RED, stroke_width=3),
@@ -228,7 +230,7 @@ class AccuracyFailScene(Scene):
             color=THEME_AMBER,
             font=FONT_PRIMARY,
             weight=MEDIUM,
-        ).next_to(final_title, UP, buff=0.12)
+        ).next_to(final_title, UP, buff=0.45)
 
         self.play(
             FadeOut(train_cloud),
