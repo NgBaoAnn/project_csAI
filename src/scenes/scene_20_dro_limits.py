@@ -65,7 +65,9 @@ class DROLimitsScene(Scene):
         ball_label = MathTex(r"\mathcal{U}", font_size=SIZE_CAPTION, color=THEME_AMBER
                              ).next_to(ball, UP, buff=0.12)
         self.play(Create(ball), Write(ball_label), run_time=0.9)
-        self.wait(5.5)
+        self.wait(2.7)
+        self.play(ShowPassingFlash(ball.copy().set_stroke(THEME_AMBER_LIGHT, width=6), time_width=0.45), run_time=0.8)
+        self.wait(2.0)
 
         # ── STAGE 4: Q* bên trong ball ────────────────────────────────────
         q_star_pos = axes.c2p(2.4, 2.5)
@@ -81,7 +83,9 @@ class DROLimitsScene(Scene):
             Write(q_star_label), FadeIn(q_star_annot),
             run_time=1.0,
         )
-        self.wait(5.5)
+        self.wait(2.6)
+        self.play(Flash(q_star, color=THEME_RED_LIGHT, flash_radius=0.42, line_length=0.15), run_time=0.6)
+        self.wait(2.3)
 
         # ── STAGE 5: Q_real bên ngoài ball ───────────────────────────────
         q_real_pos = axes.c2p(4.0, 0.4)
@@ -98,7 +102,9 @@ class DROLimitsScene(Scene):
             run_time=1.0,
         )
         self.play(Indicate(q_real, color=THEME_EMERALD, scale_factor=1.5), run_time=0.7)
-        self.wait(5.5)
+        self.wait(2.7)
+        self.play(ShowPassingFlash(Line(p_pos, q_real_pos, color=THEME_EMERALD, stroke_width=4), time_width=0.45), run_time=0.8)
+        self.wait(2.0)
 
         # ── STAGE 6: Mismatch arrow ───────────────────────────────────────
         mismatch_arrow = Arrow(q_star_pos, q_real_pos, color=THEME_RED, stroke_width=3.2,
@@ -147,5 +153,7 @@ class DROLimitsScene(Scene):
             color=THEME_AMBER, font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.72)
         self.play(FadeIn(insight, shift=UP * 0.2), run_time=1.0)
-        self.wait(20.0)
+        self.wait(9.0)
+        self.play(Circumscribe(insight, color=THEME_AMBER, time_width=0.5), run_time=0.8)
+        self.wait(8.9)
         fade_out_all(self)

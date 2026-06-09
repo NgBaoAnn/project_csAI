@@ -36,6 +36,15 @@ class PooledIllusionScene(Scene):
         handle = Line(lens.get_corner(DR), lens.get_corner(DR) + DOWN * 0.85 + RIGHT * 0.85, color=THEME_AMBER, stroke_width=5)
         lens_group = VGroup(lens, handle)
         scan_path = Line(LEFT * 2.2 + DOWN * 0.05, RIGHT * 1.2 + DOWN * 0.05)
+        reveal_wedge = AnnularSector(
+            inner_radius=1.08,
+            outer_radius=1.25,
+            angle=TAU * 0.72,
+            start_angle=PI * 0.08,
+            color=THEME_AMBER,
+            fill_opacity=0.12,
+            stroke_opacity=0,
+        ).move_to(lens)
 
         cluster_a = self.cluster((-2.25, -0.15), THEME_BLUE)
         cluster_b = self.cluster((0.0, 0.45), THEME_EMERALD)
@@ -53,19 +62,21 @@ class PooledIllusionScene(Scene):
             font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.65)
 
-        self.play(Write(pooled_title), FadeIn(pooled_note), run_time=TIME_NORMAL)
+        self.play(Write(pooled_title), FadeIn(pooled_note), run_time=TIME_NORMAL, rate_func=smooth)
         self.wait(11.0)
         self.play(LaggedStart(*[FadeIn(dot, scale=0.4) for dot in pooled_points], lag_ratio=0.025), run_time=TIME_NORMAL)
         self.wait(14.0)
-        self.play(Create(lens), Create(handle), run_time=TIME_NORMAL)
-        self.play(MoveAlongPath(lens_group, scan_path), run_time=3.0)
+        self.play(Create(lens), Create(handle), FadeIn(reveal_wedge, scale=0.9), run_time=TIME_NORMAL)
+        self.play(MoveAlongPath(lens_group, scan_path), MoveAlongPath(reveal_wedge, scan_path), run_time=3.0, rate_func=smooth)
         self.wait(9.0)
         self.play(
             Transform(pooled_points, colored_clusters.copy()),
             FadeOut(pooled_note),
+            FadeOut(reveal_wedge),
             FadeIn(colored_clusters, scale=0.95),
             FadeIn(labels, shift=UP * 0.1),
             run_time=TIME_SLOW,
+            rate_func=smooth,
         )
         self.wait(18.0)
         self.play(FadeIn(insight, shift=UP * 0.2), run_time=TIME_NORMAL)

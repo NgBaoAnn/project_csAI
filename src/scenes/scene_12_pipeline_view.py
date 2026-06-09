@@ -57,6 +57,10 @@ class PipelineViewScene(Scene):
                   tip_length=0.14, max_tip_length_to_length_ratio=0.4)
             for i in range(3)
         ])
+        stage_sweeps = VGroup(*[
+            Line(sg.get_left() + DOWN * 0.62, sg.get_right() + DOWN * 0.62, color=STAGE_DATA[i][1], stroke_width=2.6)
+            for i, sg in enumerate(stage_groups)
+        ])
 
         # Animate stages one by one
         for i in range(4):
@@ -65,7 +69,11 @@ class PipelineViewScene(Scene):
                 anims.append(GrowArrow(arrows[i-1]))
             self.play(*anims, run_time=0.9)
             self.play(FadeIn(q_texts[i], shift=UP * 0.1), run_time=0.6)
-            self.play(Circumscribe(stage_groups[i], color=STAGE_DATA[i][1], time_width=0.45), run_time=0.5)
+            self.play(
+                Circumscribe(stage_groups[i], color=STAGE_DATA[i][1], time_width=0.45),
+                ShowPassingFlash(stage_sweeps[i], time_width=0.45),
+                run_time=0.5,
+            )
             self.wait(6.0)
 
         self.wait(4.0)

@@ -46,7 +46,12 @@ class ERMFormulaScene(Scene):
                            ).next_to(formula, DOWN, buff=0.6)
         self.play(Create(avg_box), Write(avg_caption), run_time=1.0)
         self.play(Indicate(avg_part, color=THEME_AMBER, scale_factor=1.15), run_time=0.8)
-        self.wait(7.0)
+        self.wait(3.8)
+        self.play(
+            ShowPassingFlash(avg_box.copy().set_stroke(THEME_AMBER_LIGHT, width=5), time_width=0.5),
+            run_time=0.8,
+        )
+        self.wait(2.4)
 
         # ── STAGE 3: Minh hoạ 6 mẫu — bars tăng dần ─────────────────────
         self.play(
@@ -119,5 +124,11 @@ class ERMFormulaScene(Scene):
             color=THEME_AMBER, font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.72)
         self.play(FadeOut(demo_title), FadeIn(insight, shift=UP * 0.2), run_time=1.0)
-        self.wait(34.0)
+        self.wait(15.0)
+        self.play(
+            Circumscribe(insight, color=THEME_AMBER, time_width=0.55),
+            ShowPassingFlash(avg_line.copy().set_stroke(THEME_AMBER_LIGHT, width=7), time_width=0.45),
+            run_time=1.1,
+        )
+        self.wait(16.2)
         fade_out_all(self)

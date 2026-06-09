@@ -132,7 +132,15 @@ class WassersteinScene(Scene):
             rate_func=smooth,
         )
         self.play(FadeOut(flow_dots), run_time=0.2)
-        self.wait(5.4)
+        self.wait(2.4)
+        self.play(
+            LaggedStart(*[
+                ShowPassingFlash(a.copy().set_stroke(THEME_PURPLE_LIGHT, width=6), time_width=0.4)
+                for a in transport_arrows
+            ], lag_ratio=0.08),
+            run_time=1.0,
+        )
+        self.wait(2.0)
 
         # Tổng chi phí
         cost_num = DecimalNumber(0.0, num_decimal_places=1, font_size=SIZE_BODY, color=THEME_PURPLE
@@ -152,7 +160,9 @@ class WassersteinScene(Scene):
         ).to_edge(UP, buff=1.05)
         wass_formula[0].set_color(THEME_AMBER)
         self.play(Write(wass_formula), run_time=1.5)
-        self.wait(8.0)
+        self.wait(4.0)
+        self.play(Indicate(wass_formula[0], color=THEME_AMBER, scale_factor=1.04), run_time=0.8)
+        self.wait(3.2)
 
         # ── STAGE 5: Insight ─────────────────────────────────────────────
         insight = create_insight_box(
@@ -160,5 +170,7 @@ class WassersteinScene(Scene):
             color=THEME_AMBER, font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.35)
         self.play(FadeOut(transport_lbl), FadeIn(insight, shift=UP * 0.2), run_time=1.0)
-        self.wait(24.0)
+        self.wait(11.0)
+        self.play(Circumscribe(insight, color=THEME_AMBER, time_width=0.5), run_time=0.8)
+        self.wait(10.8)
         fade_out_all(self)

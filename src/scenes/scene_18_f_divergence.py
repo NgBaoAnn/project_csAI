@@ -103,6 +103,7 @@ class FDivergenceScene(Scene):
             ),
             FadeIn(lq_old), FadeIn(lq_young), FadeIn(pq_old), FadeIn(pq_young),
             run_time=1.5,
+            rate_func=smooth,
         )
         self.wait(8.0)
 
@@ -110,9 +111,14 @@ class FDivergenceScene(Scene):
                           ).next_to(pq_old, UP, buff=0.15)
         r_young = MathTex(r"\frac{dQ}{dP} = 2.0",        font_size=20, color=THEME_EMERALD
                           ).next_to(pq_young, UP, buff=0.15)
-        self.play(FadeIn(r_old, shift=LEFT * 0.15), FadeIn(r_young, shift=LEFT * 0.15), run_time=1.0)
+        self.play(FadeIn(r_old, shift=LEFT * 0.15), FadeIn(r_young, shift=LEFT * 0.15), run_time=1.0, rate_func=smooth)
         self.play(Indicate(r_young, color=THEME_EMERALD, scale_factor=1.18), run_time=0.9)
-        self.wait(7.0)
+        self.wait(3.2)
+        self.play(
+            ShowPassingFlash(bq_young.copy().set_stroke(THEME_EMERALD, width=6), time_width=0.45),
+            run_time=0.8,
+        )
+        self.wait(3.0)
 
         # ── STAGE 3: Key property ─────────────────────────────────────────
         key_prop = Text(
@@ -127,6 +133,8 @@ class FDivergenceScene(Scene):
             "f-divergence mô phỏng shift bằng cách reweight dữ liệu đã có.",
             color=THEME_AMBER, font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.72)
-        self.play(Transform(key_prop, insight), run_time=0.9)
-        self.wait(21.0)
+        self.play(FadeOut(key_prop), FadeIn(insight, shift=UP * 0.2), run_time=0.9)
+        self.wait(8.8)
+        self.play(Circumscribe(insight, color=THEME_AMBER, time_width=0.5), run_time=0.8)
+        self.wait(10.4)
         fade_out_all(self)

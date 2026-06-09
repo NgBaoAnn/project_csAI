@@ -68,6 +68,10 @@ class DataSourcesScene(Scene):
             Line(source.get_right(), training.get_left() + UP * (0.45 - index * 0.3))
             for index, source in enumerate(sources)
         ]
+        source_pulses = VGroup(*[
+            SurroundingRectangle(source, color=source[0].get_stroke_color(), buff=0.08, corner_radius=0.05, stroke_width=2)
+            for source in sources
+        ])
 
         insight = create_insight_box(
             "Dataset thường là hỗn hợp nhiều nguồn sinh dữ liệu.",
@@ -75,7 +79,11 @@ class DataSourcesScene(Scene):
             font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.7)
 
-        self.play(LaggedStart(*[FadeIn(source, shift=RIGHT * 0.15) for source in sources], lag_ratio=0.15), run_time=TIME_NORMAL)
+        self.play(LaggedStart(*[FadeIn(source, shift=RIGHT * 0.15) for source in sources], lag_ratio=0.15), run_time=TIME_NORMAL, rate_func=smooth)
+        self.play(
+            LaggedStart(*[ShowPassingFlash(pulse, time_width=0.55) for pulse in source_pulses], lag_ratio=0.1),
+            run_time=1.2,
+        )
         self.wait(12.0)
         self.play(FadeIn(training), Write(training_label), run_time=TIME_NORMAL)
         self.wait(10.0)
@@ -86,6 +94,7 @@ class DataSourcesScene(Scene):
                 lag_ratio=0.12,
             ),
             run_time=2.0,
+            rate_func=smooth,
         )
         self.play(
             LaggedStart(*[TransformFromCopy(flow_dot, dots[index * 5]) for index, flow_dot in enumerate(flow_dots)], lag_ratio=0.12),

@@ -80,6 +80,7 @@ class AverageRiskScene(Scene):
         self.play(
             LaggedStart(*[GrowFromEdge(b, DOWN) for b in bars], lag_ratio=0.25),
             run_time=1.8,
+            rate_func=smooth,
         )
         self.play(
             LaggedStart(*[FadeIn(l, shift=UP * 0.1) for l in labels], lag_ratio=0.2),
@@ -104,7 +105,12 @@ class AverageRiskScene(Scene):
             Indicate(avg_lbl, color=TEXT_PRIMARY, scale_factor=1.12),
             run_time=0.8,
         )
-        self.wait(4.7)
+        self.wait(2.5)
+        self.play(
+            ShowPassingFlash(bars[2].copy().set_stroke(THEME_RED_LIGHT, width=6), time_width=0.45),
+            run_time=0.7,
+        )
+        self.wait(1.5)
 
         # ── STAGE 3: Highlight nhóm tệ nhất ──────────────────────────────
         worst_bar = bars[2]
@@ -137,6 +143,8 @@ class AverageRiskScene(Scene):
             "Hiệu năng trung bình có thể che giấu lỗi cục bộ.",
             color=THEME_RED, font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.72)
-        self.play(Transform(context, insight), run_time=0.9)
-        self.wait(18.0)
+        self.play(FadeOut(context), FadeIn(insight, shift=UP * 0.2), run_time=0.9)
+        self.wait(8.0)
+        self.play(Circumscribe(insight, color=THEME_RED, time_width=0.5), run_time=0.8)
+        self.wait(9.2)
         fade_out_all(self)

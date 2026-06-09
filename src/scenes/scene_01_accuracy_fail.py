@@ -62,7 +62,7 @@ class AccuracyFailScene(Scene):
             FadeIn(eyebrow, shift=DOWN * 0.15),
             run_time=1.5,
         )
-        self.play(FadeIn(title_glow, scale=1.05), Write(title), run_time=2.5)
+        self.play(FadeIn(title_glow, scale=1.05), Write(title), run_time=2.5, rate_func=smooth)
         self.play(
             Create(underline),
             FadeIn(label, shift=UP * 0.12),
@@ -95,10 +95,15 @@ class AccuracyFailScene(Scene):
             Transform(label, label_target),
             Transform(lab_mark, lab_mark_target),
             run_time=2.0,
+            rate_func=smooth,
         )
-        self.play(FadeIn(dashboard, shift=RIGHT * 0.25), Create(dashboard_arrow), run_time=2.0)
+        self.play(FadeIn(dashboard, shift=RIGHT * 0.25), Create(dashboard_arrow), run_time=2.0, rate_func=smooth)
+        self.play(
+            ShowPassingFlash(dashboard_arrow.copy().set_stroke(THEME_BLUE_LIGHT, width=7), time_width=0.45),
+            run_time=0.8,
+        )
         self.play(Write(dashboard_note), run_time=2.0)
-        self.wait(7.5)
+        self.wait(6.7)
 
         question = Text(
             "Nếu 99.1% là đúng, vậy nó đang đúng ở đâu?",
@@ -118,7 +123,7 @@ class AccuracyFailScene(Scene):
             FadeOut(lab_mark),
             run_time=2.0,
         )
-        self.play(Write(question), Create(question_underline), run_time=2.5)
+        self.play(Write(question), Create(question_underline), run_time=2.5, rate_func=smooth)
         self.wait(6.5)
 
         train_cloud = self.create_dot_cloud(LEFT * 3.2 + DOWN * 0.45, THEME_BLUE)
@@ -181,13 +186,17 @@ class AccuracyFailScene(Scene):
             font=FONT_PRIMARY,
         ).to_edge(DOWN, buff=0.65)
 
-        self.play(Create(deploy_arrow), FadeIn(deploy_cloud), FadeIn(cloud_labels[2]), run_time=2.0)
+        self.play(Create(deploy_arrow), FadeIn(deploy_cloud), FadeIn(cloud_labels[2]), run_time=2.0, rate_func=smooth)
+        self.play(
+            ShowPassingFlash(deploy_arrow.copy().set_stroke(THEME_RED_LIGHT, width=7), time_width=0.45),
+            run_time=0.8,
+        )
         self.play(
             Transform(assumption, broken_assumption),
             Transform(assumption_caption, deploy_caption),
             run_time=2.0,
         )
-        self.wait(8.0)
+        self.wait(7.2)
 
         # A clean, natural zigzag crack that splits the number vertically
         crack_1 = Line(UP * 0.75 + LEFT * 0.1, UP * 0.2 + RIGHT * 0.05, color=THEME_RED, stroke_width=4.5)
@@ -204,6 +213,13 @@ class AccuracyFailScene(Scene):
         final_glow = create_3b1b_glow(final_title, color=THEME_EMERALD, n_layers=5, opacity=0.22)
         final_underline = create_chalk_underline(final_title, color=THEME_AMBER, buff=0.04)
         cracks = VGroup(crack_1, crack_2, crack_3, crack_4).move_to(final_title)
+        hairline = Line(
+            final_title.get_top() + DOWN * 0.15,
+            final_title.get_bottom() + UP * 0.15,
+            color=THEME_RED_LIGHT,
+            stroke_width=2,
+            stroke_opacity=0.55,
+        ).move_to(final_title)
 
         target_mark = VGroup(
             Line(LEFT * 1.35, RIGHT * 1.35, color=THEME_RED, stroke_width=3),
@@ -246,19 +262,27 @@ class AccuracyFailScene(Scene):
             run_time=2.5,
         )
         self.play(
-            Create(cracks),
+            ShowPassingFlash(hairline, time_width=0.35),
+            final_title.animate.scale(1.02),
+            run_time=0.8,
+            rate_func=there_and_back,
+        )
+        self.play(
+            LaggedStart(*[Create(crack) for crack in cracks], lag_ratio=0.18),
             final_title.animate.set_color(THEME_RED),
             final_glow.animate.set_color(THEME_RED).set_opacity(0.22),
             final_underline.animate.set_color(THEME_RED),
             run_time=1.5,
+            rate_func=rush_from,
         )
+        self.play(Flash(final_title, color=THEME_RED_LIGHT, flash_radius=0.65, line_length=0.18), run_time=0.6)
         self.play(
             FadeIn(target_mark, shift=UP * 0.1),
             FadeIn(shift_line, shift=DOWN * 0.15),
             FadeIn(warning, shift=UP * 0.2),
             run_time=2.0,
         )
-        self.wait(7.0)
+        self.wait(6.4)
 
         bridge = Text(
             "Vậy muốn tin model, ta phải hỏi dữ liệu đã khác nhau như thế nào.",
