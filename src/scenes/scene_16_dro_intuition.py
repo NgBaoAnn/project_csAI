@@ -66,6 +66,7 @@ class DROIntuitionScene(Scene):
             TransformMatchingShapes(erm, dro),
             FadeOut(transform_note),
             run_time=2.2,
+            rate_func=smooth,
         )
         self.wait(6.5)
 
@@ -147,7 +148,12 @@ class DROIntuitionScene(Scene):
             run_time=0.7,
             rate_func=there_and_back,
         )
-        self.wait(6.1)
+        self.wait(2.8)
+        self.play(
+            ShowPassingFlash(VGroup(arrow_min, arrow_max).copy().set_stroke(THEME_AMBER_LIGHT, width=6), time_width=0.45),
+            run_time=0.9,
+        )
+        self.wait(2.4)
 
         # ── STAGE 4: Insight ─────────────────────────────────────────────
         insight = create_insight_box(
@@ -155,5 +161,7 @@ class DROIntuitionScene(Scene):
             color=THEME_AMBER, font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.72)
         self.play(FadeIn(insight, shift=UP * 0.2), run_time=1.0)
-        self.wait(17.0)
+        self.wait(8.0)
+        self.play(Circumscribe(insight, color=THEME_AMBER, time_width=0.5), run_time=0.8)
+        self.wait(8.2)
         fade_out_all(self)
