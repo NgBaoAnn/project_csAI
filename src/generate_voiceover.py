@@ -101,7 +101,7 @@ SCENE_NARRATIONS = {
         "file":     "scene_21_invariant_features.py",
         "duration": 68,
         "voice_segments": [
-            (0.0, "Phần 21: Invariant Features. Feature nào còn đúng khi environment thay đổi?"),
+            (0.0, "Phần 21: Invariant Features. Ở phần trước, DRO tối ưu cho trường hợp xấu nhất, nhưng vẫn chưa chỉ ra đâu là tín hiệu đáng tin. Vậy hãy bắt đầu từ câu hỏi: feature nào còn đúng khi environment thay đổi?"),
             # Đọc ngay sau title card
             (5.5,
              "Invariant learning bắt đầu từ một ý tưởng đơn giản nhưng sâu sắc: "
@@ -164,7 +164,7 @@ SCENE_NARRATIONS = {
         "file":     "scene_22_irm_objective.py",
         "duration": 75,
         "voice_segments": [
-            (0.0, "Phần 22: Invariant Risk Minimization Objective. Khám phá cách tìm ra một classifier chung cho mọi môi trường."),
+            (0.0, "Phần 22: IRM Objective. Ta đã biết invariant feature là gì. Câu hỏi tiếp theo: làm sao ép mô hình thực sự học được chúng? Đó là mục tiêu của Invariant Risk Minimization."),
             # Ngay sau title card
             (8.0,
              "Làm sao ép representation học feature invariant? "
@@ -222,7 +222,7 @@ SCENE_NARRATIONS = {
         "duration": 70,
         "voice_segments": [
             # Title card intro
-            (0.0, "Phần 23: IRM Limits. Khám phá những giới hạn của Invariant Risk Minimization khi environments không đủ tốt."),
+            (0.0, "Phần 23: IRM Limits. IRM nghe có vẻ hoàn hảo, nhưng nó có một giới hạn quan trọng. Điều gì xảy ra khi các environment không đủ tốt?"),
             # Sau title card
             (7.0,
              "Nhưng IRM có giới hạn quan trọng. "
@@ -275,7 +275,7 @@ SCENE_NARRATIONS = {
         "duration": 75,
         "voice_segments": [
             # Title intro
-            (0.0, "Phần 24: CLIP Contrastive Learning. Khám phá cách mô hình lớn và dữ liệu lớn giúp đạt robustness qua học tương phản."),
+            (0.0, "Phần 24: CLIP. Nếu IRM phụ thuộc vào chất lượng environment, liệu cứ dùng mô hình lớn và dữ liệu lớn có giải quyết được không? Hãy xem CLIP."),
             # Sau title
             (7.0,
              "Model lớn và dữ liệu lớn giúp gì cho robustness? "
@@ -337,7 +337,7 @@ SCENE_NARRATIONS = {
         "duration": 70,
         "voice_segments": [
             # Title intro
-            (0.0, "Phần 25: More Data không phải Right Data. Liệu thêm dữ liệu có luôn giúp model robust hơn?"),
+            (0.0, "Phần 25: More Data không phải Right Data. CLIP cho thấy dữ liệu lớn rất mạnh. Nhưng nhiều dữ liệu hơn có thực sự đồng nghĩa với robust hơn?"),
             # Sau title
             (7.5,
              "Thêm data có luôn giúp model robust hơn không? "
@@ -395,7 +395,7 @@ SCENE_NARRATIONS = {
         "duration": 70,
         "voice_segments": [
             # Title intro
-            (0.0, "Phần 26: Deductive và Inductive. Ta nên bắt đầu từ lý thuyết hay từ hiện tượng thực tế?"),
+            (0.0, "Phần 26: Deductive và Inductive. Nếu thêm dữ liệu không phải lời giải, ta nên tiếp cận bài toán từ đâu: từ lý thuyết, hay từ chính hiện tượng thực tế?"),
             # Sau title
             (6.5,
              "Ta nên bắt đầu từ method hay từ hiện tượng thật? "
@@ -454,7 +454,7 @@ SCENE_NARRATIONS = {
         "duration": 80,
         "voice_segments": [
             # Title intro
-            (0.0, "Phần 27: Income Prediction từ California sang Puerto Rico. Phân tích nguyên nhân sụt giảm hiệu năng."),
+            (0.0, "Phần 27: California sang Puerto Rico. Hãy theo hướng quy nạp, bắt đầu từ một shift có thật: bài toán dự đoán thu nhập khi chuyển từ California sang Puerto Rico."),
             # Sau title
             (7.5,
              "Trong income prediction, source là California và target là Puerto Rico. "
@@ -517,7 +517,7 @@ SCENE_NARRATIONS = {
         "duration": 70,
         "voice_segments": [
             # Title intro
-            (0.0, "Phần 28: Ambiguity Set theo biến. Ràng buộc độ robust của DRO vào các biến số thực tế."),
+            (0.0, "Phần 28: Ambiguity Set theo biến. Khi đã thấy shift xảy ra trên những biến cụ thể, ta nên ràng buộc độ robust của DRO vào đúng các biến đó."),
             # Sau title
             (7.5,
              "DRO nên robust trên biến nào? "
@@ -571,7 +571,7 @@ SCENE_NARRATIONS = {
         "duration": 85,
         "voice_segments": [
             # Title intro
-            (0.0, "Phần 29: Mutual Information. Thông tin tương hỗ giữa X và Y là gì?"),
+            (0.0, "Phần 29: Mutual Information. Để biết biến nào, nhóm nào thực sự quan trọng cho dự đoán, ta cần một thước đo: thông tin tương hỗ giữa X và Y."),
             # Sau title
             (7.5,
              "Mutual information đo lượng thông tin X cung cấp về Y. "
@@ -630,7 +630,7 @@ SCENE_NARRATIONS = {
         "duration": 80,
         "voice_segments": [
             # Title intro (gộp câu hỏi mở đầu)
-            (0.0, "Phần 30: Predictive Heterogeneity. Khi nào một split subgroup thực sự giúp ích cho dự đoán?"),
+            (0.0, "Phần 30: Predictive Heterogeneity. Có mutual information trong tay, giờ ta dùng nó để tự động tìm ra các nhóm ẩn. Khi nào một split subgroup thực sự giúp ích cho dự đoán?"),
             # Sub1 + data points
             (15.0,
              "Predictive heterogeneity tìm split E sao cho "
@@ -675,7 +675,7 @@ SCENE_NARRATIONS = {
         "file":     "scene_31_crop_yield.py",
         "duration": 75,
         "voice_segments": [
-            (0.0, "Phần 31: Crop Yield. Một biến ẩn có thể lộ ra qua chính mô hình dự đoán không?"),
+            (0.0, "Phần 31: Crop Yield. Predictive heterogeneity nghe khá trừu tượng. Hãy xem nó hoạt động ra sao trên một ví dụ thật: năng suất cây trồng."),
             (1.0, "Trong bài toán dự đoán năng suất cây trồng, các đặc trưng khí hậu được dùng để dự đoán sản lượng."),
             (2.0, "Đây là bản đồ loại cây trồng thực tế: vùng xanh là ngô, vùng vàng là đậu nành."),
             (3.0, "Nhưng cơ chế tạo ra năng suất thay đổi mạnh theo loại cây trồng. Ban đầu, ta không hề có nhãn loại cây."),
@@ -693,7 +693,7 @@ SCENE_NARRATIONS = {
         "file":     "scene_32_covid_mortality.py",
         "duration": 75,
         "voice_segments": [
-            (0.0, "Phần 32: COVID Mortality. Một mô hình trung bình có thể che giấu những cơ chế rủi ro nào?"),
+            (0.0, "Phần 32: COVID Mortality. Vẫn là cơ chế phát hiện nhóm ẩn đó, giờ áp dụng cho một bài toán sinh tử: tỷ lệ tử vong do COVID."),
             (1.0, "Với bài toán tử vong do COVID, mô hình ERM chỉ thấy các đặc trưng rủi ro trung bình của toàn bộ dữ liệu."),
             (2.0, "Đây là các đặc trưng quan trọng theo góc nhìn trung bình: tuổi, bệnh nền và triệu chứng."),
             (3.0, "Nhưng khi phân tách thành các subpopulation, hai cơ chế rủi ro hoàn toàn khác biệt lộ ra."),
@@ -711,7 +711,7 @@ SCENE_NARRATIONS = {
         "file":     "scene_33_no_env_labels.py",
         "duration": 65,
         "voice_segments": [
-            (0.0, "Phần 33: No Environment Labels. Nếu nhãn nguồn dữ liệu bị mất, IRM sẽ làm gì?"),
+            (0.0, "Phần 33: No Environment Labels. Các phương pháp vừa rồi đều cần biết environment. Nhưng nếu nhãn nguồn dữ liệu đã bị xóa thì sao?"),
             (1.0, "Các dataset hiện đại thường gộp dữ liệu từ rất nhiều nguồn khác nhau."),
             (2.0, "Đây là ba nguồn dữ liệu riêng biệt, mỗi nguồn có một environment label riêng."),
             (3.0, "Nhưng khi tích hợp lại thành một tập gộp, các nhãn môi trường đều bị xóa mất."),
@@ -728,7 +728,7 @@ SCENE_NARRATIONS = {
         "file":     "scene_34_hrm_loop.py",
         "duration": 75,
         "voice_segments": [
-            (0.0, "Phần 34: HRM Loop. Liệu ta có thể vừa học environment, vừa học predictor cùng lúc?"),
+            (0.0, "Phần 34: HRM Loop. Nếu environment bị mất, liệu ta có thể vừa tự học environment, vừa học predictor cùng lúc? Đó là Heterogeneous Risk Minimization."),
             (1.0, "Heterogeneous Risk Minimization giải quyết điều này bằng một chu trình đồng tiến hóa gồm hai module."),
             (2.0, "Module thứ nhất là heterogeneity identification, module thứ hai là invariant prediction."),
             (3.0, "Identification học cách phân nhóm dữ liệu thành các environment nhân tạo, dựa trên các variant feature."),
@@ -747,7 +747,7 @@ SCENE_NARRATIONS = {
         "file":     "scene_35_colored_mnist.py",
         "duration": 75,
         "voice_segments": [
-            (0.0, "Phần 35: Colored MNIST. Màu sắc hay hình dạng mới là tín hiệu ổn định?"),
+            (0.0, "Phần 35: Colored MNIST. Để kiểm chứng mọi ý tưởng về spurious feature, ta cần một benchmark thật rõ ràng: ColoredMNIST."),
             (1.0, "ColoredMNIST là một benchmark kinh điển để minh họa rõ ràng về spurious correlation."),
             (2.0, "Trong tập train, 90 phần trăm chữ số 5 có màu xanh lá. Màu sắc giúp dự đoán rất dễ."),
             (3.0, "Mô hình nhanh chóng học một shortcut: cứ thấy màu xanh lá thì đoán là số 5."),
@@ -766,7 +766,7 @@ SCENE_NARRATIONS = {
         "file":     "scene_36_hard_noisy_samples.py",
         "duration": 70,
         "voice_segments": [
-            (0.0, "Phần 36: Hard và Noisy Samples. Loss cao có luôn đáng để upweight không?"),
+            (0.0, "Phần 36: Hard và Noisy Samples. Spurious feature tạo ra những mẫu khó. Nhưng khi tối ưu cho loss cao, làm sao biết đó là mẫu khó đáng giá hay chỉ là nhiễu?"),
             (1.0, "Trong robust learning, ta thường tập trung vào các mẫu có loss cao, như cách DRO làm."),
             (2.0, "Đây là nhóm đa số, loss thấp, mô hình dự đoán tốt."),
             (3.0, "Nhưng các điểm có loss cao có thể đến từ hai nguồn gốc rất khác nhau."),
@@ -785,7 +785,7 @@ SCENE_NARRATIONS = {
         "file":     "scene_37_geometric_wasserstein.py",
         "duration": 75,
         "voice_segments": [
-            (0.0, "Phần 37: Geometric Wasserstein. Hình học giúp phân biệt hard và noise như thế nào?"),
+            (0.0, "Phần 37: Geometric Wasserstein. Nếu loss cao quá mơ hồ, ta cần một cách phân biệt tốt hơn, dựa vào hình học của dữ liệu."),
             (1.0, "Geometric Wasserstein đưa cấu trúc hình học của manifold dữ liệu vào trong DRO."),
             (2.0, "Đây là manifold dữ liệu: bề mặt mà các điểm dữ liệu thực sự nằm trên đó."),
             (3.0, "Các mẫu hợp lệ nằm dọc theo manifold, còn mẫu nhiễu thì bị cô lập, nằm xa khỏi cấu trúc."),
@@ -804,7 +804,7 @@ SCENE_NARRATIONS = {
         "file":     "scene_38_error_slices.py",
         "duration": 70,
         "voice_segments": [
-            (0.0, "Phần 38: Error Slices. Mô hình yếu nhất ở vùng dữ liệu nào?"),
+            (0.0, "Phần 38: Error Slices. Khi đã có một mô hình robust, làm sao đánh giá nó? Trước hết, hãy tìm ra vùng dữ liệu mà nó yếu nhất."),
             (1.0, "Độ chính xác trung bình 95 phần trăm nghe có vẻ tốt, nhưng nó có thể che giấu những lỗi cực kỳ nghiêm trọng."),
             (2.0, "Đây là độ chính xác tổng thể của mô hình: 95 phần trăm."),
             (3.0, "Ta cần phân tách hiệu suất thành các error slice: nhóm A đạt 99, nhóm B đạt 93, nhưng nhóm C chỉ đạt 43 phần trăm."),
@@ -821,7 +821,7 @@ SCENE_NARRATIONS = {
         "file":     "scene_39_stability_feature.py",
         "duration": 75,
         "voice_segments": [
-            (0.0, "Phần 39: Stability và Feature Sensitivity. Mô hình nhạy cảm với loại shift nào, và với feature nào?"),
+            (0.0, "Phần 39: Stability và Feature Sensitivity. Biết model yếu ở đâu là chưa đủ. Ta còn phải đo: nó nhạy cảm với loại shift nào, trên feature nào?"),
             (1.0, "Để đánh giá stability, ta đo khoảng cách từ phân phối hiện tại đến vùng lỗi."),
             (2.0, "Đây là mô hình tại phân phối train, và đây là tập lỗi, nơi độ chính xác sụt giảm."),
             (3.0, "Khoảng cách giữa chúng chính là stability margin: phải dịch phân phối đi bao xa mới chạm tới vùng lỗi."),
@@ -840,7 +840,7 @@ SCENE_NARRATIONS = {
         "file":     "scene_40_deployment_conclusion.py",
         "duration": 100,
         "voice_segments": [
-            (0.0, "Phần 40: Deployment và Kết luận. Khi hiệu năng sụt giảm, ta sửa bằng cách nào?"),
+            (0.0, "Phần 40: Deployment và Kết luận. Khi mọi thứ đã được đánh giá, bước cuối cùng là triển khai, rồi rút ra thông điệp lớn của cả hành trình."),
             (1.0, "Sau khi triển khai, hiệu năng sụt giảm có thể do X-shift, do Y given X shift, hoặc cả hai."),
             (2.0, "Ta có phân phối nguồn P và phân phối đích Q."),
             (3.0, "Bằng cách tập trung vào phần phân phối chung S, vùng chồng lấn giữa P và Q, ta tách được thay đổi do lấy mẫu khỏi thay đổi do cơ chế. Chỉ khi hiểu đúng shift, ta mới chọn đúng can thiệp."),
@@ -857,14 +857,20 @@ SCENE_NARRATIONS = {
 # ─────────────────────────── HÀM TIỆN ÍCH ──────────────────────────────────
 
 def find_manim_video(scene_num: int, scene_class: str) -> Path | None:
-    """Tìm file video Manim đã render cho scene, tìm đệ quy trong cả project."""
+    """Tìm file video Manim đã render cho scene.
+    Tìm trong mọi thư mục media và TRẢ VỀ FILE MỚI NHẤT (theo mtime) để
+    tránh dùng nhầm bản render cũ (stale) khi tồn tại nhiều thư mục media.
+    """
     search_roots = [PROJECT_ROOT / "media", SRC_DIR / "media", PROJECT_ROOT / "output"]
+    candidates: list[Path] = []
     for root in search_roots:
         if not root.exists():
             continue
-        for path in root.rglob(f"{scene_class}.mp4"):
-            return path   # trả về file đầu tiên tìm được
-    return None
+        candidates.extend(root.rglob(f"{scene_class}.mp4"))
+    if not candidates:
+        return None
+    # Chọn file được sửa gần đây nhất
+    return max(candidates, key=lambda p: p.stat().st_mtime)
 
 
 def get_audio_duration(path: Path) -> float:
