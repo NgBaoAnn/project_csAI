@@ -66,7 +66,7 @@ class FailureMontageScene(Scene):
             font_size=SIZE_SECTION,
             color=THEME_AMBER,
             font=FONT_PRIMARY,
-        ).next_to(cards, DOWN, buff=0.35)
+        ).move_to(DOWN * 1.25)
         answer = create_insight_box(
             "Dữ liệu deployment không còn giống dữ liệu train",
             color=THEME_AMBER,
