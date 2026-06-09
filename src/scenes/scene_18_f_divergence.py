@@ -63,7 +63,7 @@ class FDivergenceScene(Scene):
         pp_old   = Text("70%", font_size=SIZE_SMALL, color=THEME_BLUE,   font=FONT_PRIMARY, weight=BOLD).next_to(bp_old,   UP, buff=0.12)
         pp_young = Text("30%", font_size=SIZE_SMALL, color=THEME_EMERALD,font=FONT_PRIMARY, weight=BOLD).next_to(bp_young, UP, buff=0.12)
         train_title = Text("P_train", font_size=SIZE_CAPTION, color=TEXT_SECONDARY, font=FONT_PRIMARY
-                           ).next_to(VGroup(bp_old, bp_young), UP, buff=0.35)
+                           ).move_to(LEFT * 2.825 + UP * 2.2)
 
         # Q_target bars
         bq_old   = _bar(40, THEME_BLUE  ).shift(RIGHT * 1.5 ).align_to(DOWN * 1.5, DOWN)
@@ -73,7 +73,7 @@ class FDivergenceScene(Scene):
         pq_old   = Text("40%", font_size=SIZE_SMALL, color=THEME_BLUE,   font=FONT_PRIMARY, weight=BOLD).next_to(bq_old,   UP, buff=0.12)
         pq_young = Text("60%", font_size=SIZE_SMALL, color=THEME_EMERALD,font=FONT_PRIMARY, weight=BOLD).next_to(bq_young, UP, buff=0.12)
         target_title = Text("Q_target", font_size=SIZE_CAPTION, color=THEME_AMBER, font=FONT_PRIMARY
-                            ).next_to(VGroup(bq_old, bq_young), UP, buff=0.35)
+                            ).move_to(RIGHT * 2.125 + UP * 2.2)
 
         self.play(
             Write(train_title),
@@ -106,11 +106,10 @@ class FDivergenceScene(Scene):
         )
         self.wait(8.0)
 
-        # Density ratio labels
-        r_old   = MathTex(r"\frac{dQ}{dP} \approx 0.57", font_size=22, color=THEME_BLUE
-                          ).next_to(bq_old,   RIGHT, buff=0.14).shift(UP * 0.3)
-        r_young = MathTex(r"\frac{dQ}{dP} = 2.0",        font_size=22, color=THEME_EMERALD
-                          ).next_to(bq_young, RIGHT, buff=0.14).shift(UP * 0.3)
+        r_old   = MathTex(r"\frac{dQ}{dP} \approx 0.57", font_size=20, color=THEME_BLUE
+                          ).next_to(pq_old, UP, buff=0.15)
+        r_young = MathTex(r"\frac{dQ}{dP} = 2.0",        font_size=20, color=THEME_EMERALD
+                          ).next_to(pq_young, UP, buff=0.15)
         self.play(FadeIn(r_old, shift=LEFT * 0.15), FadeIn(r_young, shift=LEFT * 0.15), run_time=1.0)
         self.play(Indicate(r_young, color=THEME_EMERALD, scale_factor=1.18), run_time=0.9)
         self.wait(7.0)
