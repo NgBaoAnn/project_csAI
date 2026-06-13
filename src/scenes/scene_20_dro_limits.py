@@ -8,6 +8,7 @@ import numpy as np
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 TARGET_DURATION_SECONDS = 70
 
@@ -42,6 +43,7 @@ class DROLimitsScene(Scene):
             LaggedStart(*[FadeIn(d, scale=0.3) for d in bg_dots], lag_ratio=0.04),
             run_time=1.5,
         )
+        play_voiceover_and_wait(self, 20, 0)
         self.wait(5.5)
 
         # ── STAGE 2: P_train với ripple ───────────────────────────────────
@@ -102,6 +104,7 @@ class DROLimitsScene(Scene):
             run_time=1.0,
         )
         self.play(Indicate(q_real, color=THEME_EMERALD, scale_factor=1.5), run_time=0.7)
+        play_voiceover_and_wait(self, 20, 1)
         self.wait(2.7)
         self.play(ShowPassingFlash(Line(p_pos, q_real_pos, color=THEME_EMERALD, stroke_width=4), time_width=0.45), run_time=0.8)
         self.wait(2.0)
@@ -155,5 +158,6 @@ class DROLimitsScene(Scene):
         self.play(FadeIn(insight, shift=UP * 0.2), run_time=1.0)
         self.wait(9.0)
         self.play(Circumscribe(insight, color=THEME_AMBER, time_width=0.5), run_time=0.8)
+        play_voiceover_and_wait(self, 20, 2)
         self.wait(8.9)
         fade_out_all(self)

@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 
 TARGET_DURATION_SECONDS = 75
@@ -50,17 +51,20 @@ class XShiftScene(Scene):
         ).to_edge(DOWN, buff=0.8)
 
         self.play(Create(axes), Write(formula), run_time=TIME_NORMAL, rate_func=smooth)
+        play_voiceover_and_wait(self, 7, 0)
         self.wait(10.0)
         self.play(TransformFromCopy(formula[0], p_label), Create(p_curve), run_time=TIME_NORMAL)
         self.wait(12.0)
         self.play(Create(q_curve_ghost), TransformFromCopy(formula[2], q_label), run_time=0.8)
         self.play(Transform(q_curve_ghost, q_curve), run_time=1.4, rate_func=smooth)
         q_curve = q_curve_ghost
+        play_voiceover_and_wait(self, 7, 1)
         self.wait(14.8)
         self.play(Create(boundary), FadeIn(boundary_label, shift=LEFT * 0.1), run_time=TIME_NORMAL, rate_func=smooth)
         self.play(Indicate(boundary, color=THEME_EMERALD), Circumscribe(boundary_label, color=THEME_EMERALD), run_time=1.5)
         self.wait(13.5)
         self.play(FadeIn(insight, shift=UP * 0.2), run_time=TIME_NORMAL)
+        play_voiceover_and_wait(self, 7, 2)
         self.wait(13.0)
 
         fade_out_all(self)

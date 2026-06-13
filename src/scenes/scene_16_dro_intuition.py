@@ -7,6 +7,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 TARGET_DURATION_SECONDS = 70
 
@@ -34,6 +35,7 @@ class DROIntuitionScene(Scene):
             run_time=2.0,
         )
         self.play(Indicate(erm[1], color=THEME_BLUE, scale_factor=1.15), run_time=0.8)
+        play_voiceover_and_wait(self, 16, 0)
         self.wait(7.0)
 
         erm_limit = Text(
@@ -82,6 +84,7 @@ class DROIntuitionScene(Scene):
             ShowPassingFlash(dro.copy().set_stroke(THEME_AMBER_LIGHT, width=6), time_width=0.35),
             run_time=0.9,
         )
+        play_voiceover_and_wait(self, 16, 1)
         self.wait(6.0)
 
         # ── STAGE 3: Two-player game ──────────────────────────────────────
@@ -163,5 +166,6 @@ class DROIntuitionScene(Scene):
         self.play(FadeIn(insight, shift=UP * 0.2), run_time=1.0)
         self.wait(8.0)
         self.play(Circumscribe(insight, color=THEME_AMBER, time_width=0.5), run_time=0.8)
+        play_voiceover_and_wait(self, 16, 2)
         self.wait(8.2)
         fade_out_all(self)

@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 
 TARGET_DURATION_SECONDS = 70
@@ -115,6 +116,7 @@ class FailureMontageScene(Scene):
             ),
             run_time=2.0,
         )
+        play_voiceover_and_wait(self, 2, 0)
         self.wait(12.0)
         compact_group = VGroup(cards, issue_marks)
         self.play(compact_group.animate.scale(0.78).to_edge(UP, buff=0.75), run_time=TIME_NORMAL, rate_func=smooth)
@@ -127,8 +129,10 @@ class FailureMontageScene(Scene):
             ),
             run_time=1.6,
         )
+        play_voiceover_and_wait(self, 2, 1)
         self.wait(16.0)
         self.play(FadeIn(answer, shift=UP * 0.2), FadeOut(issue_marks), run_time=TIME_NORMAL)
+        play_voiceover_and_wait(self, 2, 2)
         self.wait(14.6)
 
         fade_out_all(self)

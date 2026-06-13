@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 
 TARGET_DURATION_SECONDS = 80
@@ -65,6 +66,7 @@ class IIDBoxScene(Scene):
         test_trace = TracedPath(test_sample.get_center, stroke_color=THEME_EMERALD, stroke_width=2, dissipating_time=0.8)
 
         self.play(FadeIn(box, scale=0.96), Write(box_label), run_time=TIME_NORMAL, rate_func=smooth)
+        play_voiceover_and_wait(self, 4, 0)
         self.wait(13.0)
         self.play(FadeIn(train_bucket), FadeIn(test_bucket), Write(train_label), Write(test_label), run_time=0.9)
         self.play(GrowArrow(train_arrow), GrowArrow(test_arrow), run_time=TIME_NORMAL, rate_func=smooth)
@@ -84,9 +86,11 @@ class IIDBoxScene(Scene):
             ),
             run_time=1.3,
         )
+        play_voiceover_and_wait(self, 4, 1)
         self.wait(13.7)
         self.wait(18.0)
         self.play(Write(formula), FadeIn(iid_tag, shift=UP * 0.2), run_time=TIME_SLOW, rate_func=smooth)
+        play_voiceover_and_wait(self, 4, 2)
         self.wait(13.0)
 
         fade_out_all(self)

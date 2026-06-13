@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 
 TARGET_DURATION_SECONDS = 80
@@ -62,10 +63,12 @@ class YXShiftScene(Scene):
         ).to_edge(DOWN, buff=0.65)
 
         self.play(Write(formula), FadeIn(mechanism_note, shift=DOWN * 0.1), run_time=TIME_NORMAL, rate_func=smooth)
+        play_voiceover_and_wait(self, 8, 0)
         self.wait(14.0)
         self.play(FadeIn(source, shift=RIGHT * 0.15), run_time=TIME_NORMAL, rate_func=smooth)
         self.wait(14.0)
         self.play(TransformFromCopy(source[2], target[2]), FadeIn(target[0], shift=LEFT * 0.15), FadeIn(target[1], shift=LEFT * 0.15), FadeIn(target[3], shift=LEFT * 0.15), FadeIn(target[4], shift=LEFT * 0.15), run_time=TIME_NORMAL, rate_func=smooth)
+        play_voiceover_and_wait(self, 8, 1)
         self.wait(18.0)
         self.play(
             ShowPassingFlash(mechanism_sweep, time_width=0.55),
@@ -77,6 +80,7 @@ class YXShiftScene(Scene):
         self.play(Circumscribe(target, color=THEME_RED, buff=0.08), run_time=1.5)
         self.wait(18.5)
         self.play(FadeIn(insight, shift=UP * 0.2), run_time=TIME_NORMAL)
+        play_voiceover_and_wait(self, 8, 2)
         self.wait(5.0)
 
         fade_out_all(self)

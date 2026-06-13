@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 
 TARGET_DURATION_SECONDS = 70
@@ -84,6 +85,7 @@ class DataSourcesScene(Scene):
             LaggedStart(*[ShowPassingFlash(pulse, time_width=0.55) for pulse in source_pulses], lag_ratio=0.1),
             run_time=1.2,
         )
+        play_voiceover_and_wait(self, 9, 0)
         self.wait(12.0)
         self.play(FadeIn(training), Write(training_label), run_time=TIME_NORMAL)
         self.wait(10.0)
@@ -101,10 +103,12 @@ class DataSourcesScene(Scene):
             run_time=1.0,
         )
         self.remove(flow_dots)
+        play_voiceover_and_wait(self, 9, 1)
         self.wait(10.0)
         self.play(LaggedStart(*[FadeIn(dot, scale=0.4) for dot in dots], lag_ratio=0.02), Write(mixture_label), run_time=TIME_NORMAL)
         self.wait(16.0)
         self.play(FadeIn(insight, shift=UP * 0.2), run_time=TIME_NORMAL)
+        play_voiceover_and_wait(self, 9, 2)
         self.wait(10.0)
 
         fade_out_all(self)

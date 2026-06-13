@@ -8,6 +8,7 @@ import numpy as np
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 TARGET_DURATION_SECONDS = 75
 
@@ -40,6 +41,7 @@ class UncertaintySetScene(Scene):
             FadeIn(space_label),
             run_time=1.5,
         )
+        play_voiceover_and_wait(self, 17, 0)
         self.wait(5.5)
 
         # ── STAGE 2: P_train với ripple ───────────────────────────────────
@@ -112,6 +114,7 @@ class UncertaintySetScene(Scene):
         self.play(FadeIn(q_star_glow), FadeIn(q_star, scale=0.3),
                   Write(q_star_label), FadeIn(q_annot), run_time=1.0)
         self.play(Flash(q_star, color=THEME_RED, flash_radius=0.45, line_length=0.15), run_time=0.5)
+        play_voiceover_and_wait(self, 17, 1)
         self.wait(6.0)
 
         # ── STAGE 5: Cảnh báo ρ nhỏ / lớn ───────────────────────────────
@@ -159,5 +162,6 @@ class UncertaintySetScene(Scene):
         self.play(FadeIn(insight, shift=UP * 0.2), run_time=1.0)
         self.wait(3.1)
         self.play(Circumscribe(insight, color=THEME_AMBER, time_width=0.5), run_time=0.8)
+        play_voiceover_and_wait(self, 17, 2)
         self.wait(4.6)
         fade_out_all(self)

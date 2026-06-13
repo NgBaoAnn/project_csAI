@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 
 TARGET_DURATION_SECONDS = 75
@@ -63,11 +64,13 @@ class PooledIllusionScene(Scene):
         ).to_edge(DOWN, buff=0.65)
 
         self.play(Write(pooled_title), FadeIn(pooled_note), run_time=TIME_NORMAL, rate_func=smooth)
+        play_voiceover_and_wait(self, 10, 0)
         self.wait(11.0)
         self.play(LaggedStart(*[FadeIn(dot, scale=0.4) for dot in pooled_points], lag_ratio=0.025), run_time=TIME_NORMAL)
         self.wait(14.0)
         self.play(Create(lens), Create(handle), FadeIn(reveal_wedge, scale=0.9), run_time=TIME_NORMAL)
         self.play(MoveAlongPath(lens_group, scan_path), MoveAlongPath(reveal_wedge, scan_path), run_time=3.0, rate_func=smooth)
+        play_voiceover_and_wait(self, 10, 1)
         self.wait(9.0)
         self.play(
             Transform(pooled_points, colored_clusters.copy()),
@@ -80,6 +83,7 @@ class PooledIllusionScene(Scene):
         )
         self.wait(18.0)
         self.play(FadeIn(insight, shift=UP * 0.2), run_time=TIME_NORMAL)
+        play_voiceover_and_wait(self, 10, 2)
         self.wait(10.0)
 
         fade_out_all(self)

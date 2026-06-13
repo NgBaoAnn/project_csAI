@@ -8,6 +8,7 @@ import numpy as np
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 TARGET_DURATION_SECONDS = 80
 
@@ -35,6 +36,7 @@ class HiddenSubpopulationsScene(Scene):
         y_label = Text("Y", font_size=SIZE_SMALL, color=TEXT_MUTED, font=FONT_PRIMARY
                        ).next_to(axes, LEFT, buff=0.12)
         self.play(Create(axes), FadeIn(x_label), FadeIn(y_label), run_time=1.2)
+        play_voiceover_and_wait(self, 11, 0)
         self.wait(5.0)
 
         # ── STAGE 1: Gray pooled dots ─────────────────────────────────────
@@ -145,6 +147,7 @@ class HiddenSubpopulationsScene(Scene):
             ShowPassingFlash(line_b.copy().set_stroke(THEME_AMBER_LIGHT, width=9), time_width=0.45),
             run_time=1.0,
         )
+        play_voiceover_and_wait(self, 11, 1)
         self.wait(4.0)
         self.play(
             LaggedStart(
@@ -164,5 +167,6 @@ class HiddenSubpopulationsScene(Scene):
         self.play(FadeOut(mechanism_formula), FadeIn(insight, shift=UP * 0.2), run_time=1.0)
         self.wait(12.0)
         self.play(Circumscribe(insight, color=THEME_AMBER, time_width=0.5), run_time=0.9)
+        play_voiceover_and_wait(self, 11, 2)
         self.wait(12.1)
         fade_out_all(self)

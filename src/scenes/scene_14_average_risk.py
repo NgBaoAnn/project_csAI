@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 TARGET_DURATION_SECONDS = 70
 
@@ -46,6 +47,7 @@ class AverageRiskScene(Scene):
             GrowFromCenter(pct_sign, run_time=1.2),
         )
         self.play(FadeIn(avg_caption, shift=UP * 0.1), run_time=0.7)
+        play_voiceover_and_wait(self, 14, 0)
         self.wait(7.5)
 
         # ── STAGE 2: Vỡ ra thành bar chart theo nhóm ─────────────────────
@@ -128,6 +130,7 @@ class AverageRiskScene(Scene):
             run_time=1.2,
         )
         self.play(Flash(worst_bar, color=THEME_RED, flash_radius=0.8, line_length=0.25), run_time=0.5)
+        play_voiceover_and_wait(self, 14, 1)
         self.wait(7.0)
 
         # Context
@@ -146,5 +149,6 @@ class AverageRiskScene(Scene):
         self.play(FadeOut(context), FadeIn(insight, shift=UP * 0.2), run_time=0.9)
         self.wait(8.0)
         self.play(Circumscribe(insight, color=THEME_RED, time_width=0.5), run_time=0.8)
+        play_voiceover_and_wait(self, 14, 2)
         self.wait(9.2)
         fade_out_all(self)

@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 TARGET_DURATION_SECONDS = 75
 
@@ -50,6 +51,7 @@ class FDivergenceScene(Scene):
             ShowPassingFlash(formula.copy().set_stroke(THEME_AMBER_LIGHT, width=5), time_width=0.4),
             run_time=0.9,
         )
+        play_voiceover_and_wait(self, 18, 0)
         self.wait(8.0)
 
         # ── STAGE 2: Bar charts P_train vs Q_target ───────────────────────
@@ -118,6 +120,7 @@ class FDivergenceScene(Scene):
             ShowPassingFlash(bq_young.copy().set_stroke(THEME_EMERALD, width=6), time_width=0.45),
             run_time=0.8,
         )
+        play_voiceover_and_wait(self, 18, 1)
         self.wait(3.0)
 
         # ── STAGE 3: Key property ─────────────────────────────────────────
@@ -136,5 +139,6 @@ class FDivergenceScene(Scene):
         self.play(FadeOut(key_prop), FadeIn(insight, shift=UP * 0.2), run_time=0.9)
         self.wait(8.8)
         self.play(Circumscribe(insight, color=THEME_AMBER, time_width=0.5), run_time=0.8)
+        play_voiceover_and_wait(self, 18, 2)
         self.wait(10.4)
         fade_out_all(self)

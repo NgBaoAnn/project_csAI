@@ -7,6 +7,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 TARGET_DURATION_SECONDS = 80
 
@@ -55,6 +56,7 @@ class SpuriousCowCamelScene(Scene):
             camel_grp.animate.shift(LEFT * 5),
             run_time=1.2, rate_func=smooth,
         )
+        play_voiceover_and_wait(self, 15, 0)
         self.wait(9.0)
 
         # ── STAGE 2: Highlight background (spurious) ──────────────────────
@@ -149,6 +151,7 @@ class SpuriousCowCamelScene(Scene):
         self.play(FadeIn(bg_signal, scale=0.4), run_time=0.3)
         self.play(MoveAlongPath(bg_signal, bg_path), run_time=0.9, rate_func=smooth)
         self.play(FadeOut(bg_signal), run_time=0.3)
+        play_voiceover_and_wait(self, 15, 1)
         self.wait(2.8)
         self.play(ShowPassingFlash(bg_path.copy().set_stroke(THEME_RED_LIGHT, width=6), time_width=0.45), run_time=0.8)
         self.wait(2.4)
@@ -168,5 +171,6 @@ class SpuriousCowCamelScene(Scene):
         self.play(FadeOut(explain), FadeIn(insight, shift=UP * 0.2), run_time=1.0)
         self.wait(9.0)
         self.play(Circumscribe(insight, color=THEME_RED, time_width=0.5), run_time=0.8)
+        play_voiceover_and_wait(self, 15, 2)
         self.wait(9.1)
         fade_out_all(self)

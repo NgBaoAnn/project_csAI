@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 
 TARGET_DURATION_SECONDS = 75
@@ -87,6 +88,7 @@ class TrainTestSplitScene(Scene):
         )
 
         self.play(Create(axes), Write(iid_formula), run_time=TIME_NORMAL)
+        play_voiceover_and_wait(self, 5, 0)
         self.wait(9.0)
         self.play(
             LaggedStart(
@@ -101,6 +103,7 @@ class TrainTestSplitScene(Scene):
         )
         self.wait(13.0)
         self.play(FadeIn(acc_group, shift=LEFT * 0.2), run_time=TIME_NORMAL)
+        play_voiceover_and_wait(self, 5, 1)
         self.wait(13.0)
         self.play(
             Create(shift_trail),
@@ -119,6 +122,7 @@ class TrainTestSplitScene(Scene):
         )
         self.wait(17.0)
         self.play(FadeIn(insight, shift=UP * 0.2), FadeOut(shift_trail), run_time=TIME_NORMAL)
+        play_voiceover_and_wait(self, 5, 2)
         self.wait(12.0)
 
         fade_out_all(self)

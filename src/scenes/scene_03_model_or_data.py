@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 
 TARGET_DURATION_SECONDS = 70
@@ -71,10 +72,12 @@ class ModelOrDataScene(Scene):
             rate_func=smooth,
             run_time=TIME_NORMAL,
         )
+        play_voiceover_and_wait(self, 3, 0)
         self.wait(9.0)
         self.play(Write(model_title), Write(data_title), run_time=TIME_NORMAL)
         self.wait(9.0)
         self.play(LaggedStart(*[FadeIn(item, shift=UP * 0.1) for item in model_items], lag_ratio=0.14), run_time=TIME_NORMAL)
+        play_voiceover_and_wait(self, 3, 1)
         self.wait(11.0)
         self.play(GrowArrow(bridge_arrow), FadeIn(bridge_dot, scale=0.4), run_time=0.8)
         self.play(MoveAlongPath(bridge_dot, bridge_path), run_time=1.0, rate_func=smooth)
@@ -90,6 +93,7 @@ class ModelOrDataScene(Scene):
         self.play(ApplyWave(data_items, direction=RIGHT, amplitude=0.12), run_time=1.5)
         self.wait(11.0)
         self.play(FadeOut(bridge_arrow), Create(focus), FadeIn(insight, shift=UP * 0.2), run_time=TIME_NORMAL)
+        play_voiceover_and_wait(self, 3, 2)
         self.wait(16.0)
 
         fade_out_all(self)

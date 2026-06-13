@@ -40,6 +40,7 @@ import sys
 import time
 import argparse
 import subprocess
+import hashlib
 from pathlib import Path
 
 # Fix Windows stdout encoding for Vietnamese characters
@@ -48,6 +49,7 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
 
 import requests
 import json
+from utils.scene_01_20_voice_data import scene_01_20_entries
 
 # ─────────────────────────── CẤU HÌNH ───────────────────────────────────────
 
@@ -60,11 +62,20 @@ AUDIO_DIR.mkdir(parents=True, exist_ok=True)
 FINAL_DIR.mkdir(parents=True, exist_ok=True)
 
 # Cấu hình ElevenLabs
-ELEVENLABS_API_KEY = "49ed90f02548cf8d1fb3ffd6270a0a9e24c0964e4aed5b2fb7615cf0fc27de15"
-VOICE_ID = "pNInz6obpgDQGcFmaJgB"  # Adam
+ELEVENLABS_API_KEY = os.getenv(
+    "ELEVENLABS_API_KEY",
+    "b8fd113d1bea7ae8ee4401229b103e1e66dd01044e2b4ca23250535ca3948dba",
+)
+VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "pNInz6obpgDQGcFmaJgB")  # Adam
 TTS_VOICE = "Adam (ElevenLabs)"
 TTS_MODEL = "eleven_turbo_v2_5"
 TTS_FORMAT = "mp3"
+TTS_SPEED = float(os.getenv("ELEVENLABS_TTS_SPEED", "1.00"))
+PLAYBACK_SPEED = float(os.getenv("VOICEOVER_PLAYBACK_SPEED", "1.00"))
+MAX_SYNC_SPEED = float(os.getenv("VOICEOVER_MAX_SYNC_SPEED", "1.80"))
+OPENING_DELAY_SCENES_01_20 = float(os.getenv("VOICEOVER_OPENING_DELAY", "1.00"))
+ALLOW_GTTS_FALLBACK = False
+FORCE_TTS = False
 
 # ──────────────────────── TIMING ANALYSIS ────────────────────────────────────
 #
@@ -853,6 +864,8 @@ SCENE_NARRATIONS = {
     },
 }
 
+SCENE_NARRATIONS.update(scene_01_20_entries())
+
 
 # ─────────────────────────── HÀM TIỆN ÍCH ──────────────────────────────────
 
@@ -887,8 +900,8 @@ def get_audio_duration(path: Path) -> float:
         return 3.0  # fallback
 
 def generate_tts_segment(text: str, out_path: Path) -> bool:
-    """Tạo audio bằng ElevenLabs API và lưu ra file MP3."""
-    if out_path.exists() and out_path.stat().st_size > 1000:
+    """Tạo audio bằng ElevenLabs, fallback sang gTTS tiếng Việt."""
+    if not FORCE_TTS and out_path.exists() and out_path.stat().st_size > 1000:
         print(f"  [SKIP] Đã có: {out_path.name} ({get_audio_duration(out_path):.1f}s)")
         return True
     
@@ -903,7 +916,8 @@ def generate_tts_segment(text: str, out_path: Path) -> bool:
         "model_id": TTS_MODEL,
         "voice_settings": {
             "stability": 0.5,
-            "similarity_boost": 0.75
+            "similarity_boost": 0.75,
+            "speed": TTS_SPEED,
         }
     }
     
@@ -926,12 +940,30 @@ def generate_tts_segment(text: str, out_path: Path) -> bool:
                 return True
             else:
                 print(f"  [ERR ] API Error {response.status_code}: {response.text}")
+                if response.status_code in (401, 403):
+                    break
                 time.sleep(2.0)
         except Exception as exc:
             print(f"  [ERR ] Lỗi gọi TTS: {exc}")
             time.sleep(2.0)
             
-    print(f"  [ERR ] Thất bại sau 3 lần thử.")
+    if not ALLOW_GTTS_FALLBACK:
+        print("  [ERR ] ElevenLabs thất bại; strict voice mode không dùng giọng fallback.")
+        return False
+
+    print("  [FALLBACK] Dùng gTTS tiếng Việt...")
+    try:
+        from gtts import gTTS
+
+        gTTS(text=text, lang="vi").save(str(out_path))
+        if out_path.exists() and out_path.stat().st_size > 1000:
+            dur = get_audio_duration(out_path)
+            print(f"  [OK  ] gTTS: {out_path.stat().st_size // 1024} KB ({dur:.1f}s)")
+            return True
+    except Exception as exc:
+        print(f"  [ERR ] gTTS thất bại: {exc}")
+
+    print("  [ERR ] Không thể tạo audio segment.")
     return False
 
 
@@ -955,30 +987,95 @@ def build_audio_track(scene_num: int, info: dict) -> Path | None:
             if "," in line:
                 idx_str, t_str = line.split(",", 1)
                 timing_map[int(idx_str.strip())] = float(t_str.strip())
-        if timing_map:
+        if info.get("explicit_timing"):
+            print("  [TIMING] Dùng timeline narration chi tiết theo visual.")
+        elif timing_map and not info.get("visual_groups"):
             print(f"  [TIMING] Dùng thời gian thực từ timings.txt ({len(timing_map)} mốc)")
+        elif timing_map:
+            print("  [TIMING] Neo narration theo ba mốc visual thực tế.")
 
     print(f"\n[Scene {scene_num}] Tạo {len(segments)} TTS segments...")
 
     # ── Bước 1: tạo từng MP3 segment ───────────────────────────────────────
-    mp3_list = []
-    prev_end_sec = 0.0
+    generated_segments = []
     for idx, (scheduled_start, text) in enumerate(segments):
-        mp3_path = seg_dir / f"seg_{idx:02d}_t{int(scheduled_start):04d}.mp3"
+        text_hash = hashlib.sha256(text.encode("utf-8")).hexdigest()[:10]
+        mp3_path = seg_dir / f"seg_{idx:02d}_t{int(scheduled_start):04d}_{text_hash}.mp3"
+        if not mp3_path.exists():
+            cached_matches = sorted(seg_dir.glob(f"seg_*_{text_hash}.mp3"))
+            if cached_matches:
+                mp3_path = cached_matches[0]
         ok = generate_tts_segment(text, mp3_path)
         if not ok:
             return None
 
         duration_seg = get_audio_duration(mp3_path)
-        # Ưu tiên dùng thời gian thực; fallback về scheduled_start
-        base_start = timing_map.get(idx, scheduled_start)
-        actual_start = max(base_start, prev_end_sec + 0.2)
-        mp3_list.append((actual_start, mp3_path))
-        prev_end_sec = actual_start + duration_seg
+        generated_segments.append((idx, scheduled_start, duration_seg, mp3_path))
+
+    mp3_list = []
+    prev_end_sec = 0.0
+    if info.get("explicit_timing"):
+        for item_index, (_, scheduled_start, duration_seg, mp3_path) in enumerate(generated_segments):
+            actual_start = scheduled_start
+            if scene_num <= 20 and item_index == 0:
+                actual_start = min(scheduled_start + OPENING_DELAY_SCENES_01_20, duration)
+            next_start = (
+                generated_segments[item_index + 1][1]
+                if item_index + 1 < len(generated_segments)
+                else duration
+            )
+            available = max(next_start - actual_start - 0.15, 0.5)
+            segment_speed = min(
+                max(PLAYBACK_SPEED, duration_seg / available),
+                MAX_SYNC_SPEED,
+            )
+            mp3_list.append((actual_start, mp3_path, segment_speed))
+            prev_end_sec = max(prev_end_sec, actual_start + duration_seg / segment_speed)
+        print("  [SYNC] Dùng timestamp riêng cho từng visual.")
+    elif info.get("visual_groups") and timing_map:
+        groups = info["visual_groups"]
+        group_ids = sorted(set(groups))
+        for group_id in group_ids:
+            items = [
+                item for item, item_group in zip(generated_segments, groups)
+                if item_group == group_id
+            ]
+            group_start = timing_map[group_id]
+            group_end = timing_map.get(group_id + 1, duration)
+            available = max(group_end - group_start, 0.5)
+            raw_voice = sum(item[2] for item in items)
+            group_speed = min(
+                max(PLAYBACK_SPEED, raw_voice / max(available - 0.4, 0.5)),
+                MAX_SYNC_SPEED,
+            )
+            total_voice = raw_voice / group_speed
+            pause = max((available - total_voice) / max(len(items), 1), 0.05)
+            cursor = group_start
+            for _, _, duration_seg, mp3_path in items:
+                mp3_list.append((cursor, mp3_path, group_speed))
+                cursor += duration_seg / group_speed + pause
+            prev_end_sec = max(prev_end_sec, cursor - pause)
+        print("  [SYNC] Narration được neo theo setup, chuyển ý và takeaway.")
+    elif info.get("continuous_voice"):
+        total_voice = sum(item[2] / PLAYBACK_SPEED for item in generated_segments)
+        pause = max((duration - total_voice) / (len(generated_segments) + 1), 0.2)
+        prev_end_sec = pause
+        for _, _, duration_seg, mp3_path in generated_segments:
+            mp3_list.append((prev_end_sec, mp3_path, PLAYBACK_SPEED))
+            prev_end_sec += duration_seg / PLAYBACK_SPEED + pause
+        prev_end_sec -= pause
+        print(f"  [FLOW] Phân bố narration xuyên suốt video, khoảng nghỉ trung bình {pause:.1f}s")
+    else:
+        for idx, scheduled_start, duration_seg, mp3_path in generated_segments:
+            # Ưu tiên dùng thời gian thực; fallback về scheduled_start
+            base_start = timing_map.get(idx, scheduled_start)
+            actual_start = max(base_start, prev_end_sec + 0.2)
+            mp3_list.append((actual_start, mp3_path, 1.0))
+            prev_end_sec = actual_start + duration_seg
 
     # ── Độ dài track: phủ hết segment cuối (tránh cắt insight) ─────────────
     # prev_end_sec = thời điểm kết thúc segment cuối cùng.
-    track_len = max(duration, prev_end_sec + 0.5)
+    track_len = duration if info.get("visual_groups") or info.get("explicit_timing") else max(duration, prev_end_sec + 0.5)
 
     # ── Bước 2: ghép bằng ffmpeg với adelay ────────────────────────────────
     print(f"\n[Scene {scene_num}] Ghép audio track ({track_len:.1f}s)...")
@@ -987,8 +1084,19 @@ def build_audio_track(scene_num: int, info: dict) -> Path | None:
     filter_parts : list[str] = []
     stream_labels: list[str] = []
 
-    for i, (start_sec, mp3_path) in enumerate(mp3_list):
-        input_args += ["-i", str(mp3_path)]
+    for i, (start_sec, mp3_path, speed) in enumerate(mp3_list):
+        sync_path = seg_dir / f"_sync_{i:02d}.wav"
+        speed_cmd = [
+            "ffmpeg", "-y", "-i", str(mp3_path),
+            "-filter:a", f"atempo={speed:.3f}",
+            "-ar", "44100", "-ac", "1", str(sync_path),
+        ]
+        speed_result = subprocess.run(speed_cmd, capture_output=True, text=True, timeout=60)
+        if speed_result.returncode != 0:
+            print(f"  [ERR ] Không thể tăng tốc {mp3_path.name}:\n{speed_result.stderr[-500:]}")
+            return None
+
+        input_args += ["-i", str(sync_path)]
         delay_ms = int(start_sec * 1000)
         filter_parts.append(f"[{i}]adelay={delay_ms}|{delay_ms}[a{i}]")
         stream_labels.append(f"[a{i}]")
@@ -1034,21 +1142,31 @@ def build_audio_track(scene_num: int, info: dict) -> Path | None:
 
 def merge_video_audio(video_path: Path, audio_path: Path, out_path: Path) -> bool:
     """Ghép video Manim + audio track thành file MP4 cuối cùng."""
+    temp_path = out_path.with_name(f"{out_path.stem}.tmp{out_path.suffix}")
     cmd = [
         "ffmpeg", "-y",
         "-i", str(video_path),
         "-i", str(audio_path),
+        "-map", "0:v:0",
+        "-map", "1:a:0",
         "-c:v", "copy",
         "-c:a", "aac",
+        "-ac", "2",
         "-b:a", "192k",
         "-ar",  "44100",
-        "-shortest",
         "-movflags", "+faststart",
-        str(out_path),
+        str(temp_path),
     ]
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
         if result.returncode == 0:
+            try:
+                os.replace(temp_path, out_path)
+            except PermissionError:
+                pending_path = out_path.with_name(f"{out_path.stem}.pending{out_path.suffix}")
+                os.replace(temp_path, pending_path)
+                print(f"  [WARN] File đang được ứng dụng khác mở; lưu bản mới tại {pending_path.name}")
+                return True
             size_mb = out_path.stat().st_size / (1024 * 1024)
             print(f"  [OK  ] {out_path.name} ({size_mb:.1f} MB)")
             return True
@@ -1071,8 +1189,13 @@ def process_scene(scene_num: int, audio_only: bool = False) -> bool:
     print(f"  SCENE {scene_num:02d}: {info['class']}  ({info['duration']}s)")
     print(f"{'='*62}")
 
+    video_path = None if audio_only else find_manim_video(scene_num, info["class"])
+    build_info = dict(info)
+    if video_path:
+        build_info["duration"] = get_audio_duration(video_path)
+
     # Tạo audio track
-    audio_track = build_audio_track(scene_num, info)
+    audio_track = build_audio_track(scene_num, build_info)
     if not audio_track:
         return False
 
@@ -1081,7 +1204,6 @@ def process_scene(scene_num: int, audio_only: bool = False) -> bool:
         return True
 
     # Tìm video
-    video_path = find_manim_video(scene_num, info["class"])
     if not video_path:
         print(f"\n  [WARN] Chưa tìm thấy video cho Scene {scene_num}.")
         print(f"         Render bằng:")
@@ -1110,7 +1232,8 @@ def parse_scene_range(s: str) -> list[int]:
 
 
 def main() -> None:
-    global TTS_VOICE, TTS_MODEL
+    global ELEVENLABS_API_KEY, VOICE_ID, TTS_VOICE, TTS_MODEL
+    global ALLOW_GTTS_FALLBACK, FORCE_TTS
     parser = argparse.ArgumentParser(
         description="Tạo voiceover OpenAI TTS và ghép vào video Manim (scenes 21-30).",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -1125,26 +1248,44 @@ def main() -> None:
     )
     parser.add_argument(
         "--key", default="",
-        help="Không dùng (giữ để tương thích argument).",
+        help="ElevenLabs API key. Ưu tiên hơn biến môi trường ELEVENLABS_API_KEY.",
     )
     parser.add_argument(
-        "--voice", default=TTS_VOICE,
-        help=f"Giọng TTS (voice_id).",
+        "--voice", default=VOICE_ID,
+        help="ElevenLabs voice_id (mặc định: Adam).",
     )
     parser.add_argument(
         "--model", default=TTS_MODEL,
         help=f"Model TTS (mặc định: {TTS_MODEL}).",
     )
+    parser.add_argument(
+        "--force-tts", action="store_true",
+        help="Tạo lại MP3 segment, kể cả khi file đã tồn tại.",
+    )
+    parser.add_argument(
+        "--allow-gtts-fallback", action="store_true",
+        help="Cho phép dùng gTTS khi ElevenLabs lỗi; mặc định tắt để giữ đồng nhất giọng.",
+    )
     args = parser.parse_args()
 
     # Override globals nếu user cung cấp
-    TTS_VOICE = args.voice
+    if args.key:
+        ELEVENLABS_API_KEY = args.key
+    if args.voice:
+        VOICE_ID = args.voice
+        TTS_VOICE = "Adam (ElevenLabs)" if args.voice == "pNInz6obpgDQGcFmaJgB" else args.voice
     TTS_MODEL = args.model
+    FORCE_TTS = args.force_tts
+    ALLOW_GTTS_FALLBACK = args.allow_gtts_fallback
 
     scenes = parse_scene_range(args.scenes)
     print(f"\n>>> Scenes  : {scenes}")
     print(f">>> Model   : {TTS_MODEL}")
     print(f">>> Voice   : {TTS_VOICE}")
+    print(f">>> Voice ID: {VOICE_ID}")
+    print(f">>> Playback speed: {PLAYBACK_SPEED:.2f}x (sync max: {MAX_SYNC_SPEED:.2f}x)")
+    print(f">>> Force TTS: {FORCE_TTS}")
+    print(f">>> gTTS fallback: {ALLOW_GTTS_FALLBACK}")
     print(f">>> Audio   : {AUDIO_DIR}")
     print(f">>> Final   : {FINAL_DIR}")
     print(f">>> Audio-only: {args.audio_only}")

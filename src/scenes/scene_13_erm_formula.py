@@ -7,6 +7,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 TARGET_DURATION_SECONDS = 80
 
@@ -36,6 +37,7 @@ class ERMFormulaScene(Scene):
             ),
             run_time=3.0,
         )
+        play_voiceover_and_wait(self, 13, 0)
         self.wait(7.0)
 
         # ── STAGE 2: Highlight phần "average" ────────────────────────────
@@ -109,6 +111,7 @@ class ERMFormulaScene(Scene):
             ShowPassingFlash(avg_line.copy().set_stroke(THEME_AMBER_LIGHT, width=8), time_width=0.5),
             run_time=0.8,
         )
+        play_voiceover_and_wait(self, 13, 1)
         self.wait(6.3)
 
         # ── STAGE 4: Limitation ───────────────────────────────────────────
@@ -130,5 +133,6 @@ class ERMFormulaScene(Scene):
             ShowPassingFlash(avg_line.copy().set_stroke(THEME_AMBER_LIGHT, width=7), time_width=0.45),
             run_time=1.1,
         )
+        play_voiceover_and_wait(self, 13, 2)
         self.wait(16.2)
         fade_out_all(self)

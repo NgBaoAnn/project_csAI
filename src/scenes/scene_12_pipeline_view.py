@@ -7,6 +7,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 TARGET_DURATION_SECONDS = 70
 
@@ -28,6 +29,7 @@ class PipelineViewScene(Scene):
                       font_size=SIZE_BODY, color=TEXT_PRIMARY, font=FONT_PRIMARY, weight=MEDIUM
                       ).to_edge(UP, buff=0.65)
         self.play(Write(header), run_time=0.9)
+        play_voiceover_and_wait(self, 12, 0)
         self.wait(6.0)
 
         # ── Build stage boxes ────────────────────────────────────────────
@@ -76,6 +78,7 @@ class PipelineViewScene(Scene):
             )
             self.wait(6.0)
 
+        play_voiceover_and_wait(self, 12, 1)
         self.wait(4.0)
 
         # ── Signature effect: particle đi qua pipeline ───────────────────
@@ -108,5 +111,6 @@ class PipelineViewScene(Scene):
             color=THEME_BLUE, font_size=SIZE_CAPTION,
         ).to_edge(DOWN, buff=0.72)
         self.play(FadeIn(insight, shift=UP * 0.2), run_time=1.0)
+        play_voiceover_and_wait(self, 12, 2)
         self.wait(13.0)
         fade_out_all(self)

@@ -8,6 +8,7 @@ import numpy as np
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 TARGET_DURATION_SECONDS = 80
 
@@ -45,6 +46,7 @@ class WassersteinScene(Scene):
             run_time=1.5,
         )
         self.play(Indicate(wass_box, color=THEME_AMBER, scale_factor=1.05), run_time=0.9)
+        play_voiceover_and_wait(self, 19, 0)
         self.wait(7.0)
         self.play(FadeOut(compare_title), FadeOut(fd_box), FadeOut(fd_text), FadeOut(vs_text),
                   FadeOut(wass_box), FadeOut(wass_text), run_time=0.7)
@@ -149,6 +151,7 @@ class WassersteinScene(Scene):
                           ).next_to(cost_num, UP, buff=0.15)
         self.play(FadeIn(cost_title), FadeIn(cost_num), run_time=0.5)
         self.play(ChangeDecimalToValue(cost_num, total_cost, run_time=1.5, rate_func=smooth))
+        play_voiceover_and_wait(self, 19, 1)
         self.wait(5.5)
 
         # ── STAGE 4: Formula ──────────────────────────────────────────────
@@ -172,5 +175,6 @@ class WassersteinScene(Scene):
         self.play(FadeOut(transport_lbl), FadeIn(insight, shift=UP * 0.2), run_time=1.0)
         self.wait(11.0)
         self.play(Circumscribe(insight, color=THEME_AMBER, time_width=0.5), run_time=0.8)
+        play_voiceover_and_wait(self, 19, 2)
         self.wait(10.8)
         fade_out_all(self)

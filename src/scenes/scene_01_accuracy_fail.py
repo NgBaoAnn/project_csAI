@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from manim import *
 from utils.theme import *
 from utils.components import *
+from utils.voice_sync import play_voiceover_and_wait
 
 
 TARGET_DURATION_SECONDS = 80
@@ -69,6 +70,7 @@ class AccuracyFailScene(Scene):
             FadeIn(lab_mark, shift=UP * 0.12),
             run_time=1.5,
         )
+        play_voiceover_and_wait(self, 1, 0)
         self.wait(6.0)
 
         dashboard = self.create_dashboard()
@@ -170,6 +172,7 @@ class AccuracyFailScene(Scene):
             run_time=2.5,
         )
         self.play(Write(assumption_caption), run_time=2.0)
+        play_voiceover_and_wait(self, 1, 1)
         self.wait(7.0)
 
         deploy_arrow = Arrow(
@@ -293,6 +296,7 @@ class AccuracyFailScene(Scene):
         ).to_edge(DOWN, buff=0.65)
 
         self.play(Transform(warning, bridge), FadeOut(target_mark), run_time=2.0)
+        play_voiceover_and_wait(self, 1, 2)
         self.wait(4.0)
 
         fade_out_all(self)
